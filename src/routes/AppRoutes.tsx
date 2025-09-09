@@ -7,9 +7,9 @@ import LoginLayout from "../layouts/LoginLayout";
 
 import LandingPage from "../features/public/landing/Landing";
 import DashboardPage from "../features/private/dashboard/Dashboard";
-import AboutPage from "../features/public/about/About";
-import LoginPage from "../features/public/auth/pages/LoginPage";
-import RegisterPage from "../features/public/auth/pages/RegisterPage";
+import AboutPage from "../features/public/gi/about/About";
+import LoginPage from "../features/public/auth/login/LoginPage";
+import RegisterPage from "../features/public/auth/register/RegisterPage";
 
 import NotFoundPage from "../pages/NotFoundPage";
 

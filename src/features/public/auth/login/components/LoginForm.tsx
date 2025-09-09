@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { loginUser } from "../services";
+import { loginUser } from "../../services";
 import { Link } from "react-router-dom";
-import Input from "../../../../components/atoms/Input";
-import Label from "../../../../components/atoms/Label";
+import Input from "../../../../../components/atoms/Input";
+import Label from "../../../../../components/atoms/Label";
 
 // Props type
 interface LoginFormProps {
