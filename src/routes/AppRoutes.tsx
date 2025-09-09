@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
-import AuthLayout from "../layouts/AuthLayout";
 import NotFoundLayout from "../layouts/NotFoundLayout";
+import RegisterLayout from "../layouts/RegisterLayout";
+import LoginLayout from "../layouts/LoginLayout";
 
 import LandingPage from "../features/public/landing/Landing";
 import DashboardPage from "../features/private/dashboard/Dashboard";
@@ -14,25 +15,25 @@ import NotFoundPage from "../pages/NotFoundPage";
 
 function AppContent() {
     return (
-        <Routes>
-            {/* Layout utama */}
-            <Route element={<MainLayout />}>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/dashboard" element={<DashboardPage />} />
-                <Route path="/about" element={<AboutPage />} />
-            </Route>
+      <Routes>
+        <Route element={<LoginLayout />}>
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
 
-            {/* Layout auth */}
-            <Route element={<AuthLayout />}>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-            </Route>
+        <Route element={<RegisterLayout />}>
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
+        
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/about" element={<AboutPage />} />
+        </Route>
 
-            {/* Test */}
-            <Route element={<NotFoundLayout />}>
-                <Route path="*" element={<NotFoundPage />} />
-            </Route>
-        </Routes>
+        <Route element={<NotFoundLayout />}>
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
     );
 }
 
