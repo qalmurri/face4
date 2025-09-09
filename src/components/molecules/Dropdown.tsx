@@ -3,19 +3,19 @@ import type { ReactNode } from "react";
 import clsx from "clsx";
 import DropdownItem from "../atoms/DropdownItem";
 
-interface DropdownMenuProps {
+interface DropdownProps {
     trigger: ReactNode;
     items: { label: string; to?: string; href?: string; onClick?: () => void }[];
     align?: "left" | "right";
     openOnHover?: boolean;
 }
 
-export default function DropdownMenu({
+export default function Dropdown({
     trigger,
     items,
     align = "left",
     openOnHover = true,
-}: DropdownMenuProps) {
+}: DropdownProps) {
     const [open, setOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
