@@ -6,7 +6,11 @@ export default function Public() {
     return (
         <>
             <Hyperlink variant="primary" to="/">Home</Hyperlink>
-            <Hyperlink variant="secondary" to="/dashboard">Dashboard</Hyperlink>
+            <Hyperlink variant="primary" to="/about">About</Hyperlink>
+            <Hyperlink variant="primary" to="/contact">Contact</Hyperlink>
+            <Hyperlink variant="primary" to="/faq">faq</Hyperlink>
+            <Hyperlink variant="primary" to="/privacy">Privacy</Hyperlink>
+            <Hyperlink variant="primary" to="/tos">tos</Hyperlink>
             <DropdownMenu
                 trigger={<span className="cursor-pointer px-3 py-2">About ▾</span>}
                 items={[
