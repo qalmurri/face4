@@ -5,7 +5,7 @@ interface TextProps {
 
 export default function Text({ children, muted = false }: TextProps) {
     return (
-        <p className={muted ? "text-gray-400 text-sm" : "text-white"}>
+        <p className={muted ? "text-gray-400 text-sm" : "text-black"}>
             {children}
         </p>
     );
