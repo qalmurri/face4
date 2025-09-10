@@ -17,13 +17,13 @@ type InputType =
     | "color"
     | "file";
 
-type InputVariant = "primary" | "secondary" | "error" | "unstyled";
+type InputVariant = "primary" | "secondary" | "error" | "unstyled" | "simple";
 
 interface InputProps {
     type?: InputType;
     placeholder?: string;
-    value: string | number | boolean;
-    onChange: ChangeEventHandler<HTMLInputElement>;
+    value?: string | number | boolean;
+    onChange?: ChangeEventHandler<HTMLInputElement>;
     variant?: InputVariant;
     className?: string;
 }
@@ -43,13 +43,16 @@ export default function Input({
         "border-gray-400 focus:border-gray-600 focus:ring focus:ring-gray-200": variant === "secondary",
         "border-red-500 focus:border-red-700 focus:ring focus:ring-red-200": variant === "error",
         "border-none focus:ring-0": variant === "unstyled",
+        // gabungan dari InputCopy
+        "w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500":
+            variant === "simple",
     });
 
     return (
         <input
             type={type}
             placeholder={placeholder}
-            value={value as any} // untuk checkbox/radio
+            value={value as any} // biar aman untuk checkbox/radio
             onChange={onChange}
             className={clsx(baseClasses, variantClasses, className)}
         />

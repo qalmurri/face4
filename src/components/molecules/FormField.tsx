@@ -1,4 +1,4 @@
-import Input from "../atoms/InputCopy";
+import Input from "../atoms/Input";
 import TextArea from "../atoms/TextArea";
 
 type FormFieldProps = {
