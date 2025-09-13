@@ -1,6 +1,6 @@
 import Heading from "../../../../../components/atoms/typography/Heading";
 import Text from "../../../../../components/atoms/typography/Text";
-import Section from "../../../../../components/molecules/Section";
+import Section from "../../../../../components/molecules/sections/Section";
 import LinkText from "../../../../../components/atoms/typography/LinkText";
 
 export default function PrivacyPolicyContent() {

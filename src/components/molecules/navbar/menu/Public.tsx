@@ -1,6 +1,6 @@
 import Button from "../../../atoms/buttons/GeneralButton";
 import Hyperlink from "../../../atoms/links/Hyperlink";
-import DropdownMenu from "../../Dropdown";
+import DropdownMenu from "../Dropdown";
 
 export default function Public() {
     return (

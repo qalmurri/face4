@@ -1,7 +1,7 @@
 import Heading from "../../../../../components/atoms/typography/Heading";
 import Text from "../../../../../components/atoms/typography/Text";
 import Button from "../../../../../components/atoms/buttons/GeneralButton";
-import FormField from "../../../../../components/molecules/FormField";
+import FormField from "../../../../../components/molecules/forms/FormField";
 import ContactInfo from "../molecules/ContactInfo";
 
 export default function ContactContent() {

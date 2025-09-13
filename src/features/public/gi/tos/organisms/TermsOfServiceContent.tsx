@@ -1,7 +1,7 @@
 import Heading from "../../../../../components/atoms/typography/Heading";
 import Paragraph from "../../../../../components/atoms/typography/Paragraph";
 import LinkText from "../../../../../components/atoms/typography/LinkText";
-import Section from "../../../../../components/molecules/Section";
+import Section from "../../../../../components/molecules/sections/Section";
 
 export default function TermsOfServiceContent() {
   return (
