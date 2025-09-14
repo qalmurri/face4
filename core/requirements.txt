@@ -1,0 +1,9 @@
+django
+djangorestframework
+djangorestframework-simplejwt
+django-filter       # Filtering support
+django-guardian     # Object level permissions support.
+django-cors-headers
+markdown            # Markdown support for the browsable API.
+Pygments            # Add syntax highlighting to Markdown processing.
+pillow
