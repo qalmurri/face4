@@ -5,8 +5,10 @@ import clsx from "clsx";
 type GeneralButtonProps = {
   children: React.ReactNode;
   onClick?: () => void;
-  type?: "button" | "submit" | "reset";
-
+  type?:
+    | "button"
+    | "submit"
+    | "reset";
   disabled?: boolean;
   variant?:
     | "primary"
@@ -22,6 +24,11 @@ type GeneralButtonProps = {
     | "glass"
     | "link"
     | "dark";
+  size?:
+    | "sm"
+    | "md"
+    | "lg"
+    | "xl";
   to?: string;
   href?: string;
   className?: string;
@@ -33,12 +40,20 @@ export default function GeneralButton({
   type = "button",
   disabled = false,
   variant = "primary",
+  size = "md", // 👈 default size
   to,
   href,
   className,
 }: GeneralButtonProps) {
   const baseClasses =
-    "inline-flex items-center justify-center px-4 py-2 rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
+    "inline-flex items-center justify-center rounded-md font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
+
+  const sizeClasses = {
+    sm: "px-2 py-1 text-sm",
+    md: "px-4 py-2 text-base",
+    lg: "px-6 py-3 text-lg",
+    xl: "px-8 py-4 text-xl",
+  };
 
   const variantClasses = {
     primary:
@@ -65,7 +80,13 @@ export default function GeneralButton({
     dark: "bg-gray-900 text-gray-100 hover:bg-gray-800 focus:ring-gray-700 disabled:bg-gray-700 disabled:text-gray-400",
   };
 
-  const classes = clsx(baseClasses, variantClasses[variant], className);
+  const classes = clsx(
+    baseClasses,
+    sizeClasses[size],
+    variantClasses[variant],
+    className
+  );
+
   if (to) {
     return (
       <Link to={to} className={classes}>
@@ -96,7 +117,3 @@ export default function GeneralButton({
     </button>
   );
 }
-
-// <Button onClick={() => alert("Clicked!")}>Klik Saya</Button>
-// <Button to="/dashboard">Dashboard</Button>
-// <Button href="https://google.com">Google</Button>
