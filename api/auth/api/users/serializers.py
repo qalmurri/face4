@@ -8,10 +8,20 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ["id", "username", "email", "password"]
 
+    def validate_username(self, value):
+        if User.objects.filter(username=value).exists():
+            raise serializers.ValidationError("Usernamssse already taken")
+        return value
+
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("Email sudah terdaftar, silakan login")
+        return value
+
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data["username"],
-            email=validated_data["email"],
-            password=validated_data["password"]
+            email=validated_data.get("email"),
+            password=validated_data["password"],
         )
         return user
