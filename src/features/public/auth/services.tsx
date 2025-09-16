@@ -27,11 +27,13 @@ export interface RegisterResponse {
 }
 
 export async function registerUser(
+  username: string,
   email: string,
   password: string
 ): Promise<RegisterResponse> {
   try {
     const response = await api.post<RegisterResponse>("/register/", {
+      username,
       email,
       password,
     });

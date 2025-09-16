@@ -10,6 +10,7 @@ interface RegisterFormProps {
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
+    const [username, setUsername] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -28,7 +29,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
         setLoading(true);
 
         try {
-            const data = await registerUser(email, password);
+            const data = await registerUser(username, email, password);
             console.log("Register success:", data);
 
             if (onSuccess) onSuccess(); // kasih tahu parent kalau register berhasil
@@ -40,44 +41,53 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     };
 
     return (
-        <div>
-            {error && <p>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <Label htmlFor="email">Email</Label>
-                <Input
-                    variant="primary"
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+      <div>
+        {error && <p>{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <Label htmlFor="username">Username</Label>
+          <Input
+            variant="primary"
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+    />
+    
+          <Label htmlFor="email">Email</Label>
+          <Input
+            variant="primary"
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-                <Label htmlFor="password">Password</Label>
-                <Input
-                    variant="secondary"
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
+          <Label htmlFor="password">Password</Label>
+          <Input
+            variant="secondary"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-                <Label htmlFor="confirmPassword">Konfirmasi Password</Label>
-                <Input
-                    variant="secondary"
-                    type="password"
-                    placeholder="Konfirmasi Password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                />
+          <Label htmlFor="confirmPassword">Konfirmasi Password</Label>
+          <Input
+            variant="secondary"
+            type="password"
+            placeholder="Konfirmasi Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
 
-                <button type="submit" disabled={loading}>
-                    {loading ? "Loading..." : "Daftar"}
-                </button>
-            </form>
+          <button type="submit" disabled={loading}>
+            {loading ? "Loading..." : "Daftar"}
+          </button>
+        </form>
 
-            <p>
-                Sudah punya akun? <Link to="/login">Login di sini</Link>
-            </p>
-        </div>
+        <p>
+          Sudah punya akun? <Link to="/login">Login di sini</Link>
+        </p>
+      </div>
     );
 }
