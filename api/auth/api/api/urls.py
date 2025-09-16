@@ -1,5 +1,5 @@
 from django.urls import include, path
 
 urlpatterns = [
-     path('', include('users.urls')),
+     path('auth/', include('users.urls')),
 ]

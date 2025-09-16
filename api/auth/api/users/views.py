@@ -1,4 +1,9 @@
-from django.http import HttpResponse
+from rest_framework import generics
+from rest_framework.permissions import AllowAny
+from .serializers import RegisterSerializer
+from django.contrib.auth.models import User
 
-def users(request):
-    return HttpResponse("Hello, Users!")
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [AllowAny]
+    serializer_class = RegisterSerializer

@@ -1,4 +1,5 @@
 from pathlib import Path
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-nt*(6(%mwsa=g5l%*68e43o&%-t27es*ka@)pbju-a4_y-9)xd'
@@ -9,9 +10,13 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'rest_framework',
-    'users'
+    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
+    'users',
+    'corsheaders',
 ]
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -21,13 +26,9 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'api.urls'
 WSGI_APPLICATION = 'api.wsgi.application'
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "myapi",
-        "USER": "postgres",
-        "PASSWORD": "pakisaji256",
-        "HOST": "localhost",
-        "PORT": "5432",
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
@@ -49,3 +50,20 @@ TIME_ZONE = "Asia/Jakarta"
 USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+}
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+"https://example.com",
+"https://sub.example.com",
+"http://localhost:8080",
+"http://localhost:5173",]
