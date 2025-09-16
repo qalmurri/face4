@@ -18,3 +18,28 @@ export async function loginUser(
   console.log(response.data);
   return response.data;
 }
+
+export interface RegisterResponse {
+  id: number;
+  email: string;
+  username?: string;
+  // bisa ditambah field lain sesuai backend kamu
+}
+
+export async function registerUser(
+  email: string,
+  password: string
+): Promise<RegisterResponse> {
+  try {
+    const response = await api.post<RegisterResponse>("/register/", {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error: any) {
+    if (error.response?.data) {
+      throw new Error(error.response.data.detail || "Register gagal");
+    }
+    throw new Error("Koneksi server gagal");
+  }
+}
