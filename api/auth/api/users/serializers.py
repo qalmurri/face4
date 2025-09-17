@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 
 class RegisterSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True)
+    username = serializers.CharField(required=True)
     password = serializers.CharField(write_only=True)
 
     class Meta:
@@ -10,12 +12,12 @@ class RegisterSerializer(serializers.ModelSerializer):
 
     def validate_username(self, value):
         if User.objects.filter(username=value).exists():
-            raise serializers.ValidationError("Usernamssse already taken")
+            raise serializers.ValidationError("username wes onok")
         return value
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("Email sudah terdaftar, silakan login")
+            raise serializers.ValidationError("email wes onok")
         return value
 
     def create(self, validated_data):
