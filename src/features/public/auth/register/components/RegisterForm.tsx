@@ -1,93 +1,103 @@
 import React, { useState } from "react";
-import { registerUser } from "../../services";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { registerUser } from "../../Services";
+import { saveTokens } from "../../../../../services/Auth";
 import Input from "../../../../../components/atoms/forms/Input";
 import Label from "../../../../../components/atoms/forms/Label";
 
-// Props type
 interface RegisterFormProps {
-    onSuccess?: () => void;
+  onSuccess?: () => void;
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
-    const [username, setUsername] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [confirmPassword, setConfirmPassword] = useState<string>("");
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        setError("");
+  const navigate = useNavigate(); // ⬅️ init router
 
-        if (password !== confirmPassword) {
-            setError("Password dan konfirmasi tidak sama");
-            return;
-        }
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
 
-        setLoading(true);
+    if (password !== confirmPassword) {
+      setError("Password dan konfirmasi tidak sama");
+      return;
+    }
 
-        try {
-            const data = await registerUser(username, email, password);
-            console.log("Register success:", data);
+    setLoading(true);
 
-            if (onSuccess) onSuccess(); // kasih tahu parent kalau register berhasil
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    try {
+      const data = await registerUser(username, email, password);
+      console.log("Register success:", data);
 
-    return (
-      <div>
-        {error && <p>{error}</p>}
-        <form onSubmit={handleSubmit}>
-          <Label htmlFor="username">Username</Label>
-          <Input
-            variant="primary"
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-    />
-    
-          <Label htmlFor="email">Email</Label>
-          <Input
-            variant="primary"
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+      // Simpan token
+      if ((data as any).access && (data as any).refresh) {
+        saveTokens((data as any).access, (data as any).refresh);
+      }
 
-          <Label htmlFor="password">Password</Label>
-          <Input
-            variant="secondary"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+      if (onSuccess) onSuccess();
+      navigate("/");
 
-          <Label htmlFor="confirmPassword">Konfirmasi Password</Label>
-          <Input
-            variant="secondary"
-            type="password"
-            placeholder="Konfirmasi Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Loading..." : "Daftar"}
-          </button>
-        </form>
+  return (
+    <div>
+      {error && <p>{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <Label htmlFor="username">Username</Label>
+        <Input
+          variant="primary"
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-        <p>
-          Sudah punya akun? <Link to="/login">Login di sini</Link>
-        </p>
-      </div>
-    );
+        <Label htmlFor="email">Email</Label>
+        <Input
+          variant="primary"
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+
+        <Label htmlFor="password">Password</Label>
+        <Input
+          variant="secondary"
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <Label htmlFor="confirmPassword">Konfirmasi Password</Label>
+        <Input
+          variant="secondary"
+          type="password"
+          placeholder="Konfirmasi Password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+
+        <button type="submit" disabled={loading}>
+          {loading ? "Loading..." : "Daftar"}
+        </button>
+      </form>
+
+      <p>
+        Sudah punya akun? <Link to="/login">Login di sini</Link>
+      </p>
+    </div>
+  );
 }

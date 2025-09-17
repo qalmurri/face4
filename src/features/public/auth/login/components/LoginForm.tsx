@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { loginUser } from "../../services";
+import { loginUser } from "../../Services";
 import { Link } from "react-router-dom";
 import Input from "../../../../../components/atoms/forms/Input";
 import Label from "../../../../../components/atoms/forms/Label";
