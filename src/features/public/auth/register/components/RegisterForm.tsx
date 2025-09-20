@@ -3,29 +3,38 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../Services";
 import { useAuth } from "../../../../../context/AuthContext";
+import type { RegisterRequest, LoginResponse } from "../../../../../types/auth";
+
 import Input from "../../../../../components/atoms/forms/Input";
 import Label from "../../../../../components/atoms/forms/Label";
+import GeneralButton from "../../../../../components/atoms/buttons/GeneralButton";
 
 interface RegisterFormProps {
   onSuccess?: () => void;
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [form, setForm] = useState<RegisterRequest>({
+    username: "",
+    email: "",
+    password: "",
+  });
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
   const navigate = useNavigate();
-  const { login } = useAuth(); // ⬅️ gunakan login dari context
+  const { login } = useAuth();
+
+  const handleChange = (key: keyof RegisterRequest, value: string) => {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
-    if (password !== confirmPassword) {
+    if (form.password !== confirmPassword) {
       setError("Password dan konfirmasi tidak sama");
       return;
     }
@@ -33,18 +42,13 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     setLoading(true);
 
     try {
-      const data = await registerUser(username, email, password);
+      const data: LoginResponse = await registerUser(form); // 🔑 typed request & response
       console.log("Register success:", data);
 
-      if ((data as any).access && (data as any).refresh) {
-        // langsung login via context
-        login((data as any).access, (data as any).refresh);
-      }
+      login(data.access, data.refresh); // ✅ tanpa `as any`
 
       if (onSuccess) onSuccess();
-
-      // redirect ke private dashboard
-      navigate("/", { replace: true });
+      navigate("/", { replace: true }); // redirect ke dashboard
     } catch (err: any) {
       setError(err.message || "Gagal mendaftar");
     } finally {
@@ -61,8 +65,8 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
           variant="primary"
           type="text"
           placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={form.username}
+          onChange={(e) => handleChange("username", e.target.value)}
         />
 
         <Label htmlFor="email">Email</Label>
@@ -70,8 +74,8 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
           variant="primary"
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={form.email}
+          onChange={(e) => handleChange("email", e.target.value)}
         />
 
         <Label htmlFor="password">Password</Label>
@@ -79,8 +83,8 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
           variant="secondary"
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={form.password}
+          onChange={(e) => handleChange("password", e.target.value)}
         />
 
         <Label htmlFor="confirmPassword">Konfirmasi Password</Label>
@@ -92,9 +96,9 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
 
-        <button type="submit" disabled={loading}>
+        <GeneralButton type="submit" disabled={loading}>
           {loading ? "Loading..." : "Daftar"}
-        </button>
+        </GeneralButton>
       </form>
 
       <p>

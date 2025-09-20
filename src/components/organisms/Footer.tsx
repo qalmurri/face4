@@ -8,7 +8,7 @@ export default function Footer() {
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                     <h2 className="text-white text-xl font-bold">MyApp</h2>
-                    <Text muted>© {new Date().getFullYear()} MyApp. All rights reserved.</Text>
+                    <Text>© {new Date().getFullYear()} MyApp. All rights reserved.</Text>
                 </div>
                 <FooterLinks />
                 <FooterSocials />

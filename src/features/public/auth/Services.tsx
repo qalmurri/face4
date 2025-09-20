@@ -1,42 +1,11 @@
-import api from "../../../services/Api";
-
-// Response type dari backend Django (JWT Token)
-export interface LoginResponse {
-  access: string;
-  refresh: string;
-}
-
-export async function loginUser(
-  usernameOrEmail: string,
-  password: string
-): Promise<LoginResponse> {
-  const response = await api.post<LoginResponse>("/token/", {
-    username: usernameOrEmail, // ⬅️ tetap "username" (sesuai JWT default),
-    password,
-  });
-
-  console.log(response.data);
-  return response.data;
-}
-
-export interface RegisterResponse {
-  id: number;
-  email: string;
-  username?: string;
-  // bisa ditambah field lain sesuai backend kamu
-}
+import api from "../../../api/authApi";
+import type { RegisterRequest, LoginResponse } from "../../../types/auth";
 
 export async function registerUser(
-  username: string,
-  email: string,
-  password: string
-): Promise<RegisterResponse> {
+  payload: RegisterRequest
+): Promise<LoginResponse> {
   try {
-    const response = await api.post<RegisterResponse>("/register/", {
-      username,
-      email,
-      password,
-    });
+    const response = await api.post<LoginResponse>("/register/", payload);
     return response.data;
   } catch (error: any) {
     if (error.response?.data) {
@@ -44,4 +13,15 @@ export async function registerUser(
     }
     throw new Error("Koneksi server gagal");
   }
+}
+
+export async function loginUser(
+  usernameOrEmail: string,
+  password: string
+): Promise<LoginResponse> {
+  const response = await api.post<LoginResponse>("/token/", {
+    username: usernameOrEmail,
+    password,
+  });
+  return response.data;
 }

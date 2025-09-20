@@ -3,15 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { loginUser } from "../../Services";
 import { useAuth } from "../../../../../context/AuthContext";
+import type { LoginResponse } from "../../../../../types/auth";
+
 import Input from "../../../../../components/atoms/forms/Input";
 import Label from "../../../../../components/atoms/forms/Label";
+import GeneralButton from "../../../../../components/atoms/buttons/GeneralButton";
 
 interface LoginFormProps {
   onSuccess?: () => void;
 }
 
 export default function LoginForm({ onSuccess }: LoginFormProps) {
-  const [usernameOrEmail, setUsernameOrEmail] = useState<string>(""); // ⬅️ ganti nama state
+  const [usernameOrEmail, setUsernameOrEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -25,12 +28,10 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
     setLoading(true);
 
     try {
-      const data = await loginUser(usernameOrEmail, password); // ⬅️ kirim username/email
+      const data: LoginResponse = await loginUser(usernameOrEmail, password); // 🔑 typing aman
       console.log("Login success:", data);
 
-      if ((data as any).access && (data as any).refresh) {
-        login((data as any).access, (data as any).refresh);
-      }
+      login(data.access, data.refresh); // ✅ nggak perlu `as any` lagi
 
       if (onSuccess) onSuccess();
       navigate("/", { replace: true });
@@ -48,7 +49,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
         <Label htmlFor="usernameOrEmail">Username atau Email</Label>
         <Input
           variant="primary"
-          type="text" // ⬅️ jangan pakai "email"
+          type="text"
           placeholder="Username atau Email"
           value={usernameOrEmail}
           onChange={(e) => setUsernameOrEmail(e.target.value)}
@@ -63,9 +64,9 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit" disabled={loading}>
+        <GeneralButton type="submit" disabled={loading}>
           {loading ? "Loading..." : "Masuk"}
-        </button>
+        </GeneralButton>
       </form>
 
       <p>

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import HomeRoute from "./HomeRoute";
+import PublicRoute from "./PublicRoute";
 
 import MainLayout from "../layouts/MainLayout";
 import NotFoundLayout from "../layouts/NotFoundLayout";
@@ -22,12 +23,14 @@ function AppContent() {
   return (
     <Routes>
       {/* Auth pages */}
-      <Route element={<LoginLayout />}>
-        <Route path="/login" element={<LoginPage />} />
-      </Route>
+      <Route element={<PublicRoute />}>
+        <Route element={<LoginLayout />}>
+          <Route path="/login" element={<LoginPage />} />
+        </Route>
 
-      <Route element={<RegisterLayout />}>
-        <Route path="/register" element={<RegisterPage />} />
+        <Route element={<RegisterLayout />}>
+          <Route path="/register" element={<RegisterPage />} />
+        </Route>
       </Route>
 
       <Route element={<MainLayout />}>

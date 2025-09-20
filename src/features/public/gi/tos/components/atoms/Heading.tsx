@@ -1,3 +1,5 @@
+import React from "react";
+
 type HeadingProps = {
   level?: 1 | 2 | 3;
   children: React.ReactNode;
@@ -9,7 +11,8 @@ export default function Heading({
   children,
   className,
 }: HeadingProps) {
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
+
   const styles =
     level === 1
       ? "text-3xl font-bold mb-6"

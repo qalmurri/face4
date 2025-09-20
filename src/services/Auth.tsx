@@ -1,17 +1,22 @@
+const TOKEN_KEYS = {
+  access: "access_token",
+  refresh: "refresh_token",
+};
+
 export function saveTokens(access: string, refresh: string) {
-    localStorage.setItem("access_token", access);
-    localStorage.setItem("refresh_token", refresh);
+  localStorage.setItem(TOKEN_KEYS.access, access);
+  localStorage.setItem(TOKEN_KEYS.refresh, refresh);
 }
 
 export function getAccessToken(): string | null {
-    return localStorage.getItem("access_token");
+  return localStorage.getItem(TOKEN_KEYS.access);
 }
 
 export function getRefreshToken(): string | null {
-    return localStorage.getItem("refresh_token");
+  return localStorage.getItem(TOKEN_KEYS.refresh);
 }
 
 export function clearTokens() {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-}   
+  localStorage.removeItem(TOKEN_KEYS.access);
+  localStorage.removeItem(TOKEN_KEYS.refresh);
+}

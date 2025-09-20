@@ -1,14 +1,8 @@
-import {  createContext,  useContext,  useEffect,  useState} from "react";
-import type {ReactNode} from "react";
-import {  saveTokens,  getAccessToken,  getRefreshToken,  clearTokens,} from "../services/Auth";
+import { createContext, useContext, useEffect, useState } from "react";
+import type { ReactNode } from "react";
 
-interface AuthContextType {
-  isAuthenticated: boolean;
-  accessToken: string | null;
-  refreshToken: string | null;
-  login: (access: string, refresh: string) => void;
-  logout: () => void;
-}
+import { saveTokens, getAccessToken, getRefreshToken, clearTokens } from "../services/Auth";
+import type { AuthContextType } from "../types/auth";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -35,7 +29,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    // Bisa ditambah auto-refresh token di sini (misalnya call API refresh token)
     setAccessToken(getAccessToken());
     setRefreshToken(getRefreshToken());
   }, []);
