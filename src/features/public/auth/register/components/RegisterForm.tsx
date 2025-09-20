@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../Services";
-import { saveTokens } from "../../../../../services/Auth";
+import { useAuth } from "../../../../../context/AuthContext";
 import Input from "../../../../../components/atoms/forms/Input";
 import Label from "../../../../../components/atoms/forms/Label";
 
@@ -18,7 +18,8 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const navigate = useNavigate(); // ⬅️ init router
+  const navigate = useNavigate();
+  const { login } = useAuth(); // ⬅️ gunakan login dari context
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,16 +36,17 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       const data = await registerUser(username, email, password);
       console.log("Register success:", data);
 
-      // Simpan token
       if ((data as any).access && (data as any).refresh) {
-        saveTokens((data as any).access, (data as any).refresh);
+        // langsung login via context
+        login((data as any).access, (data as any).refresh);
       }
 
       if (onSuccess) onSuccess();
-      navigate("/");
 
+      // redirect ke private dashboard
+      navigate("/", { replace: true });
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || "Gagal mendaftar");
     } finally {
       setLoading(false);
     }

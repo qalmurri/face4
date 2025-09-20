@@ -7,11 +7,11 @@ export interface LoginResponse {
 }
 
 export async function loginUser(
-  email: string,
+  usernameOrEmail: string,
   password: string
 ): Promise<LoginResponse> {
   const response = await api.post<LoginResponse>("/token/", {
-    username: email,
+    username: usernameOrEmail, // ⬅️ tetap "username" (sesuai JWT default),
     password,
   });
 

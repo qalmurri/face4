@@ -1,19 +1,23 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { loginUser } from "../../Services";
-import { Link } from "react-router-dom";
+import { useAuth } from "../../../../../context/AuthContext";
 import Input from "../../../../../components/atoms/forms/Input";
 import Label from "../../../../../components/atoms/forms/Label";
 
-// Props type
 interface LoginFormProps {
   onSuccess?: () => void;
 }
 
 export default function LoginForm({ onSuccess }: LoginFormProps) {
-  const [email, setEmail] = useState<string>("");
+  const [usernameOrEmail, setUsernameOrEmail] = useState<string>(""); // ⬅️ ganti nama state
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,18 +25,17 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
     setLoading(true);
 
     try {
-      const data: { access?: string; refresh?: string } = await loginUser(
-        email,
-        password
-      );
+      const data = await loginUser(usernameOrEmail, password); // ⬅️ kirim username/email
       console.log("Login success:", data);
 
-      if (data.access) localStorage.setItem("access", data.access);
-      if (data.refresh) localStorage.setItem("refresh", data.refresh);
+      if ((data as any).access && (data as any).refresh) {
+        login((data as any).access, (data as any).refresh);
+      }
 
-      if (onSuccess) onSuccess(); // kasih tahu parent kalau login berhasil
-    } catch (err) {
-      setError("Email atau password salah");
+      if (onSuccess) onSuccess();
+      navigate("/", { replace: true });
+    } catch (err: any) {
+      setError(err.message || "Username/email atau password salah");
     } finally {
       setLoading(false);
     }
@@ -42,16 +45,16 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
     <div>
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <Label variant="error" htmlFor="email">Email</Label>
+        <Label htmlFor="usernameOrEmail">Username atau Email</Label>
         <Input
           variant="primary"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          type="text" // ⬅️ jangan pakai "email"
+          placeholder="Username atau Email"
+          value={usernameOrEmail}
+          onChange={(e) => setUsernameOrEmail(e.target.value)}
         />
 
-        <Label variant="error" htmlFor="password">Password</Label>
+        <Label htmlFor="password">Password</Label>
         <Input
           variant="secondary"
           type="password"
