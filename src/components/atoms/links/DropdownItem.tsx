@@ -8,7 +8,7 @@ interface DropdownItemProps {
     onClick?: () => void;
 }
 
-export default function DropdownItem({ children, to, href, onClick }: DropdownItemProps) {
+export function DropdownItem({ children, to, href, onClick }: DropdownItemProps) {
     if (to) {
         return (
             <Link

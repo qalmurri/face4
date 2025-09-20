@@ -1,4 +1,4 @@
-import Heading from "../../../../../components/atoms/typography/Heading";
+import {Heading} from "../../../../../components/atoms";
 import Text from "../../../../../components/atoms/typography/Text";
 
 export default function ContactInfo() {

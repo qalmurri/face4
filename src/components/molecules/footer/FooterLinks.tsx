@@ -1,4 +1,4 @@
-import Hyperlink from "../../atoms/links/Hyperlink";
+import {Hyperlink} from "../../atoms";
 
 export default function FooterLinks() {
     return (

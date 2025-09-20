@@ -39,7 +39,7 @@ type GeneralButtonProps = {
   fullWidth?: boolean;
 };
 
-export default function GeneralButton({
+export function GeneralButton({
   children,
   onClick,
   type = "button",

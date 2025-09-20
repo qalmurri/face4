@@ -15,7 +15,7 @@ interface HyperlinkProps {
     className?: string;
 }
 
-export default function Hyperlink({
+export function Hyperlink({
     to,
     children,
     variant = "primary",

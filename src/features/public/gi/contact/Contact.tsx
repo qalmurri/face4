@@ -1,6 +1,6 @@
 import ContactContent from "./organisms/ContactContent";
 
-export default function Contact() {
+export function Contact() {
   return <ContactContent />;
 
 }

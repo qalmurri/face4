@@ -1,5 +1,4 @@
-import Input from "../../atoms/forms/Input";
-import TextArea from "../../atoms/forms/TextArea";
+import {TextArea, Input} from "../../atoms";
 
 type FormFieldProps = {
     label: string;

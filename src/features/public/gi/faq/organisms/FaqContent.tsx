@@ -1,5 +1,4 @@
-import Heading from "../../../../../components/atoms/typography/Heading";
-import LinkText from "../../../../../components/atoms/typography/LinkText";
+import {Heading, LinkText} from "../../../../../components/atoms";
 import FaqItem from "../../../../../components/molecules/FaqItem";
 
 export default function FaqContent() {

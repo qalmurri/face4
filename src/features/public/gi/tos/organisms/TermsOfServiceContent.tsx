@@ -1,6 +1,5 @@
-import Heading from "../../../../../components/atoms/typography/Heading";
-import Paragraph from "../../../../../components/atoms/typography/Paragraph";
-import LinkText from "../../../../../components/atoms/typography/LinkText";
+import {Heading, Paragraph, LinkText} from "../../../../../components/atoms";
+
 import Section from "../../../../../components/molecules/sections/Section";
 
 export default function TermsOfServiceContent() {

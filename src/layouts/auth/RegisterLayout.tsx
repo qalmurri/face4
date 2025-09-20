@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-export function ProfileLayout() {
+export function RegisterLayout() {
   return (
     <>
       <main>

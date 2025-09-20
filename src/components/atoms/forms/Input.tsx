@@ -28,7 +28,7 @@ interface InputProps {
     className?: string;
 }
 
-export default function Input({
+export function Input({
     type = "text",
     placeholder = "",
     value,

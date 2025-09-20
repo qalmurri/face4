@@ -1,5 +1,4 @@
-import Icon from "../../atoms/icons/Icon";
-import Hyperlink from "../../atoms/links/Hyperlink";
+import {Icon, Hyperlink} from "../../atoms";
 
 export default function FooterSocials() {
     return (

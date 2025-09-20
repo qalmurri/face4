@@ -1,4 +1,4 @@
-import Heading from "../atoms/typography/Heading";
+import {Heading} from "../atoms/typography/Heading";
 import Text from "../atoms/typography/Text";
 
 type FaqItemProps = {

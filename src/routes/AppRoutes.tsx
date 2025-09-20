@@ -1,28 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import HomeRoute from "./HomeRoute";
-import PublicRoute from "./PublicRoute";
-
-import MainLayout from "../layouts/MainLayout";
-import NotFoundLayout from "../layouts/NotFoundLayout";
-import RegisterLayout from "../layouts/RegisterLayout";
-import LoginLayout from "../layouts/LoginLayout";
-
-import LoginPage from "../features/public/auth/login/LoginPage";
-import RegisterPage from "../features/public/auth/register/RegisterPage";
-
-import AboutPage from "../features/public/gi/about/About";
-import Contact from "../features/public/gi/contact/Contact";
-import Faq from "../features/public/gi/faq/Faq";
-import PrivacyPolicy from "../features/public/gi/pp/PrivacyPolicy";
-import TermsOfService from "../features/public/gi/tos/TermsOfService";
-
-import NotFoundPage from "../pages/NotFoundPage";
+import { HomeRoute, PublicRoute } from "./type";
+import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../layouts";
+import { NotFoundPage } from "../pages";
+import { LoginPage, RegisterPage, About, Contact, Faq, PrivacyPolicy, TermsOfService } from "../features/public";
 
 function AppContent() {
   return (
     <Routes>
-      {/* Auth pages */}
       <Route element={<PublicRoute />}>
         <Route element={<LoginLayout />}>
           <Route path="/login" element={<LoginPage />} />
@@ -35,14 +20,13 @@ function AppContent() {
 
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomeRoute />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/tos" element={<TermsOfService />} />
       </Route>
 
-      {/* Not found */}
       <Route element={<NotFoundLayout />}>
         <Route path="*" element={<NotFoundPage />} />
       </Route>

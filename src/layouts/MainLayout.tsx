@@ -4,7 +4,7 @@ import PrivateNavbar from "../components/organisms/PrivateNavbar";
 import Footer from "../components/organisms/Footer";
 import { useAuth } from "../context/AuthContext";
 
-export default function MainLayout() {
+export function MainLayout() {
     const { isAuthenticated } = useAuth();
 
     return (

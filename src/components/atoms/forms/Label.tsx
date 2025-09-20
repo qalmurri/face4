@@ -10,7 +10,7 @@ interface LabelProps {
     className?: string;
 }
 
-export default function Label({
+export function Label({
     children,
     htmlFor,
     variant = "primary",

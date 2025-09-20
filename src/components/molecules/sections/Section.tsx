@@ -1,5 +1,4 @@
-import Heading from "../../atoms/typography/Heading";
-import Paragraph from "../../atoms/typography/Paragraph";
+import {Heading, Paragraph} from "../../atoms";
 
 type SectionProps = {
   title: string;

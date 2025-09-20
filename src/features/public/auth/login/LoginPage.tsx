@@ -1,6 +1,9 @@
 import LoginForm from "./components/LoginForm";
+import { usePageTitle } from "../../../../hooks";
 
-export default function LoginPage() {
+export function LoginPage() {
+  usePageTitle("Login")
+
   return (
     <div>
       <LoginForm />

@@ -2,8 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { useAuth } from "../../../../context/AuthContext";
 
-import Button from "../../../atoms/buttons/GeneralButton";
-import Hyperlink from "../../../atoms/links/Hyperlink";
+import {GeneralButton, Hyperlink} from "../../../atoms";
 import DropdownMenu from "../Dropdown";
 
 export default function Public() {
@@ -31,9 +30,12 @@ export default function Public() {
           { label: "Careers", to: "/about/careers" },
         ]}
       />
-      <Button variant="danger" leftIcon={<FaPlus />} onClick={handleLogout}>
+      <GeneralButton
+        variant="danger"
+        leftIcon={<FaPlus />}
+        onClick={handleLogout}>
         Logout
-      </Button>
+      </GeneralButton>
     </>
   );
 }
