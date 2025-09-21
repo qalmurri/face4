@@ -1,9 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { HomeRoute, PublicRoute } from "./type";
+import {HomeRoute, PublicRoute } from "./type";
 import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../layouts";
 import { NotFoundPage } from "../pages";
-import { LoginPage, RegisterPage, About, Contact, Faq, PrivacyPolicy, TermsOfService } from "../features/public";
+import { LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../features/public";
 
 function AppContent() {
   return (
@@ -11,6 +11,8 @@ function AppContent() {
       <Route element={<PublicRoute />}>
         <Route element={<LoginLayout />}>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot" element={<ForgotPasswordPage />} />
+          <Route path="/reset/:uid/:token" element={<ResetPasswordPage />} />
         </Route>
 
         <Route element={<RegisterLayout />}>
@@ -20,11 +22,11 @@ function AppContent() {
 
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomeRoute />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/faq" element={<Faq />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/tos" element={<TermsOfService />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/faq" element={<FaqPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/tos" element={<TermsOfServicePage />} />
       </Route>
 
       <Route element={<NotFoundLayout />}>

@@ -25,3 +25,7 @@ export interface AuthContextType {
   login: (access: string, refresh: string) => void;
   logout: () => void;
 }
+
+export interface ForgotPasswordRequest {
+  identifier: string;
+}

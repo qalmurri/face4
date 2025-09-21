@@ -1,8 +1,11 @@
-export {LoginPage} from "./auth/login/LoginPage";
-export {RegisterPage} from "./auth/register/RegisterPage";
+export { LoginPage } from "./auth/login/LoginPage";
+export { RegisterPage } from "./auth/register/RegisterPage";
+export { ForgotPasswordPage } from "./auth/password/ForgotPasswordPage";
+export { ResetPasswordPage } from "./auth/password/ResetPasswordPage";
 
-export { About } from "./gi/about/About";
-export {Contact} from "./gi/contact/Contact";
-export {Faq} from "./gi/faq/Faq";
-export {PrivacyPolicy} from "./gi/pp/PrivacyPolicy";
-export {TermsOfService} from "./gi/tos/TermsOfService";
+export { AboutPage } from "./gi/about/AboutPage";
+export { ContactPage } from "./gi/contact/ContactPage";
+export { FaqPage } from "./gi/faq/FaqPage";
+export { PrivacyPolicyPage } from "./gi/pp/PrivacyPolicyPage";
+export { TermsOfServicePage } from "./gi/tos/TermsOfServicePage";
+
