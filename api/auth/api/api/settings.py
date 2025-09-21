@@ -68,3 +68,5 @@ CORS_ALLOWED_ORIGINS = [
 "https://sub.example.com",
 "http://localhost:8080",
 "http://localhost:5173",]
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
