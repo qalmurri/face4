@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import {HomeRoute, PublicRoute } from "./type";
+import { HomeRoute, PublicRoute } from "./type";
 import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../layouts";
 import { NotFoundPage } from "../pages";
 import { LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../features/public";
@@ -37,9 +37,9 @@ function AppContent() {
 }
 
 export default function AppRoutes() {
-    return (
-        <Router>
-            <AppContent />
-        </Router>
-    )
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  )
 }
