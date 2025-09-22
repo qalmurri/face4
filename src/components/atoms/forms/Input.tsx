@@ -26,6 +26,7 @@ interface InputProps {
     onChange?: ChangeEventHandler<HTMLInputElement>;
     variant?: InputVariant;
     className?: string;
+    disabled?: boolean; // ✅ tambahkan ini
 }
 
 export function Input({
@@ -35,6 +36,7 @@ export function Input({
     onChange,
     variant = "primary",
     className,
+    disabled,
 }: InputProps) {
     const baseClasses = "px-3 py-2 border rounded transition-colors duration-200";
 
@@ -52,6 +54,7 @@ export function Input({
         <input
             type={type}
             placeholder={placeholder}
+            disabled={disabled} // ✅ teruskan ke input asli
             value={value as any} // biar aman untuk checkbox/radio
             onChange={onChange}
             className={clsx(baseClasses, variantClasses, className)}

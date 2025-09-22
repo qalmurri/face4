@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { getAccessToken } from "../services/Auth";
+import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../services/Auth";
 
 const api = axios.create({
     baseURL: "http://127.0.0.1:8000/auth/",
@@ -16,5 +16,36 @@ api.interceptors.request.use((config) => {
     }
     return config;
 });
+
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+
+        // kalau access expired
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            try {
+                const refresh = getRefreshToken();
+                if (!refresh) throw new Error("No refresh token");
+
+                const res = await axios.post("http://localhost:8000/auth/token/refresh/", {
+                    refresh,
+                });
+
+                const { access, refresh: newRefresh } = res.data;
+                saveTokens(access, newRefresh);
+                originalRequest.headers.Authorization = `Bearer ${access}`;
+
+                return api(originalRequest); // ulangi request
+            } catch (err) {
+                clearTokens();
+                window.location.href = "/login"; // logout paksa
+            }
+        }
+
+        return Promise.reject(error);
+    }
+);
 
 export default api;
