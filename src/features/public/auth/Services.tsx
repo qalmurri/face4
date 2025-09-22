@@ -26,11 +26,26 @@ export async function loginUser(
   return response.data;
 }
 
-export async function forgotPassword(
+export async function forgotPasswordCheck(
+  payload: ForgotPasswordRequest
+): Promise<{ username: string; email: string; last_reset: string | null }> {
+  try {
+    const response = await api.post("/forgot/check/", payload);
+    return response.data;
+  } catch (error: any) {
+    if (error.response?.data?.detail) {
+      throw new Error(error.response.data.detail);
+    }
+    throw new Error("Koneksi server gagal");
+  }
+}
+
+// konfirmasi + kirim email
+export async function forgotPasswordConfirm(
   payload: ForgotPasswordRequest
 ): Promise<{ detail: string; email: string }> {
   try {
-    const response = await api.post("/forgot/", payload);
+    const response = await api.post("/forgot/confirm/", payload);
     return response.data;
   } catch (error: any) {
     if (error.response?.data?.detail) {

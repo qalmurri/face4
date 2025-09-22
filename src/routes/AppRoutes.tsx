@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { HomeRoute, PublicRoute } from "./type";
+import { HomeRoute, PublicRoute, ProtectedRoute } from "./type";
 import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../layouts";
 import { NotFoundPage } from "../pages";
 import { LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../features/public";
+import { SettingsPage } from "../features/private";
 
 function AppContent() {
   return (
@@ -17,6 +18,12 @@ function AppContent() {
 
         <Route element={<RegisterLayout />}>
           <Route path="/register" element={<RegisterPage />} />
+        </Route>
+      </Route>
+
+      <Route element={<ProtectedRoute />}>
+        <Route element={<MainLayout />}>
+          <Route path="/settings" element={<SettingsPage />} />
         </Route>
       </Route>
 

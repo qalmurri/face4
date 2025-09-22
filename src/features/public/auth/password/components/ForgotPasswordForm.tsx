@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import type { ForgotPasswordRequest } from "../../../../../types/auth";
-import { forgotPassword } from "../../Services";
+import { forgotPasswordCheck, forgotPasswordConfirm } from "../../Services";
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 
 export default function ForgotPasswordForm() {
@@ -11,18 +11,43 @@ export default function ForgotPasswordForm() {
   const [error, setError] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  // step
+  const [step, setStep] = useState<"input" | "confirm" | "done">("input");
+  const [accountInfo, setAccountInfo] = useState<{
+    username: string;
+    email: string;
+    last_reset: string | null;
+  } | null>(null);
+
+  const handleCheck = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-    setSuccessMessage("");
     setLoading(true);
 
     try {
       const payload: ForgotPasswordRequest = { identifier };
-      const res = await forgotPassword(payload);
+      const res = await forgotPasswordCheck(payload);
+      setAccountInfo(res);
+      setStep("confirm");
+    } catch (err: any) {
+      setError(err.message || "User tidak ditemukan");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleConfirm = async () => {
+    if (!identifier) return;
+    setError("");
+    setLoading(true);
+
+    try {
+      const payload: ForgotPasswordRequest = { identifier };
+      const res = await forgotPasswordConfirm(payload);
       setSuccessMessage(
         `Email reset password telah dikirim ke ${res.email}. Silakan cek inbox Anda.`
       );
+      setStep("done");
     } catch (err: any) {
       setError(err.message || "Gagal mengirim email reset password");
     } finally {
@@ -34,10 +59,8 @@ export default function ForgotPasswordForm() {
     <div>
       {error && <p className="text-red-500 mb-2">{error}</p>}
 
-      {successMessage ? (
-        <p className="text-green-500 mb-2">{successMessage}</p>
-      ) : (
-        <form onSubmit={handleSubmit}>
+      {step === "input" && (
+        <form onSubmit={handleCheck}>
           <Label htmlFor="identifier">Username atau Email</Label>
           <Input
             variant="primary"
@@ -48,9 +71,34 @@ export default function ForgotPasswordForm() {
           />
 
           <GeneralButton type="submit" disabled={loading}>
-            {loading ? "Loading..." : "Kirim Email Reset"}
+            {loading ? "Loading..." : "Cari Akun"}
           </GeneralButton>
         </form>
+      )}
+
+      {step === "confirm" && accountInfo && (
+        <div>
+          <p>
+            Apakah benar akun ini? <br />
+            <b>{accountInfo.username}</b> ({accountInfo.email}) <br />
+            Terakhir reset:{" "}
+            {accountInfo.last_reset
+              ? new Date(accountInfo.last_reset).toLocaleString()
+              : "Belum pernah reset"}
+          </p>
+          <div className="mt-4 space-x-2">
+            <GeneralButton onClick={handleConfirm} disabled={loading}>
+              {loading ? "Loading..." : "Ya, kirim email reset"}
+            </GeneralButton>
+            <GeneralButton variant="secondary" onClick={() => setStep("input")}>
+              Batal
+            </GeneralButton>
+          </div>
+        </div>
+      )}
+
+      {step === "done" && (
+        <p className="text-green-500 mb-2">{successMessage}</p>
       )}
 
       <p className="mt-4">
