@@ -1,24 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
-import { resetPassword } from "../../Services";
+import { resetPassword, checkResetPassword } from "../../Services";
 
-interface ResetPasswordPageProps {
-  onSuccess?: () => void;
-}
-
-export default function ResetPasswordForm({
-  onSuccess,
-}: ResetPasswordPageProps) {
+export default function ResetPasswordForm() {
   const { uid, token } = useParams<{ uid: string; token: string }>();
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
-  const [success, setSuccess] = useState<string>("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [validLink, setValidLink] = useState<boolean | null>(null);
 
   const navigate = useNavigate();
+
+  // Cek link saat halaman dibuka
+  useEffect(() => {
+    const validate = async () => {
+      if (!uid || !token) {
+        navigate("/register", { replace: true });
+        return;
+      }
+      const isValid = await checkResetPassword(uid, token);
+      if (!isValid) {
+        navigate("/register", { replace: true });
+      } else {
+        setValidLink(true);
+      }
+    };
+    validate();
+  }, [uid, token, navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +46,6 @@ export default function ResetPasswordForm({
     try {
       await resetPassword(uid!, token!, newPassword);
       setSuccess("Password berhasil direset. Silakan login kembali.");
-      if (onSuccess) onSuccess();
       setTimeout(() => navigate("/login", { replace: true }), 2000);
     } catch (err: any) {
       setError(err.message || "Gagal mereset password");
@@ -42,6 +53,11 @@ export default function ResetPasswordForm({
       setLoading(false);
     }
   };
+
+  // Jika validasi link masih loading → tampilkan "Loading..."
+  if (validLink === null) {
+    return <p>Memeriksa link reset password...</p>;
+  }
 
   return (
     <div>

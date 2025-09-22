@@ -1,5 +1,5 @@
 import api from "../../../api/authApi";
-import type { RegisterRequest, LoginResponse, ForgotPasswordRequest  } from "../../../types/auth";
+import type { RegisterRequest, LoginResponse, ForgotPasswordRequest } from "../../../types/auth";
 
 export async function registerUser(
   payload: RegisterRequest
@@ -28,9 +28,10 @@ export async function loginUser(
 
 export async function forgotPassword(
   payload: ForgotPasswordRequest
-): Promise<void> {
+): Promise<{ detail: string; email: string }> {
   try {
-    await api.post("/forgot-password/", payload);
+    const response = await api.post("/forgot/", payload);
+    return response.data;
   } catch (error: any) {
     if (error.response?.data?.detail) {
       throw new Error(error.response.data.detail);
@@ -55,5 +56,17 @@ export async function resetPassword(
       throw new Error(error.response.data.detail || "Reset password gagal");
     }
     throw new Error("Koneksi server gagal");
+  }
+}
+
+export async function checkResetPassword(
+  uid: string,
+  token: string
+): Promise<boolean> {
+  try {
+    const response = await api.get(`/reset/check/${uid}/${token}/`);
+    return response.data.valid;
+  } catch {
+    return false;
   }
 }
