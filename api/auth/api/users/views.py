@@ -3,6 +3,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
+from django.utils import timezone
 
 from rest_framework import status
 from rest_framework import generics
@@ -13,7 +14,11 @@ from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
 from .serializers import RegisterSerializer, MyTokenObtainPairSerializer, ForgotPasswordSerializer, ResetPasswordSerializer
+from .models import PasswordResetRequest
+from .utils import log_user_action, mask_email
 
+from datetime import timedelta
+    
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer
     
@@ -27,6 +32,7 @@ class RegisterView(generics.CreateAPIView):
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
         refresh = RefreshToken.for_user(user)
+        log_user_action(request, user, "REGISTER")
         return Response(
             {
                 "user": serializer.data,
@@ -46,9 +52,16 @@ class ForgotPasswordView(APIView):
             if not user:
                 return Response({"detail": "User tidak ditemukan"}, status=status.HTTP_404_NOT_FOUND)
 
-            # Buat token dan uid
             uid = urlsafe_base64_encode(force_bytes(user.pk))
             token = default_token_generator.make_token(user)
+
+            # simpan request baru ke database
+            PasswordResetRequest.objects.create(
+                user=user,
+                uid=uid,
+                token=token,
+                expired_at=timezone.now() + timedelta(hours=1)  # 1 jam
+            )
 
             reset_link = f"http://localhost:5173/reset/{uid}/{token}/"
 
@@ -58,9 +71,10 @@ class ForgotPasswordView(APIView):
                 from_email="noreply@example.com",
                 recipient_list=[user.email],
             )
-            return Response({"detail": "Email reset password telah dikirim"})
+            log_user_action(request, user, "FORGOT_PASSWORD")
+            return Response({"detail": "Email reset password telah dikirim", "email": mask_email(user.email)})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
 class ResetPasswordView(APIView):
     def post(self, request):
         uid = request.data.get("uid")
@@ -76,12 +90,44 @@ class ResetPasswordView(APIView):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response({"detail": "User tidak valid"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # validasi token
+        # cek database reset request
+        reset_request = PasswordResetRequest.objects.filter(user=user, uid=uid, token=token, is_active=True).first()
+        if not reset_request:
+            return Response({"detail": "Link reset tidak valid atau sudah dipakai"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # cek expired
+        if reset_request.expired_at and reset_request.expired_at < timezone.now():
+            reset_request.deactivate()
+            return Response({"detail": "Link reset sudah kadaluarsa"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # validasi token Django (opsional double check)
         if not default_token_generator.check_token(user, token):
-            return Response({"detail": "Token tidak valid atau sudah kadaluarsa"}, status=status.HTTP_400_BAD_REQUEST)
+            reset_request.deactivate()
+            return Response({"detail": "Token tidak valid"}, status=status.HTTP_400_BAD_REQUEST)
 
         # set password baru
         user.set_password(new_password)
         user.save()
 
+        # matikan token agar tidak bisa dipakai lagi
+        reset_request.deactivate()
+        log_user_action(request, user, "RESET_PASSWORD")
         return Response({"detail": "Password berhasil diganti"}, status=status.HTTP_200_OK)
+
+class CheckResetPasswordView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request, uid, token):
+        reset_request = PasswordResetRequest.objects.filter(
+            uid=uid, token=token, is_active=True
+        ).first()
+
+        if not reset_request:
+            return Response({"valid": False}, status=status.HTTP_404_NOT_FOUND)
+
+        # cek expired
+        if reset_request.expired_at and reset_request.expired_at < timezone.now():
+            reset_request.deactivate()
+            return Response({"valid": False, "detail": "Link expired"}, status=status.HTTP_400_BAD_REQUEST)
+
+        return Response({"valid": True}, status=status.HTTP_200_OK)
