@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import type { ForgotPasswordRequest } from "../../../../../types/AuthTokenType";
+import type { ForgotPasswordRequest } from "../../../../../types/Apis/AuthTokenType";
 import { forgotPasswordCheck, forgotPasswordConfirm } from "../../Services";
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 

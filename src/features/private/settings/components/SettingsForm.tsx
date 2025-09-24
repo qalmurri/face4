@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Input, Label, GeneralButton } from "../../../../components/atoms";
-import type { UserSettingRequest } from "../../../../types/SettingsType";
+import type { UserSettingRequest } from "../../../../types/Settings/SettingsType";
 import { getSettingsUser, putSettingsUser } from "../../../../apis";
 
 export default function SettingsForm() {

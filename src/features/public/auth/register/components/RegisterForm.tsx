@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../Services";
 import { useAuth } from "../../../../../contexts/AuthContext";
-import type { RegisterRequest, LoginResponse } from "../../../../../types/AuthTokenType";
+import type { RegisterRequest, LoginResponse } from "../../../../../types/Apis/AuthTokenType";
 
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 

@@ -1,5 +1,5 @@
 import api from "../AuthTokenApi";
-import type { UserSettingRequest } from "../../types/SettingsType";
+import type { UserSettingRequest } from "../../types/Settings/SettingsType";
 
 export async function getSettingsUser(): Promise<UserSettingRequest> {
   const response = await api.get<UserSettingRequest>("me/");

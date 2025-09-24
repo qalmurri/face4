@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
 import { saveTokens, getAccessToken, getRefreshToken, clearTokens } from "../services/AuthTokenService";
-import type { AuthContextType } from "../types/AuthTokenType";
+import type { AuthContextType } from "../types/Apis/AuthTokenType";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

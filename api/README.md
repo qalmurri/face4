@@ -1,5 +1,1 @@
 pip install django djangorestframework djangorestframework-simplejwt django-cors-headers django-filter markdown psycopg2-binary
-
-install postgresql
-
-sinau psql + commands view tabel

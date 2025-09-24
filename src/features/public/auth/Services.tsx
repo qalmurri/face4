@@ -1,5 +1,5 @@
 import api from "../../../apis/AuthTokenApi";
-import type { RegisterRequest, LoginResponse, ForgotPasswordRequest } from "../../../types/AuthTokenType";
+import type { RegisterRequest, LoginResponse, ForgotPasswordRequest } from "../../../types/Apis/AuthTokenType";
 
 export async function registerUser(
   payload: RegisterRequest
