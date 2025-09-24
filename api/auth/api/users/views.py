@@ -13,7 +13,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 
-from .serializers import RegisterSerializer, MyTokenObtainPairSerializer, ForgotPasswordSerializer, ResetPasswordSerializer, UserSerializer
+from .serializers import RegisterSerializer, MyTokenObtainPairSerializer, ForgotPasswordSerializer, UserSerializer
 from .models import PasswordResetRequest
 from .utils import log_user_action, mask_email
 
