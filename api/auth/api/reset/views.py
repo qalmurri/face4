@@ -4,17 +4,14 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.utils import timezone
 from django.core.mail import send_mail
-
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.views import APIView
-
 from utils.utils import mask_email
+from datetime import timedelta
 from .serializers import ForgotPasswordSerializer
 from .models import PasswordResetRequest
-
-from datetime import timedelta
 
 class ForgotPasswordCheckView(APIView):
     permission_classes = [AllowAny]

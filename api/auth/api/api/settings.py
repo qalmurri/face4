@@ -12,10 +12,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
-    'reset',
-    'authentication',
-    'accounts',
     'corsheaders',
+    'authentication',
+    'reset',
+    'accounts',
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
