@@ -27,7 +27,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 ]
 REST_FRAMEWORK = {
-    "EXCEPTION_HANDLER": "users.exceptions.custom_exception_handler",
+    "EXCEPTION_HANDLER": "utils.exceptions.custom_exception_handler",
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
