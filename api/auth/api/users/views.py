@@ -83,7 +83,7 @@ class ForgotPasswordConfirmView(APIView):
             user=user,
             uid=uid,
             token=token,
-            expired_at=timezone.now() + timedelta(hours=1)
+            expired_at=timezone.now() + timedelta(hours=0.1) #ini waktu expirednya resel link
         )
 
         reset_link = f"http://localhost:5173/reset/{uid}/{token}/"

@@ -10,6 +10,6 @@ urlpatterns = [
     path("forgot/confirm/", ForgotPasswordConfirmView.as_view(), name="forgot-confirm"),
     path("reset/", ResetPasswordView.as_view(), name="reset-password"),
     path("reset/check/<uid>/<token>/", CheckResetPasswordView.as_view(), name="check-reset"),
-    path("user/me/", UserMeView.as_view(), name="user-me"),
-    path("user/update/", UserUpdateView.as_view(), name="user-update"),
+    path("me/", UserMeView.as_view(), name="user-me"),
+    path("update/", UserUpdateView.as_view(), name="user-update"),
 ]
