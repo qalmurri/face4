@@ -1,29 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Input, Label, GeneralButton } from "../../../../components/atoms";
-import { getAccessToken } from "../../../../services/Auth";
-import api from "../../../../api/authApi";
-
-interface UserProfile {
-    id: number;
-    username: string;
-    email: string;
-    first_name: string;
-    last_name: string;
-    date_joined: string;
-}
+import type { UserSettingRequest } from "../../../../types/SettingsType";
+import { getSettingsUser, putSettingsUser } from "../../../../apis";
 
 export default function SettingsForm() {
-    const [user, setUser] = useState<UserProfile | null>(null);
+    const [user, setUser] = useState<UserSettingRequest | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string>("");
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await api.get("/user/me/", {
-                    headers: { Authorization: `Bearer ${getAccessToken()}` },
-                });
-                setUser(res.data);
+                const res = await getSettingsUser();
+                setUser(res);
             } catch (err: any) {
                 setError("Gagal memuat profil");
             } finally {
@@ -36,12 +25,14 @@ export default function SettingsForm() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (!user) return;
+
         try {
-            await api.put(
-                "/user/update/",
-                { first_name: user?.first_name, last_name: user?.last_name },
-                { headers: { Authorization: `Bearer ${getAccessToken()}` } }
-            );
+            const updated = await putSettingsUser({
+                first_name: user.first_name,
+                last_name: user.last_name,
+            });
+            setUser(updated);
             alert("Profil berhasil diperbarui!");
         } catch (err: any) {
             alert("Gagal memperbarui profil");
@@ -92,10 +83,16 @@ export default function SettingsForm() {
                         />
                     </div>
 
-                    <div>
-                        <Label htmlFor="date_joined">Tanggal Daftar</Label>
-                        <Input type="text" value={new Date(user.date_joined).toLocaleDateString()} disabled />
-                    </div>
+                    {user.date_joined && (
+                        <div>
+                            <Label htmlFor="date_joined">Tanggal Daftar</Label>
+                            <Input
+                                type="text"
+                                value={new Date(user.date_joined).toLocaleDateString()}
+                                disabled
+                            />
+                        </div>
+                    )}
 
                     <GeneralButton type="submit">Simpan Perubahan</GeneralButton>
                 </form>

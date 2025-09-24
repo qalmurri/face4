@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAuth } from "../../../../contexts/AuthContext";
 
-import {GeneralButton, Hyperlink} from "../../../atoms";
+import { GeneralButton, Hyperlink } from "../../../atoms";
 import DropdownMenu from "../Dropdown";
 
 export default function Public() {

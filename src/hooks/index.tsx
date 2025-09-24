@@ -1,2 +1,2 @@
-export * from "./usePageTitle";
-export * from "./useTimedVisibility";
+export * from "./UsePageTitleHook";
+export * from "./UseTimedVisibilityHook";

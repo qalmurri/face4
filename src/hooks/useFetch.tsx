@@ -1,5 +1,3 @@
-// contoh
-
 import { useEffect, useState } from "react";
 
 /**

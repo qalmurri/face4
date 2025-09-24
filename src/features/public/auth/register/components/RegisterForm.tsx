@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../Services";
-import { useAuth } from "../../../../../context/AuthContext";
-import type { RegisterRequest, LoginResponse } from "../../../../../types/auth";
+import { useAuth } from "../../../../../contexts/AuthContext";
+import type { RegisterRequest, LoginResponse } from "../../../../../types/AuthTokenType";
 
-import {Input, Label, GeneralButton} from "../../../../../components/atoms";
+import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 
 interface RegisterFormProps {
   onSuccess?: () => void;
