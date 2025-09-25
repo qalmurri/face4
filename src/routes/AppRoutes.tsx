@@ -4,9 +4,7 @@ import { HomeRoute, PublicRoute, ProtectedRoute } from "./types";
 import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../layouts";
 import { NotFoundPage } from "../pages";
 import { LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../features/public";
-import { SettingsPage } from "../features/private";
-import RequestStaffActivation from "../features/private/activation/RequestStaffActivation";
-import StaffActivationConfirm from "../features/private/activation/StaffActivationConfirm";
+import { SettingsPage, StaffActivationPage, StaffRequestPage } from "../features/private";
 
 function AppContent() {
   return (
@@ -25,6 +23,7 @@ function AppContent() {
 
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
+          <Route path="/request-staff" element={<StaffRequestPage />} />
           <Route path="/settings" element={<SettingsPage />} />
         </Route>
       </Route>
@@ -36,9 +35,7 @@ function AppContent() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/tos" element={<TermsOfServicePage />} />
-
-        <Route path="/request-staff" element={<RequestStaffActivation />} />
-        <Route path="/activate-staff/:uid/:token" element={<StaffActivationConfirm />} />
+        <Route path="/activate-staff/:uid/:token" element={<StaffActivationPage />} />
       </Route>
 
       <Route element={<NotFoundLayout />}>
