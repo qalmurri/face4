@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.views import APIView
-from utils.utils import generate_reset_token, send_reset_email
+from utils.reset import generate_reset_token, send_reset_email
 from utils.mask_email import mask_email
 from .serializers import ForgotPasswordSerializer
 from .models import PasswordResetRequest
