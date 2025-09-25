@@ -9,3 +9,4 @@ export { FaqPage } from "./gi/faq/FaqPage";
 export { PrivacyPolicyPage } from "./gi/pp/PrivacyPolicyPage";
 export { TermsOfServicePage } from "./gi/tos/TermsOfServicePage";
 
+export { StaffActivationPage } from "./activation/StaffActivationPage";
