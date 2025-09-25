@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CheckResetPasswordView, ResetPasswordView, ForgotPasswordCheckView, ForgotPasswordConfirmView
+from .views import ForgotPasswordCheckView, ForgotPasswordConfirmView, ResetPasswordView, CheckResetPasswordView
 
 urlpatterns = [
     path("forgot/check/", ForgotPasswordCheckView.as_view(), name="forgot-check"),

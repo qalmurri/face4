@@ -1,30 +1,35 @@
-def log_user_action(request, user, action):
-    from ..users.models import UserActionLog
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.utils import timezone
+from django.core.mail import send_mail
+from django.contrib.auth.tokens import default_token_generator
+from datetime import timedelta
 
-    ip = get_client_ip(request)
-    user_agent = request.META.get("HTTP_USER_AGENT", "")
+from reset.models import PasswordResetRequest
 
-    UserActionLog.objects.create(
+
+def generate_reset_token(user, expire_hours=0.1):
+    """Generate uid, token, and save request"""
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    token = default_token_generator.make_token(user)
+
+    PasswordResetRequest.objects.create(
         user=user,
-        action=action,
-        ip_address=ip,
-        user_agent=user_agent
+        uid=uid,
+        token=token,
+        expired_at=timezone.now() + timedelta(hours=expire_hours)
     )
 
-def get_client_ip(request):
-    """Ambil IP client (X-Forwarded-For kalau ada proxy)."""
-    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
-    if x_forwarded_for:
-        return x_forwarded_for.split(",")[0]
-    return request.META.get("REMOTE_ADDR")
+    return uid, token
 
-def mask_email(email: str) -> str:
-    try:
-        local, domain = email.split("@")
-        if len(local) <= 2:
-            masked_local = local[0] + "*" * (len(local) - 1)
-        else:
-            masked_local = local[0] + "*" * (len(local) - 2) + local[-1]
-        return f"{masked_local}@{domain}"
-    except Exception:
-        return email
+
+def send_reset_email(user, uid, token, frontend_url="http://localhost:5173"):
+    """Send reset password email"""
+    reset_link = f"{frontend_url}/reset/{uid}/{token}/"
+    send_mail(
+        subject="Reset Password",
+        message=f"Hi {user.username}, klik link berikut untuk reset password:\n{reset_link}",
+        from_email="noreply@example.com",
+        recipient_list=[user.email],
+    )
+    return reset_link
