@@ -5,6 +5,8 @@ import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../layo
 import { NotFoundPage } from "../pages";
 import { LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../features/public";
 import { SettingsPage } from "../features/private";
+import RequestStaffActivation from "../features/private/activation/RequestStaffActivation";
+import StaffActivationConfirm from "../features/private/activation/StaffActivationConfirm";
 
 function AppContent() {
   return (
@@ -34,6 +36,9 @@ function AppContent() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/tos" element={<TermsOfServicePage />} />
+
+        <Route path="/request-staff" element={<RequestStaffActivation />} />
+        <Route path="/activate-staff/:uid/:token" element={<StaffActivationConfirm />} />
       </Route>
 
       <Route element={<NotFoundLayout />}>

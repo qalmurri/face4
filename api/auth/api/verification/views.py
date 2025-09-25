@@ -1,13 +1,12 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
-
+from django.contrib.auth.models import User
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status, permissions
 from verification.models import StaffActivationRequest
+from utils.staff import send_staff_activation_email
 
-User = get_user_model()
 
 class StaffActivationConfirmView(APIView):
     def post(self, request, uid, token):
@@ -31,3 +30,19 @@ class StaffActivationConfirmView(APIView):
             activation_request.delete()
             return Response({"detail": "Staff mode activated"})
         return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+
+class StaffActivationRequestView(APIView):
+    permission_classes = [permissions.IsAuthenticated]  # harus login
+
+    def post(self, request):
+        user = request.user
+        if not user.email:
+            return Response({"detail": "Email tidak tersedia"}, status=status.HTTP_400_BAD_REQUEST)
+
+        link = send_staff_activation_email(user)
+
+        return Response({
+            "detail": "Email aktivasi staff telah dikirim",
+            "email": user.email,
+            "debug_link": link  # opsional, untuk debug (hapus di production)
+        })
