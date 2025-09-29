@@ -13,10 +13,12 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
+
+    'core2',
     'authentication',
     'reset',
     'accounts',
-    'verification',
+    'verification'
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -74,3 +76,4 @@ TIME_ZONE = "Asia/Jakarta"
 USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+

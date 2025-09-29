@@ -6,6 +6,7 @@ from django.contrib.auth.tokens import default_token_generator
 from datetime import timedelta
 
 from reset.models import PasswordResetRequest
+from core2.models import RequestMeta   # 🔹 import meta
 
 
 def generate_reset_token(user, expire_hours=0.1):
@@ -13,11 +14,17 @@ def generate_reset_token(user, expire_hours=0.1):
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     token = default_token_generator.make_token(user)
 
+    # buat meta record
+    meta = RequestMeta.objects.create(
+        expired_at=timezone.now() + timedelta(hours=expire_hours)
+    )
+
+    # simpan request reset dengan relasi ke meta
     PasswordResetRequest.objects.create(
         user=user,
         uid=uid,
         token=token,
-        expired_at=timezone.now() + timedelta(hours=expire_hours)
+        meta=meta,   # 🔹 assign meta
     )
 
     return uid, token

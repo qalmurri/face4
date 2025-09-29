@@ -20,17 +20,31 @@ class ForgotPasswordCheckView(APIView):
         if serializer.is_valid():
             identifier = serializer.validated_data["identifier"]
 
-            user = User.objects.filter(username=identifier).first() or User.objects.filter(email=identifier).first()
+            user = (
+                User.objects.filter(username=identifier).first()
+                or User.objects.filter(email=identifier).first()
+            )
             if not user:
-                return Response({"detail": "User tidak ditemukan"}, status=status.HTTP_404_NOT_FOUND)
+                return Response(
+                    {"detail": "User tidak ditemukan"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
 
-            last_req = PasswordResetRequest.objects.filter(user=user).order_by("-created_at").first()
+            # ambil request terakhir
+            last_req = (
+                PasswordResetRequest.objects.filter(user=user)
+                .order_by("-meta__created_at")  # pakai kolom di RequestMeta
+                .first()
+            )
 
-            return Response({
-                "username": user.username,
-                "email": mask_email(user.email),
-                "last_reset": last_req.created_at if last_req else None
-            })
+            return Response(
+                {
+                    "username": user.username,
+                    "email": mask_email(user.email),
+                    "last_reset": last_req.meta.created_at if last_req else None,
+                    "expired_at": last_req.meta.expired_at if last_req else None,
+                }
+            )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -71,30 +85,26 @@ class ResetPasswordView(APIView):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response({"detail": "User tidak valid"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # cek database reset request
         reset_request = PasswordResetRequest.objects.filter(user=user, uid=uid, token=token, is_active=True).first()
         if not reset_request:
             return Response({"detail": "Link reset tidak valid atau sudah dipakai"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # cek expired
-        if reset_request.expired_at and reset_request.expired_at < timezone.now():
+        # ✅ akses created_at & expired_at tetap sama
+        if reset_request.meta.expired_at and reset_request.meta.expired_at < timezone.now():
             reset_request.deactivate()
             return Response({"detail": "Link reset sudah kadaluarsa"}, status=status.HTTP_400_BAD_REQUEST)
 
-        # validasi token Django (opsional double check)
+
         if not default_token_generator.check_token(user, token):
             reset_request.deactivate()
             return Response({"detail": "Token tidak valid"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # set password baru
+        
         user.set_password(new_password)
         user.save()
 
-        # matikan token agar tidak bisa dipakai lagi
         reset_request.deactivate()
         return Response({"detail": "Password berhasil diganti"}, status=status.HTTP_200_OK)
     
-
 class CheckResetPasswordView(APIView):
     permission_classes = [AllowAny]
 
@@ -107,7 +117,7 @@ class CheckResetPasswordView(APIView):
             return Response({"valid": False}, status=status.HTTP_404_NOT_FOUND)
 
         # cek expired
-        if reset_request.expired_at and reset_request.expired_at < timezone.now():
+        if reset_request.meta.expired_at and reset_request.meta.expired_at < timezone.now():
             reset_request.deactivate()
             return Response({"valid": False, "detail": "Link expired"}, status=status.HTTP_400_BAD_REQUEST)
 

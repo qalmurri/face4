@@ -1,17 +1,16 @@
 from django.db import models
+from django.contrib.auth.models import User
+from core2.models import RequestMeta  # 🔹 ganti utils -> core
 from django.utils import timezone
 from datetime import timedelta
-from django.contrib.auth.models import User
 
 class StaffActivationRequest(models.Model):
-    def one_hour_from_now():
-        return timezone.now() + timedelta(hours=1)
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     uid = models.CharField(max_length=255)
     token = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    expired_at = models.DateTimeField(default=one_hour_from_now)
+    is_active = models.BooleanField(default=True)
+    meta = models.OneToOneField(RequestMeta, on_delete=models.CASCADE)
 
-    def is_expired(self):
-        return timezone.now() > self.expired_at
+    def deactivate(self):
+        self.is_active = False
+        self.save()
