@@ -9,7 +9,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.views import APIView
 
-from utils.mask_email import mask_email
+from utils.mask import mask_email
 
 from .utils import generate_reset_token, send_reset_email
 from .serializers import ForgotPasswordSerializer
