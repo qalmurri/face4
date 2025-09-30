@@ -4,11 +4,11 @@ Proyek pada backend ini masih dalam tahap pengembangan
 Sebagai Server yang menangani Authentifikasi seperti login, register
 ### DRF
 Karena pada framework ini, mungkin paling mudah di pergunakan.
-## DATA
+## Server DATA
 belum
 ### ?
 belum
-## IMAGE
+## Server IMAGE
 belum
 ### ?
 belum
