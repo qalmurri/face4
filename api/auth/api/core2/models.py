@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-class RequestMeta(models.Model):
+class ValidityPeriod(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     expired_at = models.DateTimeField(null=True, blank=True)
 
@@ -10,3 +10,9 @@ class RequestMeta(models.Model):
 
     def __str__(self):
         return f"Meta(created={self.created_at}, expired={self.expired_at})"
+
+class Token(models.Model):
+    token = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return f"Token({self.token})"

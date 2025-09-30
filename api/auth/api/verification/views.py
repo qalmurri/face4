@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from utils.staff import send_staff_activation_email
 from .models import StaffActivationRequest
+from core2.models import Token
 
 class StaffActivationConfirmView(APIView):
     def post(self, request, uid, token):
@@ -17,7 +18,7 @@ class StaffActivationConfirmView(APIView):
             return Response({"detail": "Invalid link"}, status=status.HTTP_400_BAD_REQUEST)
 
         activation_request = StaffActivationRequest.objects.filter(
-            user=user, uid=uid, token=token, is_active=True
+            user=user, uid=uid, token__token=token, is_active=True
         ).first()
 
         if not activation_request:
@@ -28,7 +29,7 @@ class StaffActivationConfirmView(APIView):
             activation_request.deactivate()
             return Response({"detail": "Link expired"}, status=status.HTTP_400_BAD_REQUEST)
 
-        if default_token_generator.check_token(user, token):
+        if default_token_generator.check_token(user, activation_request.token.token):
             user.is_staff = True
             user.save()
             activation_request.deactivate()
