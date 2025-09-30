@@ -3,12 +3,15 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from django.utils import timezone
+
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.views import APIView
-from utils.reset import generate_reset_token, send_reset_email
+
 from utils.mask_email import mask_email
+
+from .utils import generate_reset_token, send_reset_email
 from .serializers import ForgotPasswordSerializer
 from .models import PasswordResetRequest
 
@@ -85,7 +88,9 @@ class ResetPasswordView(APIView):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response({"detail": "User tidak valid"}, status=status.HTTP_400_BAD_REQUEST)
 
-        reset_request = PasswordResetRequest.objects.filter(user=user, uid=uid, token=token, is_active=True).first()
+        reset_request = PasswordResetRequest.objects.filter(
+            user=user, uid=uid, token__token=token, is_active=True
+            ).first()
         if not reset_request:
             return Response({"detail": "Link reset tidak valid atau sudah dipakai"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -110,7 +115,7 @@ class CheckResetPasswordView(APIView):
 
     def get(self, request, uid, token):
         reset_request = PasswordResetRequest.objects.filter(
-            uid=uid, token=token, is_active=True
+            uid=uid, token__token=token, is_active=True
         ).first()
 
         if not reset_request:

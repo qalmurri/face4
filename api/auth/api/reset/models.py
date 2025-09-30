@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 from core2.models import ValidityPeriod, Token
 
 class PasswordResetRequest(models.Model):

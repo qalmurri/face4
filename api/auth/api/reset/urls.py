@@ -1,4 +1,5 @@
 from django.urls import path
+
 from .views import ForgotPasswordCheckView, ForgotPasswordConfirmView, ResetPasswordView, CheckResetPasswordView
 
 urlpatterns = [

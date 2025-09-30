@@ -1,13 +1,13 @@
+from datetime import timedelta
+
+from django.utils import timezone
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
-from django.utils import timezone
-from datetime import timedelta
 
-from verification.models import StaffActivationRequest
+from .models import StaffActivationRequest
 from core2.models import ValidityPeriod, Token
-
 
 def send_staff_activation_email(user, frontend_url="http://localhost:5173"):
     """Send staff activation email"""

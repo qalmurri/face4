@@ -2,12 +2,13 @@ from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.models import User
+
+from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
-from utils.staff import send_staff_activation_email
+
+from .utils import send_staff_activation_email
 from .models import StaffActivationRequest
-from core2.models import Token
 
 class StaffActivationConfirmView(APIView):
     def post(self, request, uid, token):

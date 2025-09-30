@@ -1,4 +1,5 @@
 from django.urls import path
+
 from verification.views import StaffActivationConfirmView, StaffActivationRequestView
 
 urlpatterns = [
