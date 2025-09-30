@@ -50,6 +50,9 @@ class StaffActivationRequest(models.Model):
 Database mengikuti Default
 ```
 ### App Core2
+```
+App ini kurang lebih sebagai Helper untuk yang lain, seperti penambahan models untuk global. Jadi, untuk API dari App ini tidak ada untuk saat ini.
+```
 ```Python
 class ValidityPeriod(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
