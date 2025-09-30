@@ -1,28 +1,28 @@
 > pip install django djangorestframework djangorestframework-simplejwt django-cors-headers django-filter markdown psycopg2-binary
 
-# API Register & Login
+# API App Authentication
 ```
-localhost/register/
-localhost/token/
-localhost/token/refresh/
-```
-
-# API Reset Password
-```
-localhost/forgot/check/
-localhost/forgot/confirm/
-localhost/reset/
-localhost/reset/check/uid/token/
+1. register/
+2. token/
+3. token/refresh/
 ```
 
-# API Verifikasi Email
+# API App Reset
 ```
-localhost/request-staff/
-localhost/activate-staff/uid/token/
+1. forgot/check/
+2. forgot/confirm/
+3. reset/
+4. reset/check/uid/token/
 ```
 
-# API Edit Settings
+# API App Verification
 ```
-localhost/auth/me/
-localhost/auth/update/
+1. request-staff/
+2. activate-staff/uid/token/
+```
+
+# API App Accounts
+```
+1. auth/me/
+2. auth/update/
 ```
