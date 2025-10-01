@@ -10,10 +10,17 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from utils.mask import mask_email
-from .verification import send_staff_activation_email
-from .reset import generate_reset_token, send_reset_email
+from .utils import generate_reset_token, send_reset_email, send_staff_activation_email
 from .serializers import ForgotPasswordSerializer
-from .models import PasswordResetRequest, StaffActivationRequest
+from .models import PasswordReset, StaffActivation
+
+
+#██╗░░░██╗███████╗██████╗░██╗███████╗██╗░█████╗░░█████╗░████████╗██╗░█████╗░███╗░░██╗
+#██║░░░██║██╔════╝██╔══██╗██║██╔════╝██║██╔══██╗██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
+#╚██╗░██╔╝█████╗░░██████╔╝██║█████╗░░██║██║░░╚═╝███████║░░░██║░░░██║██║░░██║██╔██╗██║
+#░╚████╔╝░██╔══╝░░██╔══██╗██║██╔══╝░░██║██║░░██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
+#░░╚██╔╝░░███████╗██║░░██║██║██║░░░░░██║╚█████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
+#░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
 
 
 class StaffActivationConfirmView(APIView):
@@ -24,7 +31,7 @@ class StaffActivationConfirmView(APIView):
         except Exception:
             return Response({"detail": "Invalid link"}, status=status.HTTP_400_BAD_REQUEST)
 
-        activation_request = StaffActivationRequest.objects.filter(
+        activation_request = StaffActivation.objects.filter(
             user=user, uid=uid, token__token=token, is_active=True
         ).first()
 
@@ -61,7 +68,15 @@ class StaffActivationRequestView(APIView):
             "email": user.email,
             "debug_link": link  # opsional, untuk debug (hapus di production)
         })
-############
+
+
+#██████╗░███████╗░██████╗███████╗████████╗
+#██╔══██╗██╔════╝██╔════╝██╔════╝╚══██╔══╝
+#██████╔╝█████╗░░╚█████╗░█████╗░░░░░██║░░░
+#██╔══██╗██╔══╝░░░╚═══██╗██╔══╝░░░░░██║░░░
+#██║░░██║███████╗██████╔╝███████╗░░░██║░░░
+#╚═╝░░╚═╝╚══════╝╚═════╝░╚══════╝░░░╚═╝░░░
+
 
 class ForgotPasswordCheckView(APIView):
     permission_classes = [AllowAny]
@@ -83,7 +98,7 @@ class ForgotPasswordCheckView(APIView):
 
             # ambil request terakhir
             last_req = (
-                PasswordResetRequest.objects.filter(user=user)
+                PasswordReset.objects.filter(user=user)
                 .order_by("-meta__created_at")  # pakai kolom di RequestMeta
                 .first()
             )
@@ -136,7 +151,7 @@ class ResetPasswordView(APIView):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response({"detail": "User tidak valid"}, status=status.HTTP_400_BAD_REQUEST)
 
-        reset_request = PasswordResetRequest.objects.filter(
+        reset_request = PasswordReset.objects.filter(
             user=user, uid=uid, token__token=token, is_active=True
             ).first()
         if not reset_request:
@@ -163,7 +178,7 @@ class CheckResetPasswordView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, uid, token):
-        reset_request = PasswordResetRequest.objects.filter(
+        reset_request = PasswordReset.objects.filter(
             uid=uid, token__token=token, is_active=True
         ).first()
 

@@ -3,7 +3,16 @@ from django.contrib.auth.models import User
 
 from core2.models import ValidityPeriod, Token
 
-class StaffActivationRequest(models.Model):
+
+#██╗░░░██╗███████╗██████╗░██╗███████╗██╗░█████╗░░█████╗░████████╗██╗░█████╗░███╗░░██╗
+#██║░░░██║██╔════╝██╔══██╗██║██╔════╝██║██╔══██╗██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
+#╚██╗░██╔╝█████╗░░██████╔╝██║█████╗░░██║██║░░╚═╝███████║░░░██║░░░██║██║░░██║██╔██╗██║
+#░╚████╔╝░██╔══╝░░██╔══██╗██║██╔══╝░░██║██║░░██╗██╔══██║░░░██║░░░██║██║░░██║██║╚████║
+#░░╚██╔╝░░███████╗██║░░██║██║██║░░░░░██║╚█████╔╝██║░░██║░░░██║░░░██║╚█████╔╝██║░╚███║
+#░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
+
+
+class StaffActivation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     uid = models.CharField(max_length=255)
     token = models.OneToOneField(Token, on_delete=models.CASCADE)
@@ -14,7 +23,19 @@ class StaffActivationRequest(models.Model):
         self.is_active = False
         self.save()
 
-class PasswordResetRequest(models.Model):
+    class Meta:
+        db_table = "request_staff_activation"
+
+
+#██████╗░███████╗░██████╗███████╗████████╗
+#██╔══██╗██╔════╝██╔════╝██╔════╝╚══██╔══╝
+#██████╔╝█████╗░░╚█████╗░█████╗░░░░░██║░░░
+#██╔══██╗██╔══╝░░░╚═══██╗██╔══╝░░░░░██║░░░
+#██║░░██║███████╗██████╔╝███████╗░░░██║░░░
+#╚═╝░░╚═╝╚══════╝╚═════╝░╚══════╝░░░╚═╝░░░
+
+
+class PasswordReset(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     uid = models.CharField(max_length=255)
     token = models.OneToOneField(Token, on_delete=models.CASCADE)
@@ -24,3 +45,6 @@ class PasswordResetRequest(models.Model):
     def deactivate(self):
         self.is_active = False
         self.save()
+
+    class Meta:
+        db_table = "request_password_reset"
