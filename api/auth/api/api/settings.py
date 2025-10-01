@@ -75,5 +75,6 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = "Asia/Jakarta"
 USE_I18N = True
 USE_TZ = True
+AUTH_USER_MODEL = "authentication.User"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

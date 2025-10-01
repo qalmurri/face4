@@ -99,40 +99,10 @@ for %%F in (*) do (
     )
 )
 cd "..\..\"
-cd "reset\__pycache__"
+cd "request\__pycache__"
 dir /b | findstr "." >nul
 if %errorlevel%==0 (
-    echo "reset\__pycache__" Found.
-    dir
-    del /f /q *.*
-    echo Successfully deleted
-) else (
-    echo No file
-)
-cd "..\migrations\__pycache__"
-dir /b | findstr "." >nul
-if %errorlevel%==0 (
-    echo "..\migrations\__pycache__" Found.
-    dir
-    del /f /q *.*
-    echo Successfully deleted
-) else (
-    echo No file
-)
-cd "..\"
-for %%F in (*) do (
-    if /I NOT "%%F"=="__init__.py" (
-        if NOT "%%~xF"=="" (
-            echo Delete: %%F
-            del "%%F"
-        )
-    )
-)
-cd "..\..\"
-cd "verification\__pycache__"
-dir /b | findstr "." >nul
-if %errorlevel%==0 (
-    echo "verification\__pycache__" Found.
+    echo "request\__pycache__" Found.
     dir
     del /f /q *.*
     echo Successfully deleted
