@@ -16,9 +16,9 @@ INSTALLED_APPS = [
 
     'core2',
     'authentication',
-    'reset',
+
     'accounts',
-    'verification'
+    'request'
 ]
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
