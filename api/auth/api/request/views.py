@@ -45,9 +45,12 @@ class StaffActivationConfirmView(APIView):
             return Response({"detail": "Link expired"}, status=status.HTTP_400_BAD_REQUEST)
 
         if default_token_generator.check_token(user, activation_request.token.token):
-            user.is_staff = True
+            
+            user.is_verified = True
             user.save()
+
             activation_request.deactivate()
+            
             return Response({"detail": "Staff mode activated"})
         
         activation_request.deactivate()
