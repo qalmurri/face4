@@ -1,12 +1,17 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from accounts.models import Profile
+from django.utils import timezone
 
 class User(AbstractUser):
     first_name = None
     last_name = None
     date_joined = None
     last_login = None
-    is_verified = models.BooleanField(default=False)
-    profile = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True, blank=True)
 
+class Verified(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="verified")
+    number = models.CharField(max_length=255)
+    created_at = models.DateTimeField(default=timezone.now)
+    
+    class Meta:
+        db_table = "authentication_user_verified"

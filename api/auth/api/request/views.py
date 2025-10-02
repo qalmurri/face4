@@ -14,6 +14,7 @@ from utils.mask import mask_email
 from .utils import generate_reset_token, send_reset_email, send_staff_activation_email
 from .serializers import ForgotPasswordSerializer
 from .models import PasswordReset, StaffActivation
+from authentication.models import Verified
 
 
 #██╗░░░██╗███████╗██████╗░██╗███████╗██╗░█████╗░░█████╗░████████╗██╗░█████╗░███╗░░██╗
@@ -46,8 +47,11 @@ class StaffActivationConfirmView(APIView):
 
         if default_token_generator.check_token(user, activation_request.token.token):
             
-            user.is_verified = True
-            user.save()
+            verified, created = Verified.objects.get_or_create(user=user, number=123456)
+            if created:
+                print("Record Verified baru berhasil dibuat")
+            else:
+                print("Record Verified sudah ada")
 
             activation_request.deactivate()
             
