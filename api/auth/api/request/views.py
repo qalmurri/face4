@@ -47,11 +47,13 @@ class StaffActivationConfirmView(APIView):
 
         if default_token_generator.check_token(user, activation_request.token.token):
             
-            verified, created = Verified.objects.get_or_create(user=user, number=123456)
-            if created:
-                print("Record Verified baru berhasil dibuat")
-            else:
-                print("Record Verified sudah ada")
+            #verified, created = Verified.objects.get_or_create(user=user, number=123456)
+            #if created:
+            #    print("Record Verified baru berhasil dibuat")
+            #else:
+            #    print("Record Verified sudah ada")
+            user.is_verified=True
+            user.save()
 
             activation_request.deactivate()
             

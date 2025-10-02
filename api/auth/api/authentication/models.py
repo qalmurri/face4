@@ -7,6 +7,7 @@ class User(AbstractUser):
     last_name = None
     date_joined = None
     last_login = None
+    is_verified = models.BooleanField(default=False)
 
 class Verified(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="verified")
