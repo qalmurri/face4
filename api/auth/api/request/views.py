@@ -12,7 +12,7 @@ from rest_framework.permissions import AllowAny
 from utils.mask import mask_email
 from .utils import generate_reset_token, send_reset_email, send_email_verification
 from .serializers import ForgotPasswordSerializer
-from .models import PasswordReset, EmailVerifiedRequest
+from .models import VerifiedRequest
 from authentication.models import Verified
 
 User = get_user_model()
@@ -55,7 +55,7 @@ class EmailVerificationConfirmView(APIView):
         except Exception:
             return Response({"detail": "Invalid link"}, status=status.HTTP_400_BAD_REQUEST)
 
-        activation_request = EmailVerifiedRequest.objects.filter(
+        activation_request = VerifiedRequest.objects.filter(
             user=user,
             uid=uid,
             token__token=token,
@@ -115,7 +115,7 @@ class ForgotPasswordCheckView(APIView):
 
             # ambil request terakhir
             last_req = (
-                PasswordReset.objects.filter(user=user)
+                VerifiedRequest.objects.filter(user=user)
                 .order_by("-meta__created_at")  # pakai kolom di RequestMeta
                 .first()
             )
@@ -168,7 +168,7 @@ class ResetPasswordView(APIView):
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             return Response({"detail": "User tidak valid"}, status=status.HTTP_400_BAD_REQUEST)
 
-        reset_request = PasswordReset.objects.filter(
+        reset_request = VerifiedRequest.objects.filter(
             user=user, uid=uid, token__token=token, is_active=True
             ).first()
         if not reset_request:
@@ -195,7 +195,7 @@ class CheckResetPasswordView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request, uid, token):
-        reset_request = PasswordReset.objects.filter(
+        reset_request = VerifiedRequest.objects.filter(
             uid=uid, token__token=token, is_active=True
         ).first()
 

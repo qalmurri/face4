@@ -6,8 +6,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 
-from .models import PasswordReset, EmailVerifiedRequest
-from core2.models import ValidityPeriod, Token
+from .models import VerifiedRequest, ValidityPeriod, Token
 
 
 #██╗░░░██╗███████╗██████╗░██╗███████╗██╗░█████╗░░█████╗░████████╗██╗░█████╗░███╗░░██╗
@@ -31,7 +30,7 @@ def send_email_verification(user, frontend_url="http://localhost:5173"):
     token_obj = Token.objects.create(token=raw_token)
 
     #simpan StaffActivationRequest dengan relasi ke meta
-    EmailVerifiedRequest.objects.create(
+    VerifiedRequest.objects.create(
         user=user,
         uid=uid,
         token=token_obj,
@@ -50,14 +49,6 @@ def send_email_verification(user, frontend_url="http://localhost:5173"):
     return link
 
 
-#██████╗░███████╗░██████╗███████╗████████╗
-#██╔══██╗██╔════╝██╔════╝██╔════╝╚══██╔══╝
-#██████╔╝█████╗░░╚█████╗░█████╗░░░░░██║░░░
-#██╔══██╗██╔══╝░░░╚═══██╗██╔══╝░░░░░██║░░░
-#██║░░██║███████╗██████╔╝███████╗░░░██║░░░
-#╚═╝░░╚═╝╚══════╝╚═════╝░╚══════╝░░░╚═╝░░░
-
-
 def generate_reset_token(user, expire_hours=0.1):
     """Generate uid, token, and save request"""
     uid = urlsafe_base64_encode(force_bytes(user.pk))
@@ -72,7 +63,7 @@ def generate_reset_token(user, expire_hours=0.1):
     token_obj = Token.objects.create(token=raw_token)
 
     # simpan request reset dengan relasi ke meta
-    PasswordReset.objects.create(
+    VerifiedRequest.objects.create(
         user=user,
         uid=uid,
         token=token_obj,
