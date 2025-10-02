@@ -12,6 +12,7 @@ class ValidityPeriod(models.Model):
     def __str__(self):
         return f"Meta(created={self.created_at}, expired={self.expired_at})"
 
+
 class Token(models.Model):
     token = models.CharField(max_length=255, unique=True)
 

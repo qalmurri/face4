@@ -9,6 +9,7 @@ def mask_email(v: str) -> str:
     except Exception:
         return v
     
+
 def mask_phone(v: str) -> str:
     try:
         v = v.replace(" ", "")
@@ -22,6 +23,7 @@ def mask_phone(v: str) -> str:
     except Exception:
         return v
     
+
 def mask_id_card(v: str) -> str:
     try:
         if len(v) <= 6:
@@ -30,6 +32,7 @@ def mask_id_card(v: str) -> str:
     except Exception:
         return v
     
+
 def mask_card_number(v: str) -> str:
     try:
         d = v.replace(" ", "")
@@ -39,6 +42,7 @@ def mask_card_number(v: str) -> str:
     except Exception:
         return v
     
+
 def mask_bank_account(v: str) -> str:
     try:
         if len(v) <= 4:
@@ -46,6 +50,7 @@ def mask_bank_account(v: str) -> str:
         return "*" * (len(v) - 4) + v[-4:]
     except Exception:
         return v
+
 
 def mask_address(v: str) -> str:
     try:
@@ -58,11 +63,13 @@ def mask_address(v: str) -> str:
     except Exception:
         return v
 
+
 def mask_birthdate(v: str) -> str:
     try:
         return v[:4] + "-**-**"
     except Exception:
         return v
+
 
 def mask_name(v: str) -> str:
     try:

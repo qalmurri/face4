@@ -12,6 +12,7 @@ class Profile(models.Model):
     class Meta:
         db_table = "authentication_user_profile"
 
+
 class Verified(models.Model):
     type = models.IntegerField(choices=((0, "Email"),(1, "Phone")))
     number = models.IntegerField(max_length=255)
@@ -19,6 +20,7 @@ class Verified(models.Model):
     
     class Meta:
         db_table = "authentication_user_verified"
+
 
 class User(AbstractUser):
     first_name = None

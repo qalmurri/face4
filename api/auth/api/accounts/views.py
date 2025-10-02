@@ -10,6 +10,7 @@ class UserMeView(generics.RetrieveAPIView):
     def get_object(self):
         return self.request.user
 
+
 class UserUpdateView(generics.UpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
