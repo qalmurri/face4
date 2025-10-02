@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-User = get_user_model()
 
 from core2.models import ValidityPeriod, Token
+
+User = get_user_model()
 
 
 #██╗░░░██╗███████╗██████╗░██╗███████╗██╗░█████╗░░█████╗░████████╗██╗░█████╗░███╗░░██╗

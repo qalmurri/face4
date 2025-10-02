@@ -39,7 +39,6 @@ def send_email_verification(user, frontend_url="http://localhost:5173"):
         meta=meta,
     )
 
-    #kirim email
     link = f"{frontend_url}/activate-staff/{uid}/{raw_token}/"
     send_mail(
         subject="Staff Activation",
@@ -47,6 +46,7 @@ def send_email_verification(user, frontend_url="http://localhost:5173"):
         from_email="noreply@example.com",
         recipient_list=[user.email],
     )
+
     return link
 
 

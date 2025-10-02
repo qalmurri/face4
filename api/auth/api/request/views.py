@@ -3,7 +3,6 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
-User = get_user_model()
 
 from rest_framework import status, permissions
 from rest_framework.views import APIView
@@ -16,6 +15,8 @@ from .serializers import ForgotPasswordSerializer
 from .models import PasswordReset, EmailVerifiedRequest
 from authentication.models import Verified
 
+User = get_user_model()
+
 
 #██╗░░░██╗███████╗██████╗░██╗███████╗██╗░█████╗░░█████╗░████████╗██╗░█████╗░███╗░░██╗
 #██║░░░██║██╔════╝██╔══██╗██║██╔════╝██║██╔══██╗██╔══██╗╚══██╔══╝██║██╔══██╗████╗░██║
@@ -25,22 +26,49 @@ from authentication.models import Verified
 #░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
 
 
+class EmailVerificationRequestView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        if not user.email:
+            return Response(
+                {"detail": "Email tidak tersedia"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        link = send_email_verification(user)
+
+        return Response({
+            "detail": "Email aktivasi staff telah dikirim",
+            "email": user.email,
+            "debug_link": link  #Opsional, untuk debug (hapus di production)
+        })
+    
+
 class EmailVerificationConfirmView(APIView):
     def post(self, request, uid, token):
         try:
             uid_decoded = urlsafe_base64_decode(uid).decode()
             user = User.objects.get(pk=uid_decoded)
+
         except Exception:
             return Response({"detail": "Invalid link"}, status=status.HTTP_400_BAD_REQUEST)
 
         activation_request = EmailVerifiedRequest.objects.filter(
-            user=user, uid=uid, token__token=token, is_active=True
+            user=user,
+            uid=uid,
+            token__token=token,
+            is_active=True
         ).first()
 
         if not activation_request:
-            return Response({"detail": "Invalid or expired request"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"detail": "Invalid or expired request"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
-        # ✅ expired_at tetap bisa dipakai
+        #Expired_at tetap bisa dipakai
         if activation_request.meta.expired_at and activation_request.meta.expired_at < timezone.now():
             activation_request.deactivate()
             return Response({"detail": "Link expired"}, status=status.HTTP_400_BAD_REQUEST)
@@ -48,10 +76,7 @@ class EmailVerificationConfirmView(APIView):
         if default_token_generator.check_token(user, activation_request.token.token):
             verified, created = Verified.objects.get_or_create(
                 id=user.is_verified_id,
-                defaults={
-                    "number": 123456,
-                    "type": 0
-                }
+                defaults={"number": 123456,"type": 0}
             )
 
             if not user.is_verified:
@@ -60,23 +85,6 @@ class EmailVerificationConfirmView(APIView):
         
         activation_request.deactivate()
         return Response({"detail": "Verified dibuat"} if created else {"detail": "Sudah verified"}, status=status.HTTP_200_OK)
-
-
-class EmailVerificationRequestView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
-
-    def post(self, request):
-        user = request.user
-        if not user.email:
-            return Response({"detail": "Email tidak tersedia"}, status=status.HTTP_400_BAD_REQUEST)
-
-        link = send_email_verification(user)
-
-        return Response({
-            "detail": "Email aktivasi staff telah dikirim",
-            "email": user.email,
-            "debug_link": link  # opsional, untuk debug (hapus di production)
-        })
 
 
 #██████╗░███████╗░██████╗███████╗████████╗
