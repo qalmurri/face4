@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
 
-from .models import PasswordReset, StaffActivation
+from .models import PasswordReset, EmailVerifiedRequest
 from core2.models import ValidityPeriod, Token
 
 
@@ -18,21 +18,20 @@ from core2.models import ValidityPeriod, Token
 #░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
 
 
-def send_staff_activation_email(user, frontend_url="http://localhost:5173"):
-    """Send staff activation email"""
+def send_email_verification(user, frontend_url="http://localhost:5173"):
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     raw_token = default_token_generator.make_token(user)
 
-    # 🔹 bikin ValidityPeriod
+    #bikin ValidityPeriod
     meta = ValidityPeriod.objects.create(
         expired_at=timezone.now() + timedelta(hours=1)
     )
 
-    # 🔹 simpan Token ke tabel khusus
+    #simpan Token ke tabel khusus
     token_obj = Token.objects.create(token=raw_token)
 
-    # 🔹 simpan StaffActivationRequest dengan relasi ke meta
-    StaffActivation.objects.create(
+    #simpan StaffActivationRequest dengan relasi ke meta
+    EmailVerifiedRequest.objects.create(
         user=user,
         uid=uid,
         token=token_obj,
@@ -40,7 +39,7 @@ def send_staff_activation_email(user, frontend_url="http://localhost:5173"):
         meta=meta,
     )
 
-    # 🔹 kirim email
+    #kirim email
     link = f"{frontend_url}/activate-staff/{uid}/{raw_token}/"
     send_mail(
         subject="Staff Activation",

@@ -13,7 +13,7 @@ from core2.models import ValidityPeriod, Token
 #░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
 
 
-class StaffActivation(models.Model):
+class EmailVerifiedRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     uid = models.CharField(max_length=255)
     token = models.OneToOneField(Token, on_delete=models.CASCADE)
@@ -25,7 +25,7 @@ class StaffActivation(models.Model):
         self.save()
 
     class Meta:
-        db_table = "request_staff_activation"
+        db_table = "request_email_activation"
 
 
 #██████╗░███████╗░██████╗███████╗████████╗

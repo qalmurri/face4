@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import StaffActivationConfirmView, StaffActivationRequestView, ForgotPasswordCheckView, ForgotPasswordConfirmView, ResetPasswordView, CheckResetPasswordView
+from .views import EmailVerificationConfirmView, EmailVerificationRequestView, ForgotPasswordCheckView, ForgotPasswordConfirmView, ResetPasswordView, CheckResetPasswordView
 
 
 urlpatterns = [
@@ -14,8 +14,8 @@ urlpatterns = [
 #░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
 
 
-    path("request-staff/", StaffActivationRequestView.as_view(), name="staff-activation-request"),
-    path("activate-staff/<uid>/<token>/", StaffActivationConfirmView.as_view(), name="staff-activation-confirm"),
+    path("request-staff/", EmailVerificationRequestView.as_view(), name="staff-activation-request"),
+    path("activate-staff/<uid>/<token>/", EmailVerificationConfirmView.as_view(), name="Email-verification-confirm"),
 
 
 #██████╗░███████╗░██████╗███████╗████████╗

@@ -11,9 +11,9 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
 from utils.mask import mask_email
-from .utils import generate_reset_token, send_reset_email, send_staff_activation_email
+from .utils import generate_reset_token, send_reset_email, send_email_verification
 from .serializers import ForgotPasswordSerializer
-from .models import PasswordReset, StaffActivation
+from .models import PasswordReset, EmailVerifiedRequest
 from authentication.models import Verified
 
 
@@ -25,7 +25,7 @@ from authentication.models import Verified
 #░░░╚═╝░░░╚══════╝╚═╝░░╚═╝╚═╝╚═╝░░░░░╚═╝░╚════╝░╚═╝░░╚═╝░░░╚═╝░░░╚═╝░╚════╝░╚═╝░░╚══╝
 
 
-class StaffActivationConfirmView(APIView):
+class EmailVerificationConfirmView(APIView):
     def post(self, request, uid, token):
         try:
             uid_decoded = urlsafe_base64_decode(uid).decode()
@@ -33,7 +33,7 @@ class StaffActivationConfirmView(APIView):
         except Exception:
             return Response({"detail": "Invalid link"}, status=status.HTTP_400_BAD_REQUEST)
 
-        activation_request = StaffActivation.objects.filter(
+        activation_request = EmailVerifiedRequest.objects.filter(
             user=user, uid=uid, token__token=token, is_active=True
         ).first()
 
@@ -46,32 +46,31 @@ class StaffActivationConfirmView(APIView):
             return Response({"detail": "Link expired"}, status=status.HTTP_400_BAD_REQUEST)
 
         if default_token_generator.check_token(user, activation_request.token.token):
-            
-            #verified, created = Verified.objects.get_or_create(user=user, number=123456)
-            #if created:
-            #    print("Record Verified baru berhasil dibuat")
-            #else:
-            #    print("Record Verified sudah ada")
-            user.is_verified=True
-            user.save()
+            verified, created = Verified.objects.get_or_create(
+                id=user.is_verified_id,
+                defaults={
+                    "number": 123456,
+                    "type": 0
+                }
+            )
 
-            activation_request.deactivate()
-            
-            return Response({"detail": "Staff mode activated"})
+            if not user.is_verified:
+                user.is_verified = verified
+                user.save(update_fields=["is_verified"])
         
         activation_request.deactivate()
-        return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "Verified dibuat"} if created else {"detail": "Sudah verified"}, status=status.HTTP_200_OK)
 
 
-class StaffActivationRequestView(APIView):
-    permission_classes = [permissions.IsAuthenticated]  # harus login
+class EmailVerificationRequestView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request):
         user = request.user
         if not user.email:
             return Response({"detail": "Email tidak tersedia"}, status=status.HTTP_400_BAD_REQUEST)
 
-        link = send_staff_activation_email(user)
+        link = send_email_verification(user)
 
         return Response({
             "detail": "Email aktivasi staff telah dikirim",
