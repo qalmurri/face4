@@ -35,4 +35,4 @@ class VerifiedRequest(models.Model):
         self.save()
 
     class Meta:
-        db_table = "request_email_activation"
+        db_table = "request_verified"
