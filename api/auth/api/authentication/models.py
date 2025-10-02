@@ -29,3 +29,4 @@ class User(AbstractUser):
     last_login = None
     is_verified = models.OneToOneField(Verified, on_delete=models.SET_NULL, null=True, blank=True)
     is_profile = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True, blank=True)
+    #
