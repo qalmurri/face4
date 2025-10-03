@@ -59,7 +59,7 @@ def generate_reset_token(user, expire_hours=0.1):
         user=user,
         uid=uid,
         token=token_obj,
-        meta=meta,   # 🔹 assign meta
+        meta=meta,
     )
 
     return uid, raw_token

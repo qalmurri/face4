@@ -13,7 +13,10 @@ class Display(models.Model):
 
 
 class Phone(models.Model):
-    country = models.CharField(max_length=255)
     number = models.CharField(max_length=255)
+    created_at = models.DateTimeField(default=timezone.now)
 
-    
+
+class Preference(models.Model):
+    language = models.CharField(max_length=10)
+    created_at = models.DateTimeField(default=timezone.now)

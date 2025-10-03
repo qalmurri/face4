@@ -1,13 +1,15 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from accounts.models import Phone, Address, Display
+from django.contrib.auth.models import AbstractUser
+
+from accounts.models import Phone, Address, Display, Preference
 
 
 class Profile(models.Model):
     phone = models.OneToOneField(Phone, on_delete=models.SET_NULL, null=True, blank=True)
     address = models.OneToOneField(Address, on_delete=models.SET_NULL, null=True, blank=True)
     display = models.OneToOneField(Display, on_delete=models.SET_NULL, null=True, blank=True)
+    preference = models.OneToOneField(Preference, on_delete=models.SET_NULL, null=True, blank=True)
     
     class Meta:
         db_table = "accounts_profile"
