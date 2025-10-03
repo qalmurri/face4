@@ -28,6 +28,7 @@ def send_email_verification(user, frontend_url="http://localhost:5173"):
         token=token_obj,
         is_active=True,
         meta=meta,
+        type=0
     )
 
     link = f"{frontend_url}/activate-staff/{uid}/{raw_token}/"
@@ -60,6 +61,7 @@ def generate_reset_token(user, expire_hours=0.1):
         uid=uid,
         token=token_obj,
         meta=meta,
+        type=1
     )
 
     return uid, raw_token

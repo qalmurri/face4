@@ -29,6 +29,7 @@ class VerifiedRequest(models.Model):
     token = models.OneToOneField(Token, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     meta = models.OneToOneField(ValidityPeriod, on_delete=models.CASCADE)
+    type = models.IntegerField(choices=((0, "VerificationEmail"),(1, "ResetPassword"),(2, "VerificationNumber")))
 
     def deactivate(self):
         self.is_active = False
