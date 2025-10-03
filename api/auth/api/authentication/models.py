@@ -10,7 +10,7 @@ class Profile(models.Model):
     display = models.OneToOneField(Display, on_delete=models.SET_NULL, null=True, blank=True)
     
     class Meta:
-        db_table = "authentication_user_profile"
+        db_table = "accounts_profile"
 
 
 class Verified(models.Model):
@@ -19,7 +19,7 @@ class Verified(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     
     class Meta:
-        db_table = "authentication_user_verified"
+        db_table = "authentication_verified"
 
 
 class User(AbstractUser):
@@ -29,4 +29,3 @@ class User(AbstractUser):
     last_login = None
     is_verified = models.OneToOneField(Verified, on_delete=models.SET_NULL, null=True, blank=True)
     is_profile = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True, blank=True)
-    #
