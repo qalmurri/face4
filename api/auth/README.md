@@ -39,7 +39,7 @@ class User(AbstractUser):
     is_profile = models.OneToOneField(Profile, on_delete=models.SET_NULL, null=True, blank=True)
 ```
 ### App Accounts
-```
+```python
 path("me/", UserMeView.as_view(), name="user-me"),
 path("update/", UserUpdateView.as_view(), name="user-update"),
 ```
