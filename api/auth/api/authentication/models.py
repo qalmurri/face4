@@ -17,7 +17,7 @@ class Profile(models.Model):
 
 class Verified(models.Model):
     type = models.IntegerField(choices=((0, "Email"),(1, "Phone")))
-    number = models.IntegerField(max_length=255)
+    number = models.IntegerField()
     created_at = models.DateTimeField(default=timezone.now)
     
     class Meta:
