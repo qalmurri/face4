@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../Services";
 import { useAuth } from "../../../../../contexts/AuthContext";
 import type { LoginResponse } from "../../../../../types/Apis/AuthTokenType";
-
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 
 interface LoginFormProps {
@@ -16,20 +14,18 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-
   const navigate = useNavigate();
   const { login } = useAuth();
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const data: LoginResponse = await loginUser(usernameOrEmail, password); // 🔑 typing aman
+      const data: LoginResponse = await loginUser(usernameOrEmail, password);
       console.log("Login success:", data);
 
-      login(data.access, data.refresh); // ✅ nggak perlu `as any` lagi
+      login(data.access, data.refresh);
 
       if (onSuccess) onSuccess();
       navigate("/", { replace: true });
@@ -45,31 +41,11 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
       {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <Label htmlFor="usernameOrEmail">Username atau Email</Label>
-        <Input
-          variant="primary"
-          type="text"
-          placeholder="Username atau Email"
-          value={usernameOrEmail}
-          onChange={(e) => setUsernameOrEmail(e.target.value)}
-        />
-
+        <Input variant="primary" type="text" placeholder="Username atau Email" value={usernameOrEmail} onChange={(e) => setUsernameOrEmail(e.target.value)} />
         <Label htmlFor="password">Password</Label>
-        <Input
-          variant="secondary"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        <GeneralButton type="submit" disabled={loading}>
-          {loading ? "Loading..." : "Masuk"}
-        </GeneralButton>
+        <Input variant="secondary" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <GeneralButton type="submit" disabled={loading}>{loading ? "Loading..." : "Masuk"}</GeneralButton>
       </form>
-
-      <p>
-        Belum punya akun? <Link to="/register">Daftar di sini</Link>
-      </p>
     </div>
   );
 }
