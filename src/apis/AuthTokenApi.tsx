@@ -1,12 +1,9 @@
 import axios from "axios";
-
 import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../services/AuthTokenService";
 
 const api = axios.create({
     baseURL: "http://127.0.0.1:8000/auth/",
-    headers: {
-        "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json", },
 });
 
 api.interceptors.request.use((config) => {

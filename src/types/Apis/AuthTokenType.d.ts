@@ -18,6 +18,10 @@ export interface RefreshTokenResponse {
   access: string;
 }
 
+export interface ForgotPasswordRequest {
+  identifier: string;
+}
+
 export interface AuthContextType {
   isAuthenticated: boolean;
   accessToken: string | null;
@@ -26,6 +30,3 @@ export interface AuthContextType {
   logout: () => void;
 }
 
-export interface ForgotPasswordRequest {
-  identifier: string;
-}
