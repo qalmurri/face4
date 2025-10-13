@@ -5,15 +5,15 @@ export const logoutRequest = async () => {
     const refresh = getRefreshToken();
     if (!refresh) throw new Error("No refresh roken");
 
-    return API.post("/logout/", { refresh });
+    return API.post("/auth/logout/", { refresh });
 }
 
 
 export const requestStaffActivation = async () => {
-    return API.post("/request-staff/");
+    return API.post("/req/request-staff/");
 };
 
 
 export const confirmStaffActivation = async (uid: string, token: string) => {
-    return API.post(`/activate-staff/${uid}/${token}/`);
+    return API.post(`/req/activate-staff/${uid}/${token}/`);
 };
