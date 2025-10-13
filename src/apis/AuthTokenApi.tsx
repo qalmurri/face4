@@ -6,6 +6,7 @@ const api = axios.create({
     headers: { "Content-Type": "application/json", },
 });
 
+// Request interceptor → selalu sisipkan access token
 api.interceptors.request.use((config) => {
     const token = getAccessToken();
     if (token) {
@@ -14,6 +15,7 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
+// Response interceptor → otomatif refresh token kalau expired
 api.interceptors.response.use(
     (response) => response,
     async (error) => {

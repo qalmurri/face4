@@ -7,12 +7,8 @@ import type { AuthContextType } from "../types/Apis/AuthTokenType";
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [accessToken, setAccessToken] = useState<string | null>(
-    getAccessToken()
-  );
-  const [refreshToken, setRefreshToken] = useState<string | null>(
-    getRefreshToken()
-  );
+  const [accessToken, setAccessToken] = useState<string | null>(getAccessToken());
+  const [refreshToken, setRefreshToken] = useState<string | null>(getRefreshToken());
 
   const isAuthenticated = !!accessToken;
 

@@ -1,4 +1,3 @@
-import SettingsForm from "./components/SettingsForm";
 import { usePageTitle } from "../../../hooks";
 
 export function SettingsPage() {
@@ -6,7 +5,7 @@ export function SettingsPage() {
 
   return (
     <div>
-      <SettingsForm />
+      <h1>Settings</h1>
     </div>
   );
 }

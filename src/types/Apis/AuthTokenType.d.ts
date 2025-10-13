@@ -29,4 +29,3 @@ export interface AuthContextType {
   login: (access: string, refresh: string) => void;
   logout: () => void;
 }
-
