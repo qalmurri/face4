@@ -1,14 +1,12 @@
 from django.utils import timezone
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
-from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
-
+from django.contrib.auth.tokens import default_token_generator
 from rest_framework import status, permissions
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
-
 from utils.mask import mask_email
 from .utils import generate_reset_token, send_reset_email, send_email_verification
 from .serializers import ForgotPasswordSerializer
