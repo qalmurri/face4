@@ -4,9 +4,10 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 
 from .serializers import RegisterSerializer, MyTokenObtainPairSerializer
 
@@ -40,9 +41,37 @@ class RegisterView(generics.CreateAPIView):
 class LogoutView(APIView):
     def post (self, request):
         try:
-            token = RefreshToken(request.data["refresh"])
+            refresh_token = request.data["refresh"]
+            token = RefreshToken(refresh_token)
             token.blacklist() #menonaktifkan token
             return Response({"detail": "Logout Succesfull"}, status=205)
         
         except Exception as e:
             return Response({"detail": "Invalid token"}, status=400)
+        
+
+class LogoutAllView(APIView):
+    permission_classes=[IsAuthenticated]
+
+    def post(self, request):
+        try:
+            user = request.user
+
+            #ambil semua outstanding token milik user
+            tokens = OutstandingToken.objects.filter(user=user)
+
+            #masukkan semuanya ke blacklist
+            for token in tokens:
+                try:
+                    BlacklistedToken.object.get_or_create(token=token)
+                except Exception:
+                    pass
+            return Response(
+                {"detail": "Logged out from all devices."},
+                status=status.HTTP_205_RESET_CONTENT,
+            )
+        except Exception as e:
+            return Response(
+                {"detail": "Error during logout all."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
