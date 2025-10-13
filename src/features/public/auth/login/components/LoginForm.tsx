@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../../../apis/authApi";
-import { useAuth } from "../../../../../contexts/AuthContext";
+import { useAuthStatus } from "../../../../../contexts/AuthStatusContext";
 import type { LoginResponse } from "../../../../../types/Apis/AuthTokenType";
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 
@@ -15,7 +15,7 @@ export default function LoginForm({ onSuccess }: LoginFormProps) {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login } = useAuthStatus();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");

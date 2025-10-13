@@ -1,5 +1,10 @@
 import API from "../services/axiosInstance";
-import type { RegisterRequest, LoginResponse, ForgotPasswordRequest } from "../types/Apis/AuthTokenType";
+import type {
+    RegisterRequest,
+    LoginResponse,
+    ForgotPasswordRequest
+} from "../types/Apis/AuthTokenType";
+
 import { getRefreshToken } from "../services/AuthTokenService";
 
 export const logoutRequest = async () => {
