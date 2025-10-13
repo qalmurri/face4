@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthStatus } from "../../contexts/AuthStatusContext";
+import { useAuthStatus } from "../../contexts/StatusContext";
 
 export function ProtectedRoute() {
   const { isAuthenticated } = useAuthStatus();

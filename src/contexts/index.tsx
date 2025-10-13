@@ -1,2 +1,2 @@
-export * from "./AuthTokenContext";
+export * from "./TokenContext";
 export * from "./ThemeContext";

@@ -1,4 +1,4 @@
-import { useAuthStatus } from "../../contexts/AuthStatusContext";
+import { useAuthStatus } from "../../contexts/StatusContext";
 import LandingPage from "../../features/public/landing/Landing";
 import DashboardPage from "../../features/private/dashboard/Dashboard";
 

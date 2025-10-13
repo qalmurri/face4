@@ -1,9 +1,15 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
-import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../services/AuthTokenService";
-import type { AuthTokenContextType } from "../types/Apis/AuthTokenType";
 
-const AuthTokenContext = createContext<AuthTokenContextType | undefined>(undefined);
+import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../services/AuthTokenService";
+import type { TokenContextType } from "../types/ContextsType";
+
+
+//▀█▀ █▀█ █▄▀ █▀▀ █▄░█   █▀▀ █▀█ █▄░█ ▀█▀ █▀▀ ▀▄▀ ▀█▀
+//░█░ █▄█ █░█ ██▄ █░▀█   █▄▄ █▄█ █░▀█ ░█░ ██▄ █░█ ░█░
+
+
+const AuthTokenContext = createContext<TokenContextType | undefined>(undefined);
 
 export function AuthTokenProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(getAccessToken());

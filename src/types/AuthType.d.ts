@@ -21,16 +21,3 @@ export interface RefreshTokenResponse {
 export interface ForgotPasswordRequest {
   identifier: string;
 }
-
-export interface AuthTokenContextType {
-  accessToken: string | null;
-  refreshToken: string | null;
-  setTokens: (access: string, refresh: string) => void;
-  clearTokensState: () => void;
-}
-
-export interface AuthStatusContextType {
-  isAuthenticated: boolean;
-  login: (access: string, refresh: string) => void;
-  logout: () => Promise<void>;
-}

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-import { useAuthStatus } from "../../../../contexts/AuthStatusContext";
+import { useAuthStatus } from "../../../../contexts/StatusContext";
 
 import { GeneralButton, Hyperlink } from "../../../atoms";
 import DropdownMenu from "../Dropdown";

@@ -3,9 +3,9 @@ import type {
     RegisterRequest,
     LoginResponse,
     ForgotPasswordRequest
-} from "../types/Apis/AuthTokenType";
-
+} from "../types/AuthType";
 import { getRefreshToken } from "../services/AuthTokenService";
+
 
 export const logoutRequest = async () => {
     const refresh = getRefreshToken();

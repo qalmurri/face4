@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import { registerUser } from "../../../../../apis/authApi";
-import { useAuthStatus } from "../../../../../contexts/AuthStatusContext";
-import type { RegisterRequest, LoginResponse } from "../../../../../types/Apis/AuthTokenType";
+import { useAuthStatus } from "../../../../../contexts/StatusContext";
+import type { RegisterRequest, LoginResponse } from "../../../../../types/AuthType";
 
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 

@@ -1,10 +1,16 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
-import { useAuthToken } from "./AuthTokenContext";
-import { logoutRequest } from "../apis/authApi";
-import type { AuthStatusContextType } from "../types/Apis/AuthTokenType";
 
-const AuthStatusContext = createContext<AuthStatusContextType | undefined>(undefined);
+import { logoutRequest } from "../apis/authApi";
+import { useAuthToken } from "./TokenContext";
+import type { StatusContextType } from "../types/ContextsType";
+
+
+//█▀ ▀█▀ ▄▀█ ▀█▀ █░█ █▀   █▀▀ █▀█ █▄░█ ▀█▀ █▀▀ ▀▄▀ ▀█▀
+//▄█ ░█░ █▀█ ░█░ █▄█ ▄█   █▄▄ █▄█ █░▀█ ░█░ ██▄ █░█ ░█░
+
+
+const AuthStatusContext = createContext<StatusContextType | undefined>(undefined);
 
 export function AuthStatusProvider({ children }: { children: ReactNode }) {
     const { accessToken, refreshToken, setTokens, clearTokensState } = useAuthToken();
