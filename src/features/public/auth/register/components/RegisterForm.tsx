@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { registerUser } from "../../Services";
+import { registerUser } from "../../../../../apis/authApi";
 import { useAuth } from "../../../../../contexts/AuthContext";
 import type { RegisterRequest, LoginResponse } from "../../../../../types/Apis/AuthTokenType";
 
