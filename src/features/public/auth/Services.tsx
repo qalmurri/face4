@@ -1,4 +1,4 @@
-import api from "../../../apis/AuthTokenApi";
+import api from "../../../services/axiosInstance";
 import type { RegisterRequest, LoginResponse, ForgotPasswordRequest } from "../../../types/Apis/AuthTokenType";
 
 export async function registerUser(

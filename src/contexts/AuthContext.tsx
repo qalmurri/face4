@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { saveTokens, getAccessToken, getRefreshToken, clearTokens } from "../services/AuthTokenService";
 import type { AuthContextType } from "../types/Apis/AuthTokenType";
+import { logoutRequest } from "../apis/authApi";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -18,10 +19,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRefreshToken(refresh);
   };
 
-  const logout = () => {
-    clearTokens();
-    setAccessToken(null);
-    setRefreshToken(null);
+  const logout = async () => {
+    try {
+      await logoutRequest();
+    } catch (err) {
+      console.error("logout request failed:", err);
+    } finally {
+      clearTokens();
+      setAccessToken(null);
+      setRefreshToken(null);
+    }
   };
 
   useEffect(() => {
