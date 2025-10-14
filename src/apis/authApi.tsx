@@ -1,27 +1,23 @@
-import API from "../services/axiosInstance";
-import type {
-    RegisterRequest,
-    LoginResponse,
-    ForgotPasswordRequest
-} from "../types/AuthType";
-import { getRefreshToken } from "../services/AuthTokenService";
+import authAPI from "../services/APIs/authAPI";
+import type { RegisterRequest, LoginResponse, ForgotPasswordRequest } from "../types/AuthType";
+import { getRefreshToken } from "../services/TokenService";
 
 
 export const logoutRequest = async () => {
     const refresh = getRefreshToken();
     if (!refresh) throw new Error("No refresh roken");
 
-    return API.post("/auth/logout/", { refresh });
+    return authAPI.post("/auth/logout/", { refresh });
 }
 
 
 export const requestStaffActivation = async () => {
-    return API.post("/req/request-staff/");
+    return authAPI.post("/req/request-staff/");
 };
 
 
 export const confirmStaffActivation = async (uid: string, token: string) => {
-    return API.post(`/req/activate-staff/${uid}/${token}/`);
+    return authAPI.post(`/req/activate-staff/${uid}/${token}/`);
 };
 
 
@@ -29,7 +25,7 @@ export async function registerUser(
     payload: RegisterRequest
 ): Promise<LoginResponse> {
     try {
-        const response = await API.post<LoginResponse>("/auth/register/", payload);
+        const response = await authAPI.post<LoginResponse>("/auth/register/", payload);
         return response.data;
     } catch (error: any) {
         if (error.response?.data) {
@@ -44,7 +40,7 @@ export async function loginUser(
     usernameOrEmail: string,
     password: string
 ): Promise<LoginResponse> {
-    const response = await API.post<LoginResponse>("/auth/token/", {
+    const response = await authAPI.post<LoginResponse>("/auth/token/", {
         username: usernameOrEmail,
         password,
     });
@@ -56,7 +52,7 @@ export async function forgotPasswordCheck(
     payload: ForgotPasswordRequest
 ): Promise<{ username: string; email: string; last_reset: string | null }> {
     try {
-        const response = await API.post("/req/forgot/check/", payload);
+        const response = await authAPI.post("/req/forgot/check/", payload);
         return response.data;
     } catch (error: any) {
         if (error.response?.data?.detail) {
@@ -72,7 +68,7 @@ export async function forgotPasswordConfirm(
     payload: ForgotPasswordRequest
 ): Promise<{ detail: string; email: string }> {
     try {
-        const response = await API.post("/req/forgot/confirm/", payload);
+        const response = await authAPI.post("/req/forgot/confirm/", payload);
         return response.data;
     } catch (error: any) {
         if (error.response?.data?.detail) {
@@ -89,7 +85,7 @@ export async function resetPassword(
     newPassword: string
 ): Promise<void> {
     try {
-        await API.post("/req/reset/", {
+        await authAPI.post("/req/reset/", {
             uid,
             token,
             new_password: newPassword,
@@ -108,7 +104,7 @@ export async function checkResetPassword(
     token: string
 ): Promise<boolean> {
     try {
-        const response = await API.get(`/req/reset/check/${uid}/${token}/`);
+        const response = await authAPI.get(`/req/reset/check/${uid}/${token}/`);
         return response.data.valid;
     } catch {
         return false;

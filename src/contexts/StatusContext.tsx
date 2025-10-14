@@ -1,7 +1,7 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-import { logoutRequest } from "../apis/authApi";
+import { logoutRequest } from "../APIs/authApi";
 import { useAuthToken } from "./TokenContext";
 import type { StatusContextType } from "../types/ContextsType";
 

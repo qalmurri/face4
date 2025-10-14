@@ -1,7 +1,7 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../services/AuthTokenService";
+import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../services/TokenService";
 import type { TokenContextType } from "../types/ContextsType";
 
 

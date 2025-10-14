@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { confirmStaffActivation } from "../../../../apis/authApi";
+import { confirmStaffActivation } from "../../../../APIs/authApi";
 
 const StaffActivationConfirm: React.FC = () => {
   const { uid, token } = useParams<{ uid: string; token: string }>();

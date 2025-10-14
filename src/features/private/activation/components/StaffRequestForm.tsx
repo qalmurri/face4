@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { requestStaffActivation } from "../../../../apis/authApi";
+import { requestStaffActivation } from "../../../../APIs/authApi";
 
 const RequestStaffActivation: React.FC = () => {
   const [loading, setLoading] = useState(false);
