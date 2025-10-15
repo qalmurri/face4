@@ -1,8 +1,8 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../services/TokenService";
-import type { TokenContextType } from "../types/ContextsType";
+import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../Services/APIs/Utilities/TokenService";
+import type { TokenContextType } from "../Types/ContextsType";
 
 
 //▀█▀ █▀█ █▄▀ █▀▀ █▄░█   █▀▀ █▀█ █▄░█ ▀█▀ █▀▀ ▀▄▀ ▀█▀

@@ -1,7 +1,7 @@
 import axios from "axios";
 import toast from "react-hot-toast";
-import { getAccessToken, clearTokens } from "../TokenService";
-import { validateToken, verifyTokenOnServer, refreshAccessToken } from "../authHelper";
+import { getAccessToken, clearTokens } from "./Utilities/TokenService";
+import { validateToken, verifyTokenOnServer, refreshAccessToken } from "./Utilities/authHelper";
 
 const authAPI = axios.create({
     baseURL: "http://127.0.0.1:8000/",

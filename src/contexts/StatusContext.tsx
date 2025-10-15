@@ -1,9 +1,9 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-import { logoutRequest } from "../APIs/authApi";
+import { logoutRequest } from "../Services/APIs/EndPoints/Auth";
 import { useAuthToken } from "./TokenContext";
-import type { StatusContextType } from "../types/ContextsType";
+import type { StatusContextType } from "../Types/ContextsType";
 
 
 //█▀ ▀█▀ ▄▀█ ▀█▀ █░█ █▀   █▀▀ █▀█ █▄░█ ▀█▀ █▀▀ ▀▄▀ ▀█▀

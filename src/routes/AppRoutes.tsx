@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { HomeRoute, PublicRoute, ProtectedRoute } from "./types";
+import { HomeRoute, PublicRoute, ProtectedRoute } from "./Types";
 import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../layouts";
 import { NotFoundPage } from "../pages";
-import { StaffActivationPage, LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../features/public";
-import { SettingsPage, StaffRequestPage } from "../features/private";
+import { StaffActivationPage, LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../Features/Public";
+import { SettingsPage, StaffRequestPage } from "../Features/Private";
 
 function AppContent() {
   return (

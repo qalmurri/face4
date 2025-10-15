@@ -1,2 +1,2 @@
 export { SettingsPage } from "./settings/SettingsPage"
-export { StaffRequestPage } from "./activation/StaffRequestPage";
+export { StaffRequestPage } from "./Activation/StaffRequestPage";

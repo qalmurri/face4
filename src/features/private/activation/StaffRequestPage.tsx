@@ -1,4 +1,4 @@
-import RequestStaffActivation from "./components/StaffRequestForm";
+import RequestStaffActivation from "./Components/StaffRequestForm";
 import { usePageTitle } from "../../../hooks";
 
 export function StaffRequestPage() {

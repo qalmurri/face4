@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../../../../APIs/authApi";
-import { useAuthStatus } from "../../../../../contexts/StatusContext";
-import type { LoginResponse } from "../../../../../types/AuthType";
+import { loginUser } from "../../../../../Services/APIs/EndPoints/Auth";
+import { useAuthStatus } from "../../../../../Contexts/StatusContext";
+import type { LoginResponse } from "../../../../../Types/AuthType";
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 
 interface LoginFormProps {

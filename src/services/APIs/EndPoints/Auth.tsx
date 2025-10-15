@@ -1,6 +1,6 @@
-import authAPI from "../services/APIs/authAPI";
-import type { RegisterRequest, LoginResponse, ForgotPasswordRequest } from "../types/AuthType";
-import { getRefreshToken } from "../services/TokenService";
+import authAPI from "../Auth";
+import type { RegisterRequest, LoginResponse, ForgotPasswordRequest } from "../../../Types/AuthType";
+import { getRefreshToken } from "../Utilities/TokenService";
 
 
 export const logoutRequest = async () => {

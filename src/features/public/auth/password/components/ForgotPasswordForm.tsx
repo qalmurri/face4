@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import type { ForgotPasswordRequest } from "../../../../../types/AuthType";
-import { forgotPasswordCheck, forgotPasswordConfirm } from "../../../../../APIs/authApi";
+import type { ForgotPasswordRequest } from "../../../../../Types/AuthType";
+import { forgotPasswordCheck, forgotPasswordConfirm } from "../../../../../Services/APIs/EndPoints/Auth";
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 
 export default function ForgotPasswordForm() {

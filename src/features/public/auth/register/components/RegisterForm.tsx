@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { registerUser } from "../../../../../APIs/authApi";
-import { useAuthStatus } from "../../../../../contexts/StatusContext";
-import type { RegisterRequest, LoginResponse } from "../../../../../types/AuthType";
+import { registerUser } from "../../../../../Services/APIs/EndPoints/Auth";
+import { useAuthStatus } from "../../../../../Contexts/StatusContext";
+import type { RegisterRequest, LoginResponse } from "../../../../../Types/AuthType";
 
 import { Input, Label, GeneralButton } from "../../../../../components/atoms";
 

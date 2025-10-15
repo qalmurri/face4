@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import PublicNavbar from "../components/organisms/PublicNavbar";
 import PrivateNavbar from "../components/organisms/PrivateNavbar";
 import Footer from "../components/organisms/Footer";
-import { useAuthStatus } from "../contexts/StatusContext";
+import { useAuthStatus } from "../Contexts/StatusContext";
 
 export function MainLayout() {
   const { isAuthenticated } = useAuthStatus();

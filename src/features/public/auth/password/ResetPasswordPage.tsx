@@ -1,5 +1,5 @@
 import { usePageTitle } from "../../../../hooks";
-import ResetPasswordForm from "./components/ResetPasswordForm";
+import ResetPasswordForm from "./Components/ResetPasswordForm";
 
 export function ResetPasswordPage() {
   usePageTitle("Reset Password");
