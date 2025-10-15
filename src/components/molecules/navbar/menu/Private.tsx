@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
-import { useAuthStatus } from "../../../../Contexts/StatusContext";
+import { useStatus } from "../../../../Contexts/StatusContext";
 
 import { GeneralButton, Hyperlink } from "../../../Atoms";
 import DropdownMenu from "../Dropdown";
 
 export default function Public() {
-  const { logout } = useAuthStatus();
+  const { logout } = useStatus();
   const navigate = useNavigate();
 
   const handleLogout = async () => {

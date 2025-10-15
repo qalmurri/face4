@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { registerUser } from "../../../../../Services/APIs/EndPoints/Auth";
-import { useAuthStatus } from "../../../../../Contexts/StatusContext";
+import { registerUser } from "../../../../../Services/APIs/EndPoints/Auth/Register";
+import { useStatus } from "../../../../../Contexts/StatusContext";
 import type { RegisterRequest, LoginResponse } from "../../../../../Types/AuthType";
 
 import { Input, Label, GeneralButton } from "../../../../../Components/Atoms";
@@ -22,7 +22,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
   const [error, setError] = useState<string>("");
 
   const navigate = useNavigate();
-  const { login } = useAuthStatus();
+  const { login } = useStatus();
 
   const handleChange = (key: keyof RegisterRequest, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }));

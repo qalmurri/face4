@@ -1,6 +1,6 @@
 // contoh
 
-import { useAuthToken } from "../Contexts/TokenContext";
+import { useToken } from "../Contexts/TokenContext";
 export function useAuthContext() {
-  return useAuthToken();
+  return useToken();
 }

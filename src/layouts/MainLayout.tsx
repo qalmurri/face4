@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import PublicNavbar from "../Components/Organisms/PublicNavbar";
 import PrivateNavbar from "../Components/Organisms/PrivateNavbar";
 import Footer from "../Components/Organisms/Footer";
-import { useAuthStatus } from "../Contexts/StatusContext";
+import { useStatus } from "../Contexts/StatusContext";
 
 export default function MainLayout() {
-  const { isAuthenticated } = useAuthStatus();
+  const { isAuthenticated } = useStatus();
 
   return (
     <>

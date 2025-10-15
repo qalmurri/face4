@@ -9,9 +9,9 @@ import type { TokenContextType } from "../Types/ContextsType";
 //░█░ █▄█ █░█ ██▄ █░▀█   █▄▄ █▄█ █░▀█ ░█░ ██▄ █░█ ░█░
 
 
-const AuthTokenContext = createContext<TokenContextType | undefined>(undefined);
+const TokenContext = createContext<TokenContextType | undefined>(undefined);
 
-export function AuthTokenProvider({ children }: { children: ReactNode }) {
+export function TokenProvider({ children }: { children: ReactNode }) {
   const [accessToken, setAccessToken] = useState<string | null>(getAccessToken());
   const [refreshToken, setRefreshToken] = useState<string | null>(getRefreshToken());
 
@@ -33,14 +33,14 @@ export function AuthTokenProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <AuthTokenContext.Provider value={{ accessToken, refreshToken, setTokens, clearTokensState }}>
+    <TokenContext.Provider value={{ accessToken, refreshToken, setTokens, clearTokensState }}>
       {children}
-    </AuthTokenContext.Provider>
+    </TokenContext.Provider>
   );
 }
 
-export function useAuthToken() {
-  const ctx = useContext(AuthTokenContext);
-  if (!ctx) throw new Error("useAuthToken must be used within AuthTokenProvider");
+export function useToken() {
+  const ctx = useContext(TokenContext);
+  if (!ctx) throw new Error("useToken must be used within TokenProvider");
   return ctx;
 }

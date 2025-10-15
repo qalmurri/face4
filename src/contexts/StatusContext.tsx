@@ -1,8 +1,8 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-import { logoutRequest } from "../Services/APIs/EndPoints/Auth";
-import { useAuthToken } from "./TokenContext";
+import { logoutRequest } from "../Services/APIs/EndPoints/Auth/Logout";
+import { useToken } from "./TokenContext";
 import type { StatusContextType } from "../Types/ContextsType";
 
 
@@ -10,10 +10,10 @@ import type { StatusContextType } from "../Types/ContextsType";
 //▄█ ░█░ █▀█ ░█░ █▄█ ▄█   █▄▄ █▄█ █░▀█ ░█░ ██▄ █░█ ░█░
 
 
-const AuthStatusContext = createContext<StatusContextType | undefined>(undefined);
+const StatusContext = createContext<StatusContextType | undefined>(undefined);
 
-export function AuthStatusProvider({ children }: { children: ReactNode }) {
-    const { accessToken, refreshToken, setTokens, clearTokensState } = useAuthToken();
+export function StatusProvider({ children }: { children: ReactNode }) {
+    const { accessToken, refreshToken, setTokens, clearTokensState } = useToken();
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!accessToken);
 
     const login = (access: string, refresh: string) => {
@@ -37,14 +37,14 @@ export function AuthStatusProvider({ children }: { children: ReactNode }) {
     }, [accessToken]);
 
     return (
-        <AuthStatusContext.Provider value={{ isAuthenticated, login, logout }}>
+        <StatusContext.Provider value={{ isAuthenticated, login, logout }}>
             {children}
-        </AuthStatusContext.Provider>
+        </StatusContext.Provider>
     );
 }
 
-export function useAuthStatus() {
-    const ctx = useContext(AuthStatusContext);
-    if (!ctx) throw new Error("useAuthStatus must be used within AuthStatusProvider");
+export function useStatus() {
+    const ctx = useContext(StatusContext);
+    if (!ctx) throw new Error("useStatus must be used within StatusProvider");
     return ctx;
 }

@@ -1,8 +1,8 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuthStatus } from "../../Contexts/StatusContext";
+import { useStatus } from "../../Contexts/StatusContext";
 
 export default function ProtectedRoute() {
-  const { isAuthenticated } = useAuthStatus();
+  const { isAuthenticated } = useStatus();
 
   if (!isAuthenticated) {
     // Kalau belum login → redirect ke login
