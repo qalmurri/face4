@@ -1,6 +1,6 @@
-import FooterLinks from "../molecules/footer/FooterLinks";
-import FooterSocials from "../molecules/footer/FooterSocials";
-import Text from "../atoms/typography/Text";
+import FooterLinks from "../Molecules/Footer/FooterLinks";
+import FooterSocials from "../Molecules/Footer/FooterSocials";
+import Text from "../Atoms/Typography/Text";
 
 export default function Footer() {
     return (

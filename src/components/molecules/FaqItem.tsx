@@ -1,5 +1,5 @@
-import {Heading} from "../atoms/typography/Heading";
-import Text from "../atoms/typography/Text";
+import {Heading} from "../Atoms/Typography/Heading";
+import Text from "../Atoms/Typography/Text";
 
 type FaqItemProps = {
     question: string;

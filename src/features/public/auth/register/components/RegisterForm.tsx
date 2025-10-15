@@ -5,7 +5,7 @@ import { registerUser } from "../../../../../Services/APIs/EndPoints/Auth";
 import { useAuthStatus } from "../../../../../Contexts/StatusContext";
 import type { RegisterRequest, LoginResponse } from "../../../../../Types/AuthType";
 
-import { Input, Label, GeneralButton } from "../../../../../components/atoms";
+import { Input, Label, GeneralButton } from "../../../../../Components/Atoms";
 
 interface RegisterFormProps {
   onSuccess?: () => void;

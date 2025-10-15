@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { HomeRoute, PublicRoute, ProtectedRoute } from "./Types";
-import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../layouts";
-import { NotFoundPage } from "../pages";
+import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../Layouts";
+import { NotFoundPage } from "../Pages";
 import { StaffActivationPage, LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../Features/Public";
 import { SettingsPage, StaffRequestPage } from "../Features/Private";
 

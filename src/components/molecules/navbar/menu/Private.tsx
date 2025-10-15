@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FaPlus } from "react-icons/fa";
 import { useAuthStatus } from "../../../../Contexts/StatusContext";
 
-import { GeneralButton, Hyperlink } from "../../../atoms";
+import { GeneralButton, Hyperlink } from "../../../Atoms";
 import DropdownMenu from "../Dropdown";
 
 export default function Public() {

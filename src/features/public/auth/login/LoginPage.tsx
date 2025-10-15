@@ -1,5 +1,5 @@
 import LoginForm from "./components/LoginForm";
-import { usePageTitle } from "../../../../hooks";
+import { usePageTitle } from "../../../../Hooks";
 
 export function LoginPage() {
   usePageTitle("Login")

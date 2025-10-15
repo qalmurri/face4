@@ -1,5 +1,5 @@
-import Menu from "../molecules/navbar/menu/Private";
-import Navbar from "../molecules/navbar/Navbar";
+import Menu from "../Molecules/Navbar/menu/Private";
+import Navbar from "../Molecules/Navbar/Navbar";
 
 export default function PublicNavbar() {
   return (

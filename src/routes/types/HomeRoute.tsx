@@ -1,6 +1,6 @@
 import { useAuthStatus } from "../../Contexts/StatusContext";
-import LandingPage from "../../Features/Public/landing/Landing";
-import DashboardPage from "../../Features/Private/dashboard/Dashboard";
+import LandingPage from "../../Features/Public/Landing/Landing";
+import DashboardPage from "../../Features/Private/Dashboard/Dashboard";
 
 export function HomeRoute() {
   const { isAuthenticated } = useAuthStatus();

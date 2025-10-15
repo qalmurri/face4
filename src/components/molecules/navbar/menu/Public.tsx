@@ -1,4 +1,4 @@
-import { GeneralButton, Hyperlink } from "../../../atoms";
+import { GeneralButton, Hyperlink } from "../../../Atoms";
 import DropdownMenu from "../Dropdown";
 import { FaPlus, FaArrowRight } from "react-icons/fa";
 

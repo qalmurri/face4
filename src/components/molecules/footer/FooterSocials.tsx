@@ -1,4 +1,4 @@
-import {Icon, Hyperlink} from "../../atoms";
+import {Icon, Hyperlink} from "../../Atoms";
 
 export default function FooterSocials() {
     return (

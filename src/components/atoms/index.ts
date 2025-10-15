@@ -1,17 +1,17 @@
-export { Brand } from "./brands/Brand";
+export { Brand } from "./Brands/Brand";
 
-export { GeneralButton } from "./buttons/GeneralButton";
-export { Hamburger } from "./buttons/Hamburger";
+export { GeneralButton } from "./Buttons/GeneralButton";
+export { Hamburger } from "./Buttons/Hamburger";
 
-export { Input } from "./forms/Input";
-export { Label } from "./forms/Label";
-export { TextArea } from "./forms/TextArea";
+export { Input } from "./Forms/Input";
+export { Label } from "./Forms/Label";
+export { TextArea } from "./Forms/TextArea";
 
-export { Icon } from "./icons/Icon";
+export { Icon } from "./Icons/Icon";
 
-export { DropdownItem } from "./links/DropdownItem";
-export { Hyperlink } from "./links/Hyperlink";
+export { DropdownItem } from "./Links/DropdownItem";
+export { Hyperlink } from "./Links/Hyperlink";
 
-export { Heading } from "./typography/Heading";
-export { LinkText } from "./typography/LinkText";
-export { Paragraph } from "./typography/Paragraph";
+export { Heading } from "./Typography/Heading";
+export { LinkText } from "./Typography/LinkText";
+export { Paragraph } from "./Typography/Paragraph";

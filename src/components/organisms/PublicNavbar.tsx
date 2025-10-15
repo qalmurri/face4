@@ -1,6 +1,6 @@
-import Menu from "../molecules/navbar/menu/Public";
-import Navbar from "../molecules/navbar/Navbar";
-import TopBanner from "../molecules/TopBanner";
+import Menu from "../Molecules/Navbar/menu/Public";
+import Navbar from "../Molecules/Navbar/Navbar";
+import TopBanner from "../Molecules/TopBanner";
 
 export default function PublicNavbar() {
   return (

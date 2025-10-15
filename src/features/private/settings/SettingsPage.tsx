@@ -1,4 +1,4 @@
-import { usePageTitle } from "../../../hooks";
+import { usePageTitle } from "../../../Hooks";
 
 export function SettingsPage() {
   usePageTitle("Settings")

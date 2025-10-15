@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 import type { ForgotPasswordRequest } from "../../../../../Types/AuthType";
 import { forgotPasswordCheck, forgotPasswordConfirm } from "../../../../../Services/APIs/EndPoints/Auth";
-import { Input, Label, GeneralButton } from "../../../../../components/atoms";
+import { Input, Label, GeneralButton } from "../../../../../Components/Atoms";
 
 export default function ForgotPasswordForm() {
   const [identifier, setIdentifier] = useState<string>("");

@@ -1,7 +1,7 @@
 export { MainLayout } from "./MainLayout";
 export { ProfileLayout } from "./ProfileLayout";
 
-export { RegisterLayout } from "./auth/RegisterLayout";
-export { LoginLayout } from "./auth/LoginLayout";
+export { RegisterLayout } from "./Auth/RegisterLayout";
+export { LoginLayout } from "./Auth/LoginLayout";
 
-export { NotFoundLayout } from "./error/NotFoundLayout";
+export { NotFoundLayout } from "./Error/NotFoundLayout";

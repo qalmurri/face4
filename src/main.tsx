@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 import { AuthTokenProvider } from "./Contexts/TokenContext.tsx";
 import { AuthStatusProvider } from "./Contexts/StatusContext.tsx";
-import ErrorBoundary from "./components/ErrorBoundary.tsx";
+import ErrorBoundary from "./Components/ErrorBoundary.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>

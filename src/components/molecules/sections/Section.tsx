@@ -1,4 +1,4 @@
-import {Heading, Paragraph} from "../../atoms";
+import {Heading, Paragraph} from "../../Atoms";
 
 type SectionProps = {
   title: string;

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../../../Services/APIs/EndPoints/Auth";
 import { useAuthStatus } from "../../../../../Contexts/StatusContext";
 import type { LoginResponse } from "../../../../../Types/AuthType";
-import { Input, Label, GeneralButton } from "../../../../../components/atoms";
+import { Input, Label, GeneralButton } from "../../../../../Components/Atoms";
 
 interface LoginFormProps {
   onSuccess?: () => void;
