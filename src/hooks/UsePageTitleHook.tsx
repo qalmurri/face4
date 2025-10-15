@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function usePageTitle(title: string) {
+export default function usePageTitle(title: string) {
   useEffect(() => {
     document.title = `${title} | Projek 2025`;
   }, [title]);

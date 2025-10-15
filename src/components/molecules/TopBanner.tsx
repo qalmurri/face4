@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
 
-import { useTimedVisibility } from "../../Hooks";
+import useTimedVisibility from "../../Hooks/UseTimedVisibilityHook";
 import { GeneralButton } from "../Atoms";
 
 interface TopBannerProps {

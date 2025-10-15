@@ -6,7 +6,7 @@ export async function loginUser(
     usernameOrEmail: string,
     password: string
 ): Promise<LoginResponse> {
-    const response = await API.post<LoginResponse>("/auth/token/", {
+    const response = await API.post<LoginResponse>("/auth/tok/", {
       username: usernameOrEmail,
       password,
     });

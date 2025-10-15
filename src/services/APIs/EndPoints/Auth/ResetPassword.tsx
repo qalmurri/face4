@@ -6,7 +6,7 @@ export async function resetPassword(
   newPassword: string
 ): Promise<void> {
   try {
-    await API.post("/req/reset/", {
+    await API.post("/req/res/", {
       uid,
       token,
       new_password: newPassword,
@@ -24,7 +24,7 @@ export async function checkResetPassword(
   token: string
 ): Promise<boolean> {
   try {
-    const response = await API.get(`/req/reset/check/${uid}/${token}/`);
+    const response = await API.get(`/req/res/check/${uid}/${token}/`);
     return response.data.valid;
   } catch {
     return false;

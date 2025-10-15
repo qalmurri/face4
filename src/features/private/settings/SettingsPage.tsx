@@ -1,4 +1,4 @@
-import { usePageTitle } from "../../../Hooks";
+import usePageTitle from "../../../Hooks/UsePageTitleHook";
 
 export default function SettingsPage() {
   usePageTitle("Settings")

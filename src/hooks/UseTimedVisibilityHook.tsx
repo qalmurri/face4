@@ -8,7 +8,7 @@ import { useState, useEffect } from "react";
  * @param durationInMs Durasi dalam milidetik setelah elemen kembali terlihat.
  * @returns [isVisible, handleClose]
  */
-export function useTimedVisibility(storageKey: string, durationInMs: number) {
+export default function useTimedVisibility(storageKey: string, durationInMs: number) {
     const [isVisible, setIsVisible] = useState<boolean | null>(null);
 
     useEffect(() => {

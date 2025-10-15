@@ -5,7 +5,7 @@ export async function registerUser(
   payload: RegisterRequest
 ): Promise<LoginResponse> {
   try {
-    const response = await API.post<LoginResponse>("/auth/register/", payload);
+    const response = await API.post<LoginResponse>("/auth/reg/", payload);
     return response.data;
   } catch (error: any) {
     if (error.response?.data) {

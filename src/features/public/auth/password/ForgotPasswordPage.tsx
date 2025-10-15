@@ -1,4 +1,4 @@
-import { usePageTitle } from "../../../../Hooks";
+import usePageTitle from "../../../../Hooks/UsePageTitleHook";
 import ForgotPasswordForm from "./Components/ForgotPasswordForm";
 
 export default function ForgotPasswordPage() {

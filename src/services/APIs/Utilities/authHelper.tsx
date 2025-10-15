@@ -26,7 +26,7 @@ export async function verifyTokenOnServer(token: string): Promise<boolean> {
 
     try {
         const response = await axios.post(
-            "http://127.0.0.1:8000/auth/token/verify/",
+            "http://127.0.0.1:8000/auth/tok/ver/",
             { token },
             { headers: { "Content-Type": "application/json" } }
         );
@@ -53,7 +53,7 @@ export async function refreshAccessToken(): Promise<string> {
     if (!refresh) throw new Error("No refresh token found");
 
     try {
-        const res = await axios.post("http://127.0.0.1:8000/auth/token/refresh/", { refresh });
+        const res = await axios.post("http://127.0.0.1:8000/auth/tok/ref/", { refresh });
         const { access, refresh: newRefresh } = res.data;
 
         // 🔒 Gunakan refresh token lama jika server tidak mengirim yang baru
