@@ -1,6 +1,6 @@
 import { usePageTitle } from "../../../Hooks";
 
-export function SettingsPage() {
+export default function SettingsPage() {
   usePageTitle("Settings")
 
   return (

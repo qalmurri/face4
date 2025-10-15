@@ -1,5 +1,5 @@
 import PrivacyPolicyContent from "./organisms/PrivacyPolicyContent";
 
-export function PrivacyPolicyPage() {
+export default function PrivacyPolicyPage() {
   return <PrivacyPolicyContent />;
 }

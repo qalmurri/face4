@@ -1,5 +1,5 @@
 import ContactContent from "./organisms/ContactContent";
 
-export function ContactPage() {
+export default function ContactPage() {
   return <ContactContent />;
 }

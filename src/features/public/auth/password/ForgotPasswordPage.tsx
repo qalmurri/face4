@@ -1,7 +1,7 @@
 import { usePageTitle } from "../../../../Hooks";
 import ForgotPasswordForm from "./Components/ForgotPasswordForm";
 
-export function ForgotPasswordPage() {
+export default function ForgotPasswordPage() {
   usePageTitle("Forgot Password")
 
   return (

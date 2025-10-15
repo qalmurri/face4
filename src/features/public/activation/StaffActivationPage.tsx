@@ -1,7 +1,7 @@
 import StaffActivationConfirm from "./Components/StaffActivationForm";
 import { usePageTitle } from "../../../Hooks";
 
-export function StaffActivationPage() {
+export default function StaffActivationPage() {
   usePageTitle("Staff Request");
 
   return (

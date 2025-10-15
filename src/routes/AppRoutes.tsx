@@ -1,10 +1,25 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomeRoute from "./Types/HomeRoute";
+import PublicRoute from "./Types/PublicRoute";
+import ProtectedRoute from "./Types/ProtectedRoute";
+import MainLayout  from "../Layouts/MainLayout";
+import NotFoundLayout from "../Layouts/Error/NotFoundLayout";
+import RegisterLayout from "../Layouts/Auth/RegisterLayout";
+import LoginLayout  from "../Layouts/Auth/LoginLayout";
+import NotFoundPage from "../Pages/NotFoundPage";
+import StaffActivationPage from "../Features/Public/Activation/StaffActivationPage";
+import LoginPage from "../Features/Public/Auth/login/LoginPage";
+import RegisterPage from "../Features/Public/Auth/register/RegisterPage";
+import AboutPage from "../Features/Public/GeneralInfo/About/AboutPage";
+import ContactPage from "../Features/Public/GeneralInfo/Contact/ContactPage";
+import FaqPage from "../Features/Public/GeneralInfo/FAQ/FaqPage";
+import PrivacyPolicyPage from "../Features/Public/GeneralInfo/PrivacyPolicy/PrivacyPolicyPage";
+import TermsOfServicePage from "../Features/Public/GeneralInfo/TermsOfService/TermsOfServicePage";
+import ForgotPasswordPage from "../Features/Public/Auth/password/ForgotPasswordPage";
+import ResetPasswordPage from "../Features/Public/Auth/password/ResetPasswordPage";
+import SettingsPage from "../Features/Private/Settings/SettingsPage";
+import StaffRequestPage from "../Features/Private/Activation/StaffRequestPage";
 
-import { HomeRoute, PublicRoute, ProtectedRoute } from "./Types";
-import { MainLayout, NotFoundLayout, RegisterLayout, LoginLayout } from "../Layouts";
-import { NotFoundPage } from "../Pages";
-import { StaffActivationPage, LoginPage, RegisterPage, AboutPage, ContactPage, FaqPage, PrivacyPolicyPage, TermsOfServicePage, ForgotPasswordPage, ResetPasswordPage } from "../Features/Public";
-import { SettingsPage, StaffRequestPage } from "../Features/Private";
 
 function AppContent() {
   return (

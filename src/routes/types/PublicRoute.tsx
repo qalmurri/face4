@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStatus } from "../../Contexts/StatusContext";
 
-export function PublicRoute() {
+export default function PublicRoute() {
   const { isAuthenticated } = useAuthStatus();
 
   if (isAuthenticated) {

@@ -1,5 +1,5 @@
 import FaqContent from "./organisms/FaqContent";
 
-export function FaqPage() {
+export default function FaqPage() {
   return <FaqContent />;
 }

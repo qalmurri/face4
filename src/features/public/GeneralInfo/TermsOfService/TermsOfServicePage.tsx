@@ -1,5 +1,5 @@
 import TermsOfServiceContent from "./organisms/TermsOfServiceContent";
 
-export function TermsOfServicePage() {
+export default function TermsOfServicePage() {
   return <TermsOfServiceContent />;
 }

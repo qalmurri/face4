@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Footer from "../../Components/Organisms/Footer";
 
-export function LoginLayout() {
+export default function LoginLayout() {
   return (
     <>
       <main>

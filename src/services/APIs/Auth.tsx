@@ -13,9 +13,7 @@ const authAPI = axios.create({
 // ========================================
 let hasVerifiedServerToken = false;
 
-// ========================================
-// 🛰️ REQUEST INTERCEPTOR
-// ========================================
+
 authAPI.interceptors.request.use(
     async (config) => {
         const token = getAccessToken();
@@ -52,9 +50,7 @@ authAPI.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-// ========================================
-// 🚨 RESPONSE INTERCEPTOR
-// ========================================
+
 authAPI.interceptors.response.use(
     (response) => response,
     async (error) => {
