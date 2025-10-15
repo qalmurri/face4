@@ -8,9 +8,6 @@ interface JWTPayload {
 }
 
 
-/**
- * 🧠 Validasi token secara lokal menggunakan payload JWT
- */
 export function validateToken(token: string): boolean {
     if (!token) return false;
 
@@ -24,10 +21,6 @@ export function validateToken(token: string): boolean {
 }
 
 
-/**
- * 🛰️ Validasi token ke server DRF (endpoint `/auth/token/verify/`)
- * @returns `true` jika token valid, `false` jika invalid atau kadaluarsa
- */
 export async function verifyTokenOnServer(token: string): Promise<boolean> {
     if (!token) return false;
 
