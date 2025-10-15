@@ -57,9 +57,7 @@ function AppContent() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/privacy" element={<PrivacyPolicyPage />} />
         <Route path="/tos" element={<TermsOfServicePage />} />
-        <Route
-          path="/activate-staff/:uid/:token"
-          element={<StaffActivationPage />}
+        <Route path="/activate-staff/:uid/:token" element={<StaffActivationPage />}
         />
       </Route>
 
