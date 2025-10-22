@@ -1,4 +1,4 @@
-import Menu from "../Molecules/Navbar/menu/Public";
+import Menu from "../Molecules/Navbar/Menu/Public";
 import Navbar from "../Molecules/Navbar/Navbar";
 import TopBanner from "../Molecules/TopBanner";
 
