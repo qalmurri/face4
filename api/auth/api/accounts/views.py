@@ -1,6 +1,8 @@
 from rest_framework import generics, permissions
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import UserSerializer, UserPhoneSerializer
 
-from .serializers import UserSerializer
 
 
 class UserMeView(generics.RetrieveAPIView):
@@ -17,3 +19,11 @@ class UserUpdateView(generics.UpdateAPIView):
 
     def get_object(self):
         return self.request.user
+    
+
+class UserPhoneView(APIView):
+    permission_classes=[permissions.IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserPhoneSerializer(request.user)
+        return Response(serializer.data)
