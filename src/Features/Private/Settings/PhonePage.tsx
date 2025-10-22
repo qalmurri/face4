@@ -1,12 +1,12 @@
 import usePageTitle from "../../../Hooks/UsePageTitleHook";
-import Phone from "./Components/Phone";
+import PhoneForm from "./Components/PhoneForm";
 
 export default function PhonePage() {
   usePageTitle("Phone Edit")
 
   return (
     <div>
-      <Phone />
+      <PhoneForm />
     </div>
   );
 }

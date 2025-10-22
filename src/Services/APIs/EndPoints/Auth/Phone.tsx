@@ -1,12 +1,13 @@
 import API from "../../Auth";
 
-// 🔹 Ambil data phone user yang sedang login
+// GET nomor telepon user
 export const getUserPhone = async () => {
-    try {
-        const res = await API.get("acc/user/phone/");
-        return res.data;
-    } catch (error: any) {
-        console.error("Failed to fetch user phone:", error);
-        throw error;
-    }
+    const res = await API.get("acc/user/phone/");
+    return res.data;
+};
+
+// PATCH atau POST nomor telepon user
+export const saveUserPhone = async (number: string) => {
+    const res = await API.patch("acc/user/phone/update/", { number });
+    return res.data;
 };
