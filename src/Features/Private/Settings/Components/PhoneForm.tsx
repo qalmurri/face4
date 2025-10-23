@@ -28,7 +28,13 @@ export default function PhoneForm() {
                 setData(res);
                 setNumber(res.phone?.number || "");
             } catch (err: any) {
-                setError(err.response?.data?.detail || "Gagal memuat data telepon.");
+                const statusCode = err.response?.status;
+                if (statusCode === 404) {
+                    // kalau profil/phone belum ada, buat dummy data kosong
+                    setData({ username: "", phone: null });
+                } else {
+                    setError(err.response?.data?.detail || "Gagal memuat data telepon.");
+                }
             } finally {
                 setLoading(false);
             }

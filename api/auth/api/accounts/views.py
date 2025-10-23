@@ -1,44 +1,34 @@
-from rest_framework import generics, permissions, status
+from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, PhoneSerializer
+from .serializers import PhoneSerializer
 from .models import Phone
 from authentication.models import Profile
 
-class UserMeView(generics.RetrieveAPIView):
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
-
-
-class UserUpdateView(generics.UpdateAPIView):
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
-    
 
 class UserPhoneView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request):
         user = request.user
 
-        # 🔧 Otomatis buat profile kalau belum ada
-        if not user.is_profile:
-            profile = Profile.objects.create()
-            user.is_profile = profile
-            user.save()
-        else:
-            profile = user.is_profile
+        profile = getattr(user, "is_profile", None)
+        # 🔹 Kalau user belum punya profil → langsung kirim null
+        if not profile:
+            return Response({"phone": None}, status=status.HTTP_200_OK)
 
-        # Kalau phone belum ada, kembalikan number null
-        if not profile.phone:
-            return Response({"number": None}, status=status.HTTP_200_OK)
+        phone = profile.phone
+        # 🔹 Kalau profil belum punya phone → kirim null juga
+        if not phone:
+            return Response({"phone": None}, status=status.HTTP_200_OK)
 
-        serializer = PhoneSerializer(profile.phone)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        # 🔹 Kalau ada, kirim data phone lengkap
+        serializer = PhoneSerializer(phone)
+        return Response({"phone": serializer.data}, status=status.HTTP_200_OK)
+
+
+class UserPhoneUpdateView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
     def patch(self, request):
         user = request.user
@@ -47,15 +37,14 @@ class UserPhoneView(APIView):
         if not number:
             return Response({"detail": "Nomor telepon diperlukan."}, status=status.HTTP_400_BAD_REQUEST)
 
-        # 🔧 Otomatis buat profile kalau belum ada
-        if not user.is_profile:
-            profile = Profile.objects.create()
+        # 🔧 Pastikan Profile ada
+        profile = user.is_profile
+        if not profile:
+            profile = Profile.objects.create()  # buat profile baru
             user.is_profile = profile
             user.save()
-        else:
-            profile = user.is_profile
 
-        # 🔧 Buat atau update phone
+        # 🔧 Pastikan Phone ada
         if not profile.phone:
             phone = Phone.objects.create(number=number)
             profile.phone = phone
@@ -69,35 +58,20 @@ class UserPhoneView(APIView):
         return Response({"detail": "Nomor telepon berhasil disimpan.", "number": phone.number}, status=status.HTTP_200_OK)
     
 
-class UserPhoneUpdateView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+class UserPreferenceView(APIView):
+    pass
 
-    def patch(self, request):
-        user = request.user
-        profile = getattr(user, "is_profile", None)
+class UserPreferenceUpdateView(APIView):
+    pass
 
-        # Pastikan user punya profil
-        if not profile:
-            return Response({"detail": "Profil belum dibuat."}, status=status.HTTP_404_NOT_FOUND)
+class UserDisplayView(APIView):
+    pass
 
-        # Jika belum ada phone, buat baru
-        if not profile.phone:
-            phone = Phone.objects.create(number=request.data.get("number", ""))
-            profile.phone = phone
-            profile.save()
-        else:
-            phone = profile.phone
-            phone.number = request.data.get("number", phone.number)
-            phone.save()
+class UserDisplayUpdateView(APIView):
+    pass
 
-        return Response(
-            {
-                "username": user.username,
-                "phone": {
-                    "id": phone.id,
-                    "number": phone.number,
-                    "created_at": phone.created_at,
-                },
-            },
-            status=status.HTTP_200_OK,
-        )
+class UserAddressView(APIView):
+    pass
+
+class UserAddressUpdateView(APIView):
+    pass
