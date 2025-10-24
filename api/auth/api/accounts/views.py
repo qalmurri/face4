@@ -6,9 +6,10 @@ from .serializers import PhoneSerializer, PreferenceSerializer, DisplaySerialize
 from .models import Phone, Preference, Display, Address
 
 
+#█▀█ █░█ █▀█ █▄░█ █▀▀
+#█▀▀ █▀█ █▄█ █░▀█ ██▄
 class UserPhoneView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    
     def get(self, request):
         user = request.user
         profile = getattr(user, "is_profile", None)
@@ -23,7 +24,6 @@ class UserPhoneView(APIView):
 
 class UserPhoneUpdateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def patch(self, request):
         user = request.user
         number = request.data.get("number")
@@ -45,9 +45,10 @@ class UserPhoneUpdateView(APIView):
         return Response({"detail": "Nomor telepon berhasil disimpan.", "number": phone.number}, status=status.HTTP_200_OK)
     
 
+#█▀█ █▀█ █▀▀ █▀▀ █▀▀ █▀█ █▀▀ █▄░█ █▀▀ █▀▀
+#█▀▀ █▀▄ ██▄ █▀░ ██▄ █▀▄ ██▄ █░▀█ █▄▄ ██▄
 class UserPreferenceView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request):
         user = request.user
         profile = getattr(user, "is_profile", None)
@@ -62,7 +63,6 @@ class UserPreferenceView(APIView):
 
 class UserPreferenceUpdateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def patch(self, request):
         user = request.user
         language = request.data.get("language")
@@ -84,9 +84,10 @@ class UserPreferenceUpdateView(APIView):
         return Response({"detail": "Nomor telepon berhasil disimpan.", "language": preference.language}, status=status.HTTP_200_OK)
 
 
+#█▀▄ █ █▀ █▀█ █░░ ▄▀█ █▄█
+#█▄▀ █ ▄█ █▀▀ █▄▄ █▀█ ░█░
 class UserDisplayView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request):
         user = request.user
         profile = getattr(user, "is_profile", None)
@@ -101,7 +102,6 @@ class UserDisplayView(APIView):
 
 class UserDisplayUpdateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def patch(self, request):
         user = request.user
         photo = request.data.get("photo")
@@ -125,7 +125,6 @@ class UserDisplayUpdateView(APIView):
 
 class UserAddressView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def get(self, request):
         user = request.user
         profile = getattr(user, "is_profile", None)
@@ -138,9 +137,10 @@ class UserAddressView(APIView):
         return Response({"address": serializer.data}, status=status.HTTP_200_OK)
 
 
+#▄▀█ █▀▄ █▀▄ █▀█ █▀▀ █▀ █▀
+#█▀█ █▄▀ █▄▀ █▀▄ ██▄ ▄█ ▄█
 class UserAddressUpdateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def patch(self, request):
         user = request.user
         postal_code = request.data.get("postal_code")
@@ -160,4 +160,3 @@ class UserAddressUpdateView(APIView):
             address.save()
         profile.save()
         return Response({"detail": "nomor pos berhasil disimpan.", "postal_code": address.postal_code}, status=status.HTTP_200_OK)
-    
