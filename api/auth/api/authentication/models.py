@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
-
 from accounts.models import Phone, Address, Display, Preference
 
 
@@ -10,7 +9,6 @@ class Profile(models.Model):
     address = models.OneToOneField(Address, on_delete=models.SET_NULL, null=True, blank=True)
     display = models.OneToOneField(Display, on_delete=models.SET_NULL, null=True, blank=True)
     preference = models.OneToOneField(Preference, on_delete=models.SET_NULL, null=True, blank=True)
-    
     class Meta:
         db_table = "accounts_profile"
 
@@ -19,7 +17,6 @@ class Verified(models.Model):
     type = models.IntegerField(choices=((0, "Email"),(1, "Phone")))
     number = models.IntegerField()
     created_at = models.DateTimeField(default=timezone.now)
-    
     class Meta:
         db_table = "authentication_verified"
 

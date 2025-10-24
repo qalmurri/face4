@@ -8,7 +8,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 from .serializers import RegisterSerializer, MyTokenObtainPairSerializer
-
 User = get_user_model()
 
 
@@ -20,7 +19,6 @@ class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = [AllowAny]
     serializer_class = RegisterSerializer
-
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -43,21 +41,17 @@ class LogoutView(APIView):
             token = RefreshToken(refresh_token)
             token.blacklist() #menonaktifkan token
             return Response({"detail": "Logout Succesfull"}, status=205)
-        
         except Exception as e:
             return Response({"detail": "Invalid token"}, status=400)
         
 
 class LogoutAllView(APIView):
     permission_classes=[IsAuthenticated]
-
     def post(self, request):
         try:
             user = request.user
-
             #ambil semua outstanding token milik user
             tokens = OutstandingToken.objects.filter(user=user)
-
             #masukkan semuanya ke blacklist
             for token in tokens:
                 try:

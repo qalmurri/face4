@@ -1,26 +1,21 @@
 from datetime import timedelta
-
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.utils import timezone
 from django.core.mail import send_mail
 from django.contrib.auth.tokens import default_token_generator
-
 from .models import VerifiedRequest, ValidityPeriod, Token
 
 
 def send_email_verification(user, frontend_url="http://localhost:5173"):
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     raw_token = default_token_generator.make_token(user)
-
     #bikin ValidityPeriod
     meta = ValidityPeriod.objects.create(
         expired_at=timezone.now() + timedelta(hours=1)
     )
-
     #simpan Token ke tabel khusus
     token_obj = Token.objects.create(token=raw_token)
-
     #simpan StaffActivationRequest dengan relasi ke meta
     VerifiedRequest.objects.create(
         user=user,
@@ -30,7 +25,6 @@ def send_email_verification(user, frontend_url="http://localhost:5173"):
         meta=meta,
         type=0
     )
-
     link = f"{frontend_url}/activate-staff/{uid}/{raw_token}/"
     send_mail(
         subject="Staff Activation",
@@ -38,7 +32,6 @@ def send_email_verification(user, frontend_url="http://localhost:5173"):
         from_email="noreply@example.com",
         recipient_list=[user.email],
     )
-
     return link
 
 
@@ -46,15 +39,12 @@ def generate_reset_token(user, expire_hours=0.1):
     """Generate uid, token, and save request"""
     uid = urlsafe_base64_encode(force_bytes(user.pk))
     raw_token = default_token_generator.make_token(user)
-
     # buat meta record
     meta = ValidityPeriod.objects.create(
         expired_at=timezone.now() + timedelta(hours=expire_hours)
     )
-
     # 🔹 simpan Token ke tabel khusus
     token_obj = Token.objects.create(token=raw_token)
-
     # simpan request reset dengan relasi ke meta
     VerifiedRequest.objects.create(
         user=user,
@@ -63,7 +53,6 @@ def generate_reset_token(user, expire_hours=0.1):
         meta=meta,
         type=1
     )
-
     return uid, raw_token
 
 
