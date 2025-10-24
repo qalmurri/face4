@@ -123,6 +123,8 @@ class UserDisplayUpdateView(APIView):
         return Response({"detail": "photo display berhasil disimpan.", "photo": display.photo}, status=status.HTTP_200_OK)
 
 
+#▄▀█ █▀▄ █▀▄ █▀█ █▀▀ █▀ █▀
+#█▀█ █▄▀ █▄▀ █▀▄ ██▄ ▄█ ▄█
 class UserAddressView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
@@ -137,8 +139,6 @@ class UserAddressView(APIView):
         return Response({"address": serializer.data}, status=status.HTTP_200_OK)
 
 
-#▄▀█ █▀▄ █▀▄ █▀█ █▀▀ █▀ █▀
-#█▀█ █▄▀ █▄▀ █▀▄ ██▄ ▄█ ▄█
 class UserAddressUpdateView(APIView):
     permission_classes = [permissions.IsAuthenticated]
     def patch(self, request):

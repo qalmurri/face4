@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
-import { getUserPhone, saveUserPhone } from "../../../../Services/APIs/EndPoints/Auth/Phone";
+import { getUserAddress, saveUserAddress } from "../../../../Services/APIs/EndPoints/Auth/Address";
 
 
-interface PhoneData {
+interface AddressData {
     id?: number;
-    number: string;
+    postal_code: string;
     created_at?: string;
 }
 
-interface UserPhoneResponse {
+interface UserAddressResponse {
     username: string;
-    phone: PhoneData | null;
+    address: AddressData | null;
 }
 
-export default function PhoneForm() {
-    const [data, setData] = useState<UserPhoneResponse | null>(null);
-    const [number, setNumber] = useState("");
+export default function AddressForm() {
+    const [data, setData] = useState<UserAddressResponse | null>(null);
+    const [postal_code, setPostalCode] = useState("");
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState<string | null>(null);
@@ -25,14 +25,14 @@ export default function PhoneForm() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getUserPhone();
+                const res = await getUserAddress();
                 setData(res);
-                setNumber(res.phone?.number || "");
+                setPostalCode(res.address?.postal_code || "");
             } catch (err: any) {
                 const statusCode = err.response?.status;
                 if (statusCode === 404) {
-                    // kalau profil/phone belum ada, buat dummy data kosong
-                    setData({ username: "", phone: null });
+                    // kalau profil/address belum ada, buat dummy data kosong
+                    setData({ username: "", address: null });
                 } else {
                     setError(err.response?.data?.detail || "Gagal memuat data telepon.");
                 }
@@ -45,8 +45,8 @@ export default function PhoneForm() {
 
     // 🔹 Validasi sederhana nomor telepon
     const isValidPhone = (input: string) => {
-        const phoneRegex = /^\+?\d{8,15}$/; // hanya angka + opsional
-        return phoneRegex.test(input);
+        const addressRegex = /^\+?\d{8,15}$/; // hanya angka + opsional
+        return addressRegex.test(input);
     };
 
     // 🔹 Simpan perubahan nomor telepon
@@ -55,14 +55,14 @@ export default function PhoneForm() {
         setMessage(null);
         setError(null);
 
-        if (!isValidPhone(number)) {
+        if (!isValidPhone(postal_code)) {
             setError("Nomor telepon tidak valid. Gunakan format seperti +628123456789.");
             return;
         }
 
         setSaving(true);
         try {
-            const res = await saveUserPhone(number);
+            const res = await saveUserAddress(postal_code);
             setData(res);
             setMessage("✅ Nomor telepon berhasil disimpan!");
         } catch (err: any) {
@@ -84,16 +84,16 @@ export default function PhoneForm() {
                 </label>
                 <input
                     type="text"
-                    value={number}
-                    onChange={(e) => setNumber(e.target.value)}
+                    value={postal_code}
+                    onChange={(e) => setPostalCode(e.target.value)}
                     placeholder="+628123456789"
                     className="border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                 />
 
                 {/* 🔹 Tampilkan status nomor */}
-                {data?.phone ? (
+                {data?.address ? (
                     <p className="text-gray-600 text-sm mt-2">
-                        Nomor saat ini: <span className="font-semibold">{data.phone.number}</span>
+                        Nomor saat ini: <span className="font-semibold">{data.address.postal_code}</span>
                     </p>
                 ) : (
                     <p className="text-gray-500 text-sm mt-2 italic">Belum ada nomor</p>
@@ -107,7 +107,7 @@ export default function PhoneForm() {
                 >
                     {saving
                         ? "Menyimpan..."
-                        : data?.phone
+                        : data?.address
                             ? "Perbarui Nomor"
                             : "Tambahkan Nomor"}
                 </button>
