@@ -1,28 +1,22 @@
 from rest_framework import permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import PhoneSerializer
+from .serializers import PhoneSerializer, PreferenceSerializer, DisplaySerializer, AddressSerializer
 from .models import Phone
 from authentication.models import Profile
 
 
 class UserPhoneView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
+    
     def get(self, request):
         user = request.user
-
         profile = getattr(user, "is_profile", None)
-        # 🔹 Kalau user belum punya profil → langsung kirim null
         if not profile:
             return Response({"phone": None}, status=status.HTTP_200_OK)
-
         phone = profile.phone
-        # 🔹 Kalau profil belum punya phone → kirim null juga
         if not phone:
             return Response({"phone": None}, status=status.HTTP_200_OK)
-
-        # 🔹 Kalau ada, kirim data phone lengkap
         serializer = PhoneSerializer(phone)
         return Response({"phone": serializer.data}, status=status.HTTP_200_OK)
 
@@ -59,19 +53,52 @@ class UserPhoneUpdateView(APIView):
     
 
 class UserPreferenceView(APIView):
-    pass
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        profile = getattr(user, "is_profile", None)
+        if not profile:
+            return Response({"preference": None}, status=status.HTTP_200_OK)
+        preference = profile.preference
+        if not preference:
+            return Response({"preference": None}, status=status.HTTP_200_OK)
+        serializer = PreferenceSerializer(preference)
+        return Response({"preference": serializer.data}, status=status.HTTP_200_OK)
 
 class UserPreferenceUpdateView(APIView):
     pass
 
 class UserDisplayView(APIView):
-    pass
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        profile = getattr(user, "is_profile", None)
+        if not profile:
+            return Response({"display": None}, status=status.HTTP_200_OK)
+        display = profile.display
+        if not display:
+            return Response({"display": None}, status=status.HTTP_200_OK)
+        serializer = DisplaySerializer(display)
+        return Response({"display": serializer.data}, status=status.HTTP_200_OK)
 
 class UserDisplayUpdateView(APIView):
     pass
 
 class UserAddressView(APIView):
-    pass
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        profile = getattr(user, "is_profile", None)
+        if not profile:
+            return Response({"address": None}, status=status.HTTP_200_OK)
+        address = profile.address
+        if not address:
+            return Response({"address": None}, status=status.HTTP_200_OK)
+        serializer = AddressSerializer(address)
+        return Response({"address": serializer.data}, status=status.HTTP_200_OK)
 
 class UserAddressUpdateView(APIView):
     pass
