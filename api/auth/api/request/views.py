@@ -8,11 +8,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from utils.mask import mask_email
+from authentication.models import Verified
 from .utils import generate_reset_token, send_reset_email, send_email_verification
 from .serializers import ForgotPasswordSerializer
 from .models import VerifiedRequest
-from authentication.models import Verified
-
 User = get_user_model()
 
 
