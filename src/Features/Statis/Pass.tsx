@@ -1,0 +1,1 @@
+//ini yang di gunakan untuk sub domain dari user yang sudah membuatnya, seperti *.github.io
