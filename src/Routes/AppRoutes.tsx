@@ -17,7 +17,7 @@ import PrivacyPolicyPage from "../Features/Public/GeneralInfo/PrivacyPolicy/Priv
 import TermsOfServicePage from "../Features/Public/GeneralInfo/TermsOfService/TermsOfServicePage";
 import ForgotPasswordPage from "../Features/Public/Auth/Password/ForgotPasswordPage";
 import ResetPasswordPage from "../Features/Public/Auth/Password/ResetPasswordPage";
-import AccountsPage from "../Features/Private/Settings/AccountsPage";
+import AccountsPage from "../Features/Private/Settings/AccountPage";
 import PhonePage from "../Features/Private/Settings/PhonePage";
 import AddressPage from "../Features/Private/Settings/AddressPage";
 import DisplayPage from "../Features/Private/Settings/DisplayPage";
@@ -42,11 +42,11 @@ function AppContent() {
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/request-staff" element={<StaffRequestPage />} />
-          <Route path="/accounts/edit" element={<AccountsPage />} />
-          <Route path="/accounts/phone" element={<PhonePage />} />
-          <Route path="/accounts/address" element={<AddressPage />} />
-          <Route path="/accounts/display" element={<DisplayPage />} />
-          <Route path="/accounts/preference" element={<PreferencePage />} />
+          <Route path="/account/edit" element={<AccountsPage />} />
+          <Route path="/account/phone" element={<PhonePage />} />
+          <Route path="/account/address" element={<AddressPage />} />
+          <Route path="/account/display" element={<DisplayPage />} />
+          <Route path="/account/preference" element={<PreferencePage />} />
         </Route>
       </Route>
 
