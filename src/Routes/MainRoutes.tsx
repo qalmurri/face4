@@ -24,7 +24,7 @@ import DisplayPage from "../Features/Private/Settings/DisplayPage";
 import PreferencePage from "../Features/Private/Settings/PreferencePage";
 import StaffRequestPage from "../Features/Private/Activation/StaffRequestPage";
 
-function AppContent() {
+function MainContent() {
   return (
     <Routes>
       <Route element={<PublicRoute />}>
@@ -68,10 +68,10 @@ function AppContent() {
   );
 }
 
-export default function AppRoutes() {
+export default function MainRoutes() {
   return (
     <Router>
-      <AppContent />
+      <MainContent />
     </Router>
   )
 }

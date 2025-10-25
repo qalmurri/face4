@@ -1,0 +1,1 @@
+//untuk halaman statis sub domain user

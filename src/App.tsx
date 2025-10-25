@@ -1,9 +1,9 @@
-import AppRoutes from './Routes/AppRoutes'
+import MainRoutes from './Routes/MainRoutes'
 
 export default function App() {
   return (
     <>
-      <AppRoutes />
+      <MainRoutes />
     </>
   );
 }
