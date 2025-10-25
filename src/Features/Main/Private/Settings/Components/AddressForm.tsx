@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserAddress, saveUserAddress } from "../../../../../Services/APIs/EndPoints/Auth/Address";
+import type { UserAddressResponse } from "../../../../../Types/AuthType";
 
-
-interface AddressData {
-    id?: number;
-    postal_code: string;
-    created_at?: string;
-}
-
-interface UserAddressResponse {
-    username: string;
-    address: AddressData | null;
-}
 
 export default function AddressForm() {
     const [data, setData] = useState<UserAddressResponse | null>(null);

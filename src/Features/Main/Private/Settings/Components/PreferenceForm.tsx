@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserPreference, saveUserPreference } from "../../../../../Services/APIs/EndPoints/Auth/Preference";
+import type { UserPreferenceResponse } from "../../../../../Types/AuthType";
 
-
-interface PreferenceData {
-    id?: number;
-    language: string;
-    created_at?: string;
-}
-
-interface UserPreferenceResponse {
-    username: string;
-    preference: PreferenceData | null;
-}
 
 export default function PreferenceForm() {
     const [data, setData] = useState<UserPreferenceResponse | null>(null);

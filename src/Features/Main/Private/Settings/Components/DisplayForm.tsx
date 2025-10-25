@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserDisplay, saveUserDisplay } from "../../../../../Services/APIs/EndPoints/Auth/Display";
+import type { UserDisplayResponse } from "../../../../../Types/AuthType";
 
-
-interface DisplayData {
-    id?: number;
-    photo: string;
-    created_at?: string;
-}
-
-interface UserDisplayResponse {
-    username: string;
-    display: DisplayData | null;
-}
 
 export default function DisplayForm() {
     const [data, setData] = useState<UserDisplayResponse | null>(null);

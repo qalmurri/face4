@@ -1,17 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserPhone, saveUserPhone } from "../../../../../Services/APIs/EndPoints/Auth/Phone";
+import type { UserPhoneResponse } from "../../../../../Types/AuthType";
 
-
-interface PhoneData {
-    id?: number;
-    number: string;
-    created_at?: string;
-}
-
-interface UserPhoneResponse {
-    username: string;
-    phone: PhoneData | null;
-}
 
 export default function PhoneForm() {
     const [data, setData] = useState<UserPhoneResponse | null>(null);
