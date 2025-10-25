@@ -5,3 +5,5 @@ interface BrandProps {
 export function Brand({ children }: BrandProps) {
     return <div className="text-lg font-bold">{children}</div>;
 }
+
+//test
