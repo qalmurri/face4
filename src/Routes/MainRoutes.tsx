@@ -7,22 +7,22 @@ import NotFoundLayout from "../Layouts/Error/NotFoundLayout";
 import RegisterLayout from "../Layouts/Auth/RegisterLayout";
 import LoginLayout from "../Layouts/Auth/LoginLayout";
 import NotFoundPage from "../Pages/NotFoundPage";
-import StaffActivationPage from "../Features/Public/Activation/StaffActivationPage";
-import LoginPage from "../Features/Public/Auth/Login/LoginPage";
-import RegisterPage from "../Features/Public/Auth/Register/RegisterPage";
-import AboutPage from "../Features/Public/GeneralInfo/About/AboutPage";
-import ContactPage from "../Features/Public/GeneralInfo/Contact/ContactPage";
-import FaqPage from "../Features/Public/GeneralInfo/FAQ/FaqPage";
-import PrivacyPolicyPage from "../Features/Public/GeneralInfo/PrivacyPolicy/PrivacyPolicyPage";
-import TermsOfServicePage from "../Features/Public/GeneralInfo/TermsOfService/TermsOfServicePage";
-import ForgotPasswordPage from "../Features/Public/Auth/Password/ForgotPasswordPage";
-import ResetPasswordPage from "../Features/Public/Auth/Password/ResetPasswordPage";
-import AccountsPage from "../Features/Private/Settings/AccountPage";
-import PhonePage from "../Features/Private/Settings/PhonePage";
-import AddressPage from "../Features/Private/Settings/AddressPage";
-import DisplayPage from "../Features/Private/Settings/DisplayPage";
-import PreferencePage from "../Features/Private/Settings/PreferencePage";
-import StaffRequestPage from "../Features/Private/Activation/StaffRequestPage";
+import StaffActivationPage from "../Features/Main/Public/Activation/StaffActivationPage";
+import LoginPage from "../Features/Main/Public/Auth/Login/LoginPage";
+import RegisterPage from "../Features/Main/Public/Auth/Register/RegisterPage";
+import AboutPage from "../Features/Main/Public/GeneralInfo/About/AboutPage";
+import ContactPage from "../Features/Main/Public/GeneralInfo/Contact/ContactPage";
+import FaqPage from "../Features/Main/Public/GeneralInfo/FAQ/FaqPage";
+import PrivacyPolicyPage from "../Features/Main/Public/GeneralInfo/PrivacyPolicy/PrivacyPolicyPage";
+import TermsOfServicePage from "../Features/Main/Public/GeneralInfo/TermsOfService/TermsOfServicePage";
+import ForgotPasswordPage from "../Features/Main/Public/Auth/Password/ForgotPasswordPage";
+import ResetPasswordPage from "../Features/Main/Public/Auth/Password/ResetPasswordPage";
+import AccountsPage from "../Features/Main/Private/Settings/AccountPage";
+import PhonePage from "../Features/Main/Private/Settings/PhonePage";
+import AddressPage from "../Features/Main/Private/Settings/AddressPage";
+import DisplayPage from "../Features/Main/Private/Settings/DisplayPage";
+import PreferencePage from "../Features/Main/Private/Settings/PreferencePage";
+import StaffRequestPage from "../Features/Main/Private/Activation/StaffRequestPage";
 
 function MainContent() {
   return (
