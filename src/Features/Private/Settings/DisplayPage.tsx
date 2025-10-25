@@ -1,11 +1,12 @@
 import usePageTitle from "../../../Hooks/UsePageTitleHook";
+import DisplayForm from "./Components/DisplayForm";
 
 export default function DisplayPage() {
   usePageTitle("Display Edit")
 
   return (
     <div>
-      <h1>Display</h1>
+      <DisplayForm/>
     </div>
   );
 }
