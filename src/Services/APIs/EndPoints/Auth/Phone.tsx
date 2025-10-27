@@ -11,3 +11,9 @@ export const saveUserPhone = async (number: string) => {
     const res = await API.patch("acc/phone/update/", { number });
     return res.data;
 };
+
+// DELETE nomor telepon user
+export const deleteUserPhone = async () => {
+    const res = await API.delete("acc/phone/delete/");
+    return res.data;
+}

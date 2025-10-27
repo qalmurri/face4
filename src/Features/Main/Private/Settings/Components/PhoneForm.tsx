@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserPhone, saveUserPhone } from "../../../../../Services/APIs/EndPoints/Auth/Phone";
+import { getUserPhone, saveUserPhone, deleteUserPhone } from "../../../../../Services/APIs/EndPoints/Auth/Phone";
 import type { UserPhoneResponse } from "../../../../../Types/AuthType";
 
 
@@ -62,6 +62,23 @@ export default function PhoneForm() {
         }
     };
 
+    const handleDelete = async () => {
+        setMessage(null);
+        setError(null);
+        setSaving(true);
+
+        try {
+            await deleteUserPhone();
+            setNumber("");
+            setData(prev => ({ ...(prev ?? { username: "" }), phone: null }));
+            setMessage("🗑️ Nomor telepon berhasil dihapus!");
+        } catch (err: any) {
+            setError(err.response?.data?.detail || "Gagal menghapus nomor telepon.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
     if (loading) return <p>⏳ Memuat data...</p>;
 
     return (
@@ -82,9 +99,12 @@ export default function PhoneForm() {
 
                 {/* 🔹 Tampilkan status nomor */}
                 {data?.phone ? (
-                    <p className="text-gray-600 text-sm mt-2">
-                        Nomor saat ini: <span className="font-semibold">{data.phone.number}</span>
-                    </p>
+                    <>
+                        <p className="text-gray-600 text-sm mt-2">
+                            Nomor saat ini: <span className="font-semibold">{data.phone.number}</span>
+                        </p>
+                        <button type="button" onClick={handleDelete}>hapus</button>
+                    </>
                 ) : (
                     <p className="text-gray-500 text-sm mt-2 italic">Belum ada nomor</p>
                 )}
@@ -105,6 +125,7 @@ export default function PhoneForm() {
 
             {message && <p className="text-green-600 mt-3">{message}</p>}
             {error && <p className="text-red-600 mt-3">{error}</p>}
+
         </div>
     );
 }

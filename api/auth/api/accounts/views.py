@@ -43,6 +43,29 @@ class UserPhoneUpdateView(APIView):
             phone.save()
         profile.save()
         return Response({"detail": "Nomor telepon berhasil disimpan.", "number": phone.number}, status=status.HTTP_200_OK)
+
+
+class UserPhoneDeleteView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request):
+        user = request.user
+        profile = getattr(user, "is_profile", None)
+
+        # Jika profil belum ada → tidak ada nomor untuk dihapus
+        if not profile or not profile.phone:
+            return Response({"detail": "Tidak ada nomor telepon untuk dihapus."},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        # Hapus data phone yang terhubung
+        phone = profile.phone
+        profile.phone = None
+        profile.save()
+
+        phone.delete()
+
+        return Response({"detail": "Nomor telepon berhasil dihapus."},
+                        status=status.HTTP_200_OK)
     
 
 #█▀█ █▀█ █▀▀ █▀▀ █▀▀ █▀█ █▀▀ █▄░█ █▀▀ █▀▀
