@@ -16,9 +16,10 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "auth_server",
+    "data",
 ]
 
-AUTH_SERVER_URL="http://127.0.0.1:8000/auth/tok/ver/"   # endpoint dari server Auth
+AUTH_SERVER_URL="http://127.0.0.1:8000/"   # endpoint dari server Auth
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
