@@ -34,7 +34,7 @@ export default function PreferenceForm() {
     }, []);
 
     // 🔹 Validasi sederhana Language
-    const isValidPhone = (input: string) => {
+    const isValidPreference = (input: string) => {
         const preferenceRegex = /^\+?\d{8,15}$/; // hanya angka + opsional
         return preferenceRegex.test(input);
     };
@@ -45,7 +45,7 @@ export default function PreferenceForm() {
         setMessage(null);
         setError(null);
 
-        if (!isValidPhone(language)) {
+        if (!isValidPreference(language)) {
             setError("Language tidak valid. Gunakan format seperti +628123456789.");
             return;
         }

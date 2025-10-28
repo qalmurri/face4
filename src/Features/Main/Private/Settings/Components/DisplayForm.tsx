@@ -34,7 +34,7 @@ export default function DisplayForm() {
     }, []);
 
     // 🔹 Validasi sederhana Photo
-    const isValidPhone = (input: string) => {
+    const isValidDisplay = (input: string) => {
         const displayRegex = /^\+?\d{8,15}$/; // hanya angka + opsional
         return displayRegex.test(input);
     };
@@ -45,7 +45,7 @@ export default function DisplayForm() {
         setMessage(null);
         setError(null);
 
-        if (!isValidPhone(photo)) {
+        if (!isValidDisplay(photo)) {
             setError("Photo tidak valid. Gunakan format seperti +628123456789.");
             return;
         }

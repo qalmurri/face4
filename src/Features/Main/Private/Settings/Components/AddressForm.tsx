@@ -34,7 +34,7 @@ export default function AddressForm() {
     }, []);
 
     // 🔹 Validasi sederhana Postal Code
-    const isValidPhone = (input: string) => {
+    const isValidAddress = (input: string) => {
         const addressRegex = /^\+?\d{8,15}$/; // hanya angka + opsional
         return addressRegex.test(input);
     };
@@ -45,7 +45,7 @@ export default function AddressForm() {
         setMessage(null);
         setError(null);
 
-        if (!isValidPhone(postal_code)) {
+        if (!isValidAddress(postal_code)) {
             setError("Postal Code tidak valid. Gunakan format seperti +628123456789.");
             return;
         }

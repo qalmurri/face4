@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 core/
+core_data/
 *.pyc
