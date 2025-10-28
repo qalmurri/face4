@@ -15,7 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "core",
+    "auth_server",
 ]
 
 MIDDLEWARE = [
@@ -31,7 +31,7 @@ ROOT_URLCONF = "api.urls"
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "core.authentication.ExternalJWTAuthentication",
+        "auth_server.authentication.ExternalJWTAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
