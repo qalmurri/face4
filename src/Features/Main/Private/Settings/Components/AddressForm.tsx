@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserAddress, saveUserAddress } from "../../../../../Services/APIs/EndPoints/Auth/Address";
+import { getUserAddress, saveUserAddress, deleteUserAddress } from "../../../../../Services/APIs/EndPoints/Auth/Address";
 import type { UserAddressResponse } from "../../../../../Types/AuthType";
 
 
@@ -62,6 +62,24 @@ export default function AddressForm() {
         }
     };
 
+
+    const handleDelete = async () => {
+        setMessage(null);
+        setError(null);
+        setSaving(true);
+
+        try {
+            await deleteUserAddress();
+            setPostalCode("");
+            setData(prev => ({ ...(prev ?? { username: "" }), address: null }));
+            setMessage("🗑️ kode pos berhasil dihapus!");
+        } catch (err: any) {
+            setError(err.response?.data?.detail || "Gagal menghapus kode pos.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
     if (loading) return <p>⏳ Memuat data...</p>;
 
     return (
@@ -82,9 +100,12 @@ export default function AddressForm() {
 
                 {/* 🔹 Tampilkan status nomor */}
                 {data?.address ? (
-                    <p className="text-gray-600 text-sm mt-2">
-                        Nomor saat ini: <span className="font-semibold">{data.address.postal_code}</span>
-                    </p>
+                    <>
+                        <p className="text-gray-600 text-sm mt-2">
+                            Nomor saat ini: <span className="font-semibold">{data.address.postal_code}</span>
+                        </p>
+                        <button type="button" onClick={handleDelete}>hapus</button>
+                    </>
                 ) : (
                     <p className="text-gray-500 text-sm mt-2 italic">Belum ada nomor</p>
                 )}

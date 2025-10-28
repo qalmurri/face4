@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserPreference, saveUserPreference } from "../../../../../Services/APIs/EndPoints/Auth/Preference";
+import { getUserPreference, saveUserPreference, deleteUserPreference } from "../../../../../Services/APIs/EndPoints/Auth/Preference";
 import type { UserPreferenceResponse } from "../../../../../Types/AuthType";
 
 
@@ -62,6 +62,25 @@ export default function PreferenceForm() {
         }
     };
 
+
+    const handleDelete = async () => {
+        setMessage(null);
+        setError(null);
+        setSaving(true);
+
+        try {
+            await deleteUserPreference();
+            setLanguage("");
+            setData(prev => ({ ...(prev ?? { username: "" }), preference: null }));
+            setMessage("🗑️ language berhasil dihapus!");
+        } catch (err: any) {
+            setError(err.response?.data?.detail || "Gagal menghapus language.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
+
     if (loading) return <p>⏳ Memuat data...</p>;
 
     return (
@@ -82,9 +101,12 @@ export default function PreferenceForm() {
 
                 {/* 🔹 Tampilkan status nomor */}
                 {data?.preference ? (
-                    <p className="text-gray-600 text-sm mt-2">
-                        Nomor saat ini: <span className="font-semibold">{data.preference.language}</span>
-                    </p>
+                    <>
+                        <p className="text-gray-600 text-sm mt-2">
+                            Nomor saat ini: <span className="font-semibold">{data.preference.language}</span>
+                        </p>
+                        <button type="button" onClick={handleDelete}>hapus</button>
+                    </>
                 ) : (
                     <p className="text-gray-500 text-sm mt-2 italic">Belum ada nomor</p>
                 )}

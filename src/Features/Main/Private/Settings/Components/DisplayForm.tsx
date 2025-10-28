@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserDisplay, saveUserDisplay } from "../../../../../Services/APIs/EndPoints/Auth/Display";
+import { getUserDisplay, saveUserDisplay, deleteUserDisplay } from "../../../../../Services/APIs/EndPoints/Auth/Display";
 import type { UserDisplayResponse } from "../../../../../Types/AuthType";
 
 
@@ -62,6 +62,25 @@ export default function DisplayForm() {
         }
     };
 
+
+    const handleDelete = async () => {
+        setMessage(null);
+        setError(null);
+        setSaving(true);
+
+        try {
+            await deleteUserDisplay();
+            setPhoto("");
+            setData(prev => ({ ...(prev ?? { username: "" }), display: null }));
+            setMessage("🗑️ photo berhasil dihapus!");
+        } catch (err: any) {
+            setError(err.response?.data?.detail || "Gagal menghapus photo.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
+
     if (loading) return <p>⏳ Memuat data...</p>;
 
     return (
@@ -82,9 +101,12 @@ export default function DisplayForm() {
 
                 {/* 🔹 Tampilkan status nomor */}
                 {data?.display ? (
-                    <p className="text-gray-600 text-sm mt-2">
-                        Nomor saat ini: <span className="font-semibold">{data.display.photo}</span>
-                    </p>
+                    <>
+                        <p className="text-gray-600 text-sm mt-2">
+                            Nomor saat ini: <span className="font-semibold">{data.display.photo}</span>
+                        </p>
+                        <button type="button" onClick={handleDelete}>hapus</button>
+                    </>
                 ) : (
                     <p className="text-gray-500 text-sm mt-2 italic">Belum ada nomor</p>
                 )}

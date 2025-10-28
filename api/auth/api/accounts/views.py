@@ -47,25 +47,16 @@ class UserPhoneUpdateView(APIView):
 
 class UserPhoneDeleteView(APIView):
     permission_classes = [permissions.IsAuthenticated]
-
     def delete(self, request):
         user = request.user
         profile = getattr(user, "is_profile", None)
-
-        # Jika profil belum ada → tidak ada nomor untuk dihapus
         if not profile or not profile.phone:
-            return Response({"detail": "Tidak ada nomor telepon untuk dihapus."},
-                            status=status.HTTP_404_NOT_FOUND)
-
-        # Hapus data phone yang terhubung
+            return Response({"detail": "Tidak ada nomor telepon untuk dihapus."}, status=status.HTTP_404_NOT_FOUND)
         phone = profile.phone
         profile.phone = None
         profile.save()
-
         phone.delete()
-
-        return Response({"detail": "Nomor telepon berhasil dihapus."},
-                        status=status.HTTP_200_OK)
+        return Response({"detail": "Nomor telepon berhasil dihapus."}, status=status.HTTP_200_OK)
     
 
 #█▀█ █▀█ █▀▀ █▀▀ █▀▀ █▀█ █▀▀ █▄░█ █▀▀ █▀▀
@@ -107,6 +98,20 @@ class UserPreferenceUpdateView(APIView):
         return Response({"detail": "Nomor telepon berhasil disimpan.", "language": preference.language}, status=status.HTTP_200_OK)
 
 
+class UserPreferenceDeleteView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def delete(self, request):
+        user = request.user
+        profile = getattr(user, "is_profile", None)
+        if not profile or not profile.preference:
+            return Response({"detail": "Tidak ada preference untuk dihapus."}, status=status.HTTP_404_NOT_FOUND)
+        preference = profile.preference
+        profile.preference = None
+        profile.save()
+        preference.delete()
+        return Response({"detail": "preference berhasil dihapus."}, status=status.HTTP_200_OK)
+    
+
 #█▀▄ █ █▀ █▀█ █░░ ▄▀█ █▄█
 #█▄▀ █ ▄█ █▀▀ █▄▄ █▀█ ░█░
 class UserDisplayView(APIView):
@@ -146,6 +151,20 @@ class UserDisplayUpdateView(APIView):
         return Response({"detail": "photo display berhasil disimpan.", "photo": display.photo}, status=status.HTTP_200_OK)
 
 
+class UserDisplayDeleteView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def delete(self, request):
+        user = request.user
+        profile = getattr(user, "is_profile", None)
+        if not profile or not profile.display:
+            return Response({"detail": "Tidak ada display untuk dihapus."}, status=status.HTTP_404_NOT_FOUND)
+        display = profile.display
+        profile.display = None
+        profile.save()
+        display.delete()
+        return Response({"detail": "display berhasil dihapus."}, status=status.HTTP_200_OK)
+    
+
 #▄▀█ █▀▄ █▀▄ █▀█ █▀▀ █▀ █▀
 #█▀█ █▄▀ █▄▀ █▀▄ ██▄ ▄█ ▄█
 class UserAddressView(APIView):
@@ -183,3 +202,17 @@ class UserAddressUpdateView(APIView):
             address.save()
         profile.save()
         return Response({"detail": "nomor pos berhasil disimpan.", "postal_code": address.postal_code}, status=status.HTTP_200_OK)
+    
+
+class UserAddressDeleteView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    def delete(self, request):
+        user = request.user
+        profile = getattr(user, "is_profile", None)
+        if not profile or not profile.address:
+            return Response({"detail": "Tidak ada address untuk dihapus."}, status=status.HTTP_404_NOT_FOUND)
+        address = profile.address
+        profile.address = None
+        profile.save()
+        address.delete()
+        return Response({"detail": "address berhasil dihapus."}, status=status.HTTP_200_OK)
