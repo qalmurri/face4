@@ -11,7 +11,7 @@ export default function DisplayForm() {
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    // 🔹 Ambil data nomor telepon user
+    // 🔹 Ambil data Photo user
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -33,20 +33,20 @@ export default function DisplayForm() {
         fetchData();
     }, []);
 
-    // 🔹 Validasi sederhana nomor telepon
+    // 🔹 Validasi sederhana Photo
     const isValidPhone = (input: string) => {
         const displayRegex = /^\+?\d{8,15}$/; // hanya angka + opsional
         return displayRegex.test(input);
     };
 
-    // 🔹 Simpan perubahan nomor telepon
+    // 🔹 Simpan perubahan Photo
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage(null);
         setError(null);
 
         if (!isValidPhone(photo)) {
-            setError("Nomor telepon tidak valid. Gunakan format seperti +628123456789.");
+            setError("Photo tidak valid. Gunakan format seperti +628123456789.");
             return;
         }
 
@@ -54,9 +54,9 @@ export default function DisplayForm() {
         try {
             const res = await saveUserDisplay(photo);
             setData(res);
-            setMessage("✅ Nomor telepon berhasil disimpan!");
+            setMessage("✅ Photo berhasil disimpan!");
         } catch (err: any) {
-            setError(err.response?.data?.detail || "Gagal menyimpan nomor telepon.");
+            setError(err.response?.data?.detail || "Gagal menyimpan Photo.");
         } finally {
             setSaving(false);
         }
@@ -85,11 +85,11 @@ export default function DisplayForm() {
 
     return (
         <div className="max-w-md p-5 bg-white rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold mb-4">📱 Pengaturan Nomor Telepon</h2>
+            <h2 className="text-xl font-semibold mb-4">📱 Pengaturan Photo</h2>
 
             <form onSubmit={handleSave}>
                 <label className="block mb-2 text-sm font-medium text-gray-700">
-                    Nomor Telepon
+                    Photo
                 </label>
                 <input
                     type="text"

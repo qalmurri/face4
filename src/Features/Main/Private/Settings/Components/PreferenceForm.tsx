@@ -11,7 +11,7 @@ export default function PreferenceForm() {
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    // 🔹 Ambil data nomor telepon user
+    // 🔹 Ambil data Language user
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -33,20 +33,20 @@ export default function PreferenceForm() {
         fetchData();
     }, []);
 
-    // 🔹 Validasi sederhana nomor telepon
+    // 🔹 Validasi sederhana Language
     const isValidPhone = (input: string) => {
         const preferenceRegex = /^\+?\d{8,15}$/; // hanya angka + opsional
         return preferenceRegex.test(input);
     };
 
-    // 🔹 Simpan perubahan nomor telepon
+    // 🔹 Simpan perubahan Language
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage(null);
         setError(null);
 
         if (!isValidPhone(language)) {
-            setError("Nomor telepon tidak valid. Gunakan format seperti +628123456789.");
+            setError("Language tidak valid. Gunakan format seperti +628123456789.");
             return;
         }
 
@@ -54,9 +54,9 @@ export default function PreferenceForm() {
         try {
             const res = await saveUserPreference(language);
             setData(res);
-            setMessage("✅ Nomor telepon berhasil disimpan!");
+            setMessage("✅ Language berhasil disimpan!");
         } catch (err: any) {
-            setError(err.response?.data?.detail || "Gagal menyimpan nomor telepon.");
+            setError(err.response?.data?.detail || "Gagal menyimpan Language.");
         } finally {
             setSaving(false);
         }
@@ -85,11 +85,11 @@ export default function PreferenceForm() {
 
     return (
         <div className="max-w-md p-5 bg-white rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold mb-4">📱 Pengaturan Nomor Telepon</h2>
+            <h2 className="text-xl font-semibold mb-4">📱 Pengaturan Language</h2>
 
             <form onSubmit={handleSave}>
                 <label className="block mb-2 text-sm font-medium text-gray-700">
-                    Nomor Telepon
+                    Language
                 </label>
                 <input
                     type="text"

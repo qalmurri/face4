@@ -11,7 +11,7 @@ export default function AddressForm() {
     const [message, setMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    // 🔹 Ambil data nomor telepon user
+    // 🔹 Ambil data Postal Code user
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -33,20 +33,20 @@ export default function AddressForm() {
         fetchData();
     }, []);
 
-    // 🔹 Validasi sederhana nomor telepon
+    // 🔹 Validasi sederhana Postal Code
     const isValidPhone = (input: string) => {
         const addressRegex = /^\+?\d{8,15}$/; // hanya angka + opsional
         return addressRegex.test(input);
     };
 
-    // 🔹 Simpan perubahan nomor telepon
+    // 🔹 Simpan perubahan Postal Code
     const handleSave = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage(null);
         setError(null);
 
         if (!isValidPhone(postal_code)) {
-            setError("Nomor telepon tidak valid. Gunakan format seperti +628123456789.");
+            setError("Postal Code tidak valid. Gunakan format seperti +628123456789.");
             return;
         }
 
@@ -54,9 +54,9 @@ export default function AddressForm() {
         try {
             const res = await saveUserAddress(postal_code);
             setData(res);
-            setMessage("✅ Nomor telepon berhasil disimpan!");
+            setMessage("✅ Postal Code berhasil disimpan!");
         } catch (err: any) {
-            setError(err.response?.data?.detail || "Gagal menyimpan nomor telepon.");
+            setError(err.response?.data?.detail || "Gagal menyimpan Postal Code.");
         } finally {
             setSaving(false);
         }
@@ -84,11 +84,11 @@ export default function AddressForm() {
 
     return (
         <div className="max-w-md p-5 bg-white rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold mb-4">📱 Pengaturan Nomor Telepon</h2>
+            <h2 className="text-xl font-semibold mb-4">📱 Pengaturan Postal Code</h2>
 
             <form onSubmit={handleSave}>
                 <label className="block mb-2 text-sm font-medium text-gray-700">
-                    Nomor Telepon
+                    Postal Code
                 </label>
                 <input
                     type="text"
