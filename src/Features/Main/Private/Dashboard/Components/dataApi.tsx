@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const getAccessToken = (): string | null => localStorage.getItem("access");
+const getAccessToken = (): string | null => localStorage.getItem("access_token");
 
 const dataApi = axios.create({
-  baseURL: "http://127.0.0.1:8001/api/",
+  baseURL: "http://127.0.0.1:8001/data/",
   headers: { "Content-Type": "application/json" },
 });
 

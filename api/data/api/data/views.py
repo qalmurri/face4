@@ -4,8 +4,10 @@ from rest_framework import status
 from .models import Note
 from .serializers import NoteSerializer
 from utils.auth import verify_token
+from rest_framework.permissions import AllowAny
 
 class NoteListCreateView(APIView):
+    permission_classes = [AllowAny]
     def get(self, request):
         verify_token(request)
         notes = Note.objects.all().order_by('-created_at')
@@ -22,6 +24,7 @@ class NoteListCreateView(APIView):
 
 
 class NoteDetailView(APIView):
+    permission_classes = [AllowAny]
     def get_object(self, pk):
         try:
             return Note.objects.get(pk=pk)

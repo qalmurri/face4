@@ -1,5 +1,4 @@
 import requests
-from django.conf import settings
 from rest_framework.exceptions import AuthenticationFailed
 
 def verify_token(request):
@@ -9,7 +8,7 @@ def verify_token(request):
 
     # Kirim ke server AUTH untuk validasi
     res = requests.post(
-        f"{settings.AUTH_SERVER_URL}/auth/tok/ver/",
+        "http://127.0.0.1:8000/auth/tok/ver/",
         headers={"Content-Type": "application/json"},
         json={"token": token.replace("Bearer ", "")}
     )
