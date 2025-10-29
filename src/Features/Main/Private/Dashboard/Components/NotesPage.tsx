@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
-import dataApi from "./dataApi";
+import {
+  getNotes,
+  createNote,
+  updateNote,
+  deleteNote,
+} from "../../../../../Services/APIs/EndPoints/Data/Notes";
 import type { Note } from "./Types/Notes";
 
 export default function NotesPage() {
   const [notes, setNotes] = useState<Note[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const [newNote, setNewNote] = useState({ title: "", content: "" });
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [message, setMessage] = useState<string | null>(null);
@@ -12,10 +17,14 @@ export default function NotesPage() {
   const fetchNotes = async () => {
     setLoading(true);
     try {
-      const res = await dataApi.get<Note[]>("notes/");
-      setNotes(res.data);
+      const data = await getNotes();
+      setNotes(data);
     } catch (err: any) {
-      console.error("Error fetching notes:", err.response?.data || err.message);
+      console.error(
+        "❌ Gagal memuat catatan:",
+        err.response?.data || err.message
+      );
+      setMessage("Gagal memuat data — pastikan kamu sudah login.");
     } finally {
       setLoading(false);
     }
@@ -25,12 +34,13 @@ export default function NotesPage() {
     e.preventDefault();
     if (!newNote.title.trim()) return setMessage("Judul tidak boleh kosong!");
     try {
-      await dataApi.post("notes/", newNote);
+      await createNote(newNote);
       setNewNote({ title: "", content: "" });
       setMessage("Catatan berhasil ditambahkan ✅");
       fetchNotes();
     } catch (err: any) {
       console.error(err.response?.data || err.message);
+      setMessage("Gagal menambahkan catatan");
     }
   };
 
@@ -38,23 +48,25 @@ export default function NotesPage() {
     e.preventDefault();
     if (!editingNote) return;
     try {
-      await dataApi.patch(`notes/${editingNote.id}/`, editingNote);
+      await updateNote(editingNote.id, editingNote);
       setEditingNote(null);
       setMessage("Catatan berhasil diperbarui ✅");
       fetchNotes();
     } catch (err: any) {
       console.error(err.response?.data || err.message);
+      setMessage("Gagal memperbarui catatan");
     }
   };
 
   const handleDelete = async (id: number) => {
     if (!confirm("Yakin ingin menghapus catatan ini?")) return;
     try {
-      await dataApi.delete(`notes/${id}/`);
+      await deleteNote(id);
       setMessage("Catatan berhasil dihapus 🗑️");
       fetchNotes();
     } catch (err: any) {
       console.error(err.response?.data || err.message);
+      setMessage("Gagal menghapus catatan");
     }
   };
 
@@ -111,9 +123,7 @@ export default function NotesPage() {
 
       {/* Notifikasi */}
       {message && (
-        <div className="mb-4 text-green-600 font-medium text-center">
-          {message}
-        </div>
+        <p className="mb-4 text-green-600 font-medium text-center">{message}</p>
       )}
 
       {/* Daftar Catatan */}
