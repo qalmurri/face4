@@ -16,11 +16,16 @@ INSTALLED_APPS = [
     "rest_framework",
     "auth_server",
     "data",
+    "corsheaders",
 ]
-
-AUTH_SERVER_URL="http://127.0.0.1:8000/"   # endpoint dari server Auth
+MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+]
+CORS_ALLOW_ALL_ORIGINS = True
+AUTH_SERVER_URL="http://127.0.0.1:8000/auth/tok/ver/"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
