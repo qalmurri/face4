@@ -9,5 +9,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='token_logout'),
     path("logout_all/", LogoutAllView.as_view(), name="logout_all"),
     path("tok/ref/", TokenRefreshView.as_view(), name="token_refresh"),
-    path('tok/ver/', TokenVerifyView.as_view(), name='token_verify')
+    path('tok/ver/', TokenVerifyView.as_view(), name='token_verify'),
+    path('data/tok/ver/', TokenVerifyView.as_view(), name='token_verify')
 ]

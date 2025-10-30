@@ -22,7 +22,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 CORS_ALLOW_ALL_ORIGINS = True
-AUTH_SERVER_URL="http://127.0.0.1:8000/auth/tok/ver/"
+AUTH_SERVER_URL="http://127.0.0.1:8000/auth/data/tok/ver/"
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
