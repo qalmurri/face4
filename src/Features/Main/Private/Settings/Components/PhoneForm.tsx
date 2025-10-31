@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserPhone, saveUserPhone, deleteUserPhone } from "../../../../../Services/APIs/EndPoints/Auth/Phone";
+import { getUserPhone, saveUserPhone, deleteUserPhone } from "../../../../../Services/APIs/Auth/EndPoints/Phone";
 import type { UserPhoneResponse } from "../../../../../Types/AuthType";
 
 

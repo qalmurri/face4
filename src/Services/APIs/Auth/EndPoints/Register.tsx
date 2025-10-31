@@ -1,4 +1,4 @@
-import API from "../../Auth";
+import API from "../Interceptors";
 import type { RegisterRequest, LoginResponse } from "../../../../Types/AuthType";
 
 export async function registerUser(

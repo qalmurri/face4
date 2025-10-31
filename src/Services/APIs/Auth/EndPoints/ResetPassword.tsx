@@ -1,4 +1,4 @@
-import API from "../../Auth";
+import API from "../Interceptors";
 
 export async function resetPassword(
   uid: string,

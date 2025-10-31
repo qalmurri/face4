@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserDisplay, saveUserDisplay, deleteUserDisplay } from "../../../../../Services/APIs/EndPoints/Auth/Display";
+import { getUserDisplay, saveUserDisplay, deleteUserDisplay } from "../../../../../Services/APIs/Auth/EndPoints/Display";
 import type { UserDisplayResponse } from "../../../../../Types/AuthType";
 
 

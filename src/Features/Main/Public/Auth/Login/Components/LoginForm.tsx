@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "../../../../../../Services/APIs/EndPoints/Auth/Login";
+import { loginUser } from "../../../../../../Services/APIs/Auth/EndPoints/Login";
 import { useStatus } from "../../../../../../Contexts/StatusContext";
 import type { LoginResponse } from "../../../../../../Types/AuthType";
 import { Input, Label, GeneralButton } from "../../../../../../Components/Atoms";

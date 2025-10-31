@@ -1,4 +1,4 @@
-import API from "../../Auth";
+import API from "../Interceptors";
 
 export const requestStaffActivation = async () => {
   return API.post("/req/req-staff/");

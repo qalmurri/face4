@@ -1,14 +1,9 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
 
-import { logoutRequest } from "../Services/APIs/EndPoints/Auth/Logout";
 import { useToken } from "./TokenContext";
 import type { StatusContextType } from "../Types/ContextsType";
-
-
-//█▀ ▀█▀ ▄▀█ ▀█▀ █░█ █▀   █▀▀ █▀█ █▄░█ ▀█▀ █▀▀ ▀▄▀ ▀█▀
-//▄█ ░█░ █▀█ ░█░ █▄█ ▄█   █▄▄ █▄█ █░▀█ ░█░ ██▄ █░█ ░█░
-
+import { logout as logoutService } from "../Services/APIs/Auth/Service";
 
 const StatusContext = createContext<StatusContextType | undefined>(undefined);
 
@@ -21,23 +16,19 @@ export function StatusProvider({ children }: { children: ReactNode }) {
         setIsAuthenticated(true);
     };
 
-    const logout = async () => {
-        try {
-            if (refreshToken) await logoutRequest();
-        } catch (err) {
-            console.error("Logout request failed:", err);
-        } finally {
-            clearTokensState();
-            setIsAuthenticated(false);
-        }
+    const handleLogout = () => {
+        if (refreshToken) logoutService();
+        clearTokensState();
+        setIsAuthenticated(false);
     };
 
+    // auto update status when token changes
     useEffect(() => {
         setIsAuthenticated(!!accessToken);
     }, [accessToken]);
 
     return (
-        <StatusContext.Provider value={{ isAuthenticated, login, logout }}>
+        <StatusContext.Provider value={{ isAuthenticated, login, logout: handleLogout }}>
             {children}
         </StatusContext.Provider>
     );

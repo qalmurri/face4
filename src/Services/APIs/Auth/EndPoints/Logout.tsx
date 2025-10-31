@@ -1,6 +1,5 @@
-import API from "../../Auth";
-import { getRefreshToken } from "../../Utilities/TokenService";
-
+import API from "../Interceptors";
+import { getRefreshToken } from "../../Auth/TokenService";
 
 export const logoutRequest = async () => {
   const refresh = getRefreshToken();

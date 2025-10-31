@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Input, Label, GeneralButton } from "../../../../../../Components/Atoms";
-import { resetPassword, checkResetPassword } from "../../../../../../Services/APIs/EndPoints/Auth/ResetPassword";
+import { resetPassword, checkResetPassword } from "../../../../../../Services/APIs/Auth/EndPoints/ResetPassword";
 
 export default function ResetPasswordForm() {
   const { uid, token } = useParams<{ uid: string; token: string }>();

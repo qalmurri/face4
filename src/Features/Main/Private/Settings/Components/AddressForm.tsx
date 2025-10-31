@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserAddress, saveUserAddress, deleteUserAddress } from "../../../../../Services/APIs/EndPoints/Auth/Address";
+import { getUserAddress, saveUserAddress, deleteUserAddress } from "../../../../../Services/APIs/Auth/EndPoints/Address";
 import type { UserAddressResponse } from "../../../../../Types/AuthType";
 
 

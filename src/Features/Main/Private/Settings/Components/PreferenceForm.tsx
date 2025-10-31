@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserPreference, saveUserPreference, deleteUserPreference } from "../../../../../Services/APIs/EndPoints/Auth/Preference";
+import { getUserPreference, saveUserPreference, deleteUserPreference } from "../../../../../Services/APIs/Auth/EndPoints/Preference";
 import type { UserPreferenceResponse } from "../../../../../Types/AuthType";
 
 

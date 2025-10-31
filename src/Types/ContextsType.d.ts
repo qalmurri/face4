@@ -8,5 +8,5 @@ export interface TokenContextType {
 export interface StatusContextType {
     isAuthenticated: boolean;
     login: (access: string, refresh: string) => void;
-    logout: () => Promise<void>;
+    logout: () => void;
 }

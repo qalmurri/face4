@@ -39,6 +39,16 @@ function MainContent() {
         </Route>
       </Route>
 
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomeRoute />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/faq" element={<FaqPage />} />
+        <Route path="/privacy" element={<PrivacyPolicyPage />} />
+        <Route path="/tos" element={<TermsOfServicePage />} />
+        <Route path="/activate-staff/:uid/:token" element={<StaffActivationPage />} />
+      </Route>
+
       <Route element={<ProtectedRoute />}>
         <Route element={<MainLayout />}>
           <Route path="/request-staff" element={<StaffRequestPage />} />
@@ -48,17 +58,6 @@ function MainContent() {
           <Route path="/account/display" element={<DisplayPage />} />
           <Route path="/account/preference" element={<PreferencePage />} />
         </Route>
-      </Route>
-
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<HomeRoute />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/faq" element={<FaqPage />} />
-        <Route path="/privacy" element={<PrivacyPolicyPage />} />
-        <Route path="/tos" element={<TermsOfServicePage />} />
-        <Route path="/activate-staff/:uid/:token" element={<StaffActivationPage />}
-        />
       </Route>
 
       <Route element={<NotFoundLayout />}>

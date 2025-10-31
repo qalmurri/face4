@@ -1,6 +1,5 @@
-import API from "../../Auth";
+import API from "../Interceptors";
 import type { ForgotPasswordRequest } from "../../../../Types/AuthType";
-
 
 export async function forgotPasswordCheck(
   payload: ForgotPasswordRequest
@@ -15,7 +14,6 @@ export async function forgotPasswordCheck(
     throw new Error("Koneksi server gagal");
   }
 }
-
 
 export async function forgotPasswordConfirm(
   payload: ForgotPasswordRequest

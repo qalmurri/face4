@@ -1,13 +1,12 @@
 import { useEffect, useState, createContext, useContext } from "react";
 import type { ReactNode } from "react";
-
-import { getAccessToken, getRefreshToken, saveTokens, clearTokens } from "../Services/APIs/Utilities/TokenService";
+import {
+  getAccessToken,
+  getRefreshToken,
+  saveTokens,
+  clearTokens
+} from "../Services/APIs/Auth/TokenService";
 import type { TokenContextType } from "../Types/ContextsType";
-
-
-//▀█▀ █▀█ █▄▀ █▀▀ █▄░█   █▀▀ █▀█ █▄░█ ▀█▀ █▀▀ ▀▄▀ ▀█▀
-//░█░ █▄█ █░█ ██▄ █░▀█   █▄▄ █▄█ █░▀█ ░█░ ██▄ █░█ ░█░
-
 
 const TokenContext = createContext<TokenContextType | undefined>(undefined);
 
@@ -27,13 +26,21 @@ export function TokenProvider({ children }: { children: ReactNode }) {
     setRefreshToken(null);
   };
 
+  // Sync state when browser refresh
   useEffect(() => {
     setAccessToken(getAccessToken());
     setRefreshToken(getRefreshToken());
   }, []);
 
   return (
-    <TokenContext.Provider value={{ accessToken, refreshToken, setTokens, clearTokensState }}>
+    <TokenContext.Provider
+      value={{
+        accessToken,
+        refreshToken,
+        setTokens,
+        clearTokensState
+      }}
+    >
       {children}
     </TokenContext.Provider>
   );
