@@ -10,13 +10,11 @@ import { Guard } from './Services/APIs/Auth/Guard';
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <TokenProvider>
-      <StatusProvider>
-        <Guard>
-          <ErrorBoundary>
-            <App />
-          </ErrorBoundary>
-        </Guard>
-      </StatusProvider>
+      <Guard>
+        <StatusProvider>
+          <App />
+        </StatusProvider>
+      </Guard>
     </TokenProvider>
   </React.StrictMode>
 );

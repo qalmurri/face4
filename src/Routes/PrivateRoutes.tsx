@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-import ProtectedRoute from "./Types/ProtectedRoute";
+
 import MainLayout from "../Layouts/MainLayout";
 import AccountsPage from "../Features/Main/Private/Settings/AccountPage";
 import PhonePage from "../Features/Main/Private/Settings/PhonePage";
@@ -11,15 +11,13 @@ import StaffRequestPage from "../Features/Main/Private/Activation/StaffRequestPa
 function PrivateContent() {
     return (
         <Routes>
-            <Route element={<ProtectedRoute />}>
-                <Route element={<MainLayout />}>
-                    <Route path="/request-staff" element={<StaffRequestPage />} />
-                    <Route path="/account/edit" element={<AccountsPage />} />
-                    <Route path="/account/phone" element={<PhonePage />} />
-                    <Route path="/account/address" element={<AddressPage />} />
-                    <Route path="/account/display" element={<DisplayPage />} />
-                    <Route path="/account/preference" element={<PreferencePage />} />
-                </Route>
+            <Route element={<MainLayout />}>
+                <Route path="/request-staff" element={<StaffRequestPage />} />
+                <Route path="/account/edit" element={<AccountsPage />} />
+                <Route path="/account/phone" element={<PhonePage />} />
+                <Route path="/account/address" element={<AddressPage />} />
+                <Route path="/account/display" element={<DisplayPage />} />
+                <Route path="/account/preference" element={<PreferencePage />} />
             </Route>
         </Routes>
     );
