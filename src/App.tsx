@@ -1,10 +1,14 @@
-import MainRoutes from './Routes/MainRoutes'
-import { Guard } from './Services/APIs/Auth/Guard';
+import { BrowserRouter } from "react-router-dom";
+import PublicRoutes from './Routes/PublicRoutes';
+import PrivateRoutes from './Routes/PrivateRoutes';
 
 export default function App() {
   return (
-    <Guard>
-      <MainRoutes />
-    </Guard>
+    <BrowserRouter>
+      <PublicRoutes />
+      <PrivateRoutes />
+    </BrowserRouter>
   );
 }
+
+

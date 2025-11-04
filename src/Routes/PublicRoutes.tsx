@@ -1,12 +1,9 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomeRoute from "./Types/HomeRoute";
 import PublicRoute from "./Types/PublicRoute";
-import ProtectedRoute from "./Types/ProtectedRoute";
 import MainLayout from "../Layouts/MainLayout";
-import NotFoundLayout from "../Layouts/Error/NotFoundLayout";
 import RegisterLayout from "../Layouts/Auth/RegisterLayout";
 import LoginLayout from "../Layouts/Auth/LoginLayout";
-import NotFoundPage from "../Pages/NotFoundPage";
 import StaffActivationPage from "../Features/Main/Public/Activation/StaffActivationPage";
 import LoginPage from "../Features/Main/Public/Auth/Login/LoginPage";
 import RegisterPage from "../Features/Main/Public/Auth/Register/RegisterPage";
@@ -17,14 +14,8 @@ import PrivacyPolicyPage from "../Features/Main/Public/GeneralInfo/PrivacyPolicy
 import TermsOfServicePage from "../Features/Main/Public/GeneralInfo/TermsOfService/TermsOfServicePage";
 import ForgotPasswordPage from "../Features/Main/Public/Auth/Password/ForgotPasswordPage";
 import ResetPasswordPage from "../Features/Main/Public/Auth/Password/ResetPasswordPage";
-import AccountsPage from "../Features/Main/Private/Settings/AccountPage";
-import PhonePage from "../Features/Main/Private/Settings/PhonePage";
-import AddressPage from "../Features/Main/Private/Settings/AddressPage";
-import DisplayPage from "../Features/Main/Private/Settings/DisplayPage";
-import PreferencePage from "../Features/Main/Private/Settings/PreferencePage";
-import StaffRequestPage from "../Features/Main/Private/Activation/StaffRequestPage";
 
-function MainContent() {
+function PublicContent() {
   return (
     <Routes>
       <Route element={<PublicRoute />}>
@@ -48,29 +39,14 @@ function MainContent() {
         <Route path="/tos" element={<TermsOfServicePage />} />
         <Route path="/activate-staff/:uid/:token" element={<StaffActivationPage />} />
       </Route>
-
-      <Route element={<ProtectedRoute />}>
-        <Route element={<MainLayout />}>
-          <Route path="/request-staff" element={<StaffRequestPage />} />
-          <Route path="/account/edit" element={<AccountsPage />} />
-          <Route path="/account/phone" element={<PhonePage />} />
-          <Route path="/account/address" element={<AddressPage />} />
-          <Route path="/account/display" element={<DisplayPage />} />
-          <Route path="/account/preference" element={<PreferencePage />} />
-        </Route>
-      </Route>
-
-      <Route element={<NotFoundLayout />}>
-        <Route path="*" element={<NotFoundPage />} />
-      </Route>
     </Routes>
   );
 }
 
-export default function MainRoutes() {
+export default function PublicRoutes() {
   return (
-    <Router>
-      <MainContent />
-    </Router>
+
+    <PublicContent />
+
   )
 }
