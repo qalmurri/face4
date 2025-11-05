@@ -9,12 +9,25 @@ from django.contrib.auth.models import User
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from uuid import uuid4
 
 class User(AbstractUser):
+    # Default
+    public_id = models.UUIDField(default=uuid4, unique=True, editable=False)
     first_name = None
     last_name = None
-    date_joined = None
-    last_login = None
     is_staff = None
     is_superuser = None
-#    number = models.IntegerField()
+
+    # Custom model
+    phone = models.CharField(max_length=20, unique=True, null=True, blank=True)
+
+class UserVerification(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="verification")
+    email_verified = models.BooleanField(default=False)
+    phone_verified = models.BooleanField(default=False)
+    email_verified_at = models.DateTimeField(null=True, blank=True)
+    phone_verified_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        db_table = "authentications_user_verification"

@@ -60,18 +60,22 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated'),
 }
 
-# REST_FRAMEWORK.update({
-#     "DEFAULT_THROTTLE_CLASSES": [
-#         "rest_framework.throttling.UserRateThrottle",
-#         "rest_framework.throttling.AnonRateThrottle",
-#     ],
-#     "DEFAULT_THROTTLE_RATES": {
-#         "user": "100/min",
-#         "anon": "20/min",
-#         "login": "5/min",
-#         "register": "3/min",
-#     }
-# })
+REST_FRAMEWORK.update({
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "user": "100/min",
+        "anon": "20/min",
+
+        # Custom API scopes
+        "login": "5/min",
+        "register": "3/min",
+        "verify_email": "3/min",
+        "reset_password": "5/hour",
+    }
+})
 
 # JWT Config
 SIMPLE_JWT = {

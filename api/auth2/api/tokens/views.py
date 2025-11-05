@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from rest_framework_simplejwt.views import TokenObtainPairView
+from core.throttles import LoginThrottle
+from core.permission import DenyAuthenticated
 
-# Create your views here.
+class LoginView(TokenObtainPairView):
+    permission_classes = [DenyAuthenticated]
+    throttle_classes = [LoginThrottle]
