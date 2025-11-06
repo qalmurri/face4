@@ -13,13 +13,15 @@ from uuid import uuid4
 
 class User(AbstractUser):
     # Default
-    public_id = models.UUIDField(default=uuid4, unique=True, editable=False)
+    email = models.EmailField(unique=True, null=True, blank=True)
+    username = models.CharField(max_length=150, unique=True, null=True, blank=True)
     first_name = None
     last_name = None
     is_staff = None
     is_superuser = None
 
     # Custom model
+    public_id = models.UUIDField(default=uuid4, unique=True, editable=False)
     phone = models.CharField(max_length=20, unique=True, null=True, blank=True)
 
 class UserVerification(models.Model):
