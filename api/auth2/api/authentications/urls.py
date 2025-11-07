@@ -1,17 +1,16 @@
 from django.urls import path
-from .views import RegisterView, LoginView, LogoutView, TokenRefreshView, CheckTokenRawView, CheckTokenView
-
+from .views import register, login, logout, token
 
 urlpatterns = [
     # Core
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('logout/', LogoutView.as_view(), name='login'),
+    path('register/', register.RegisterView.as_view(), name='register'),
+    path('login/', login.LoginView.as_view(), name='login'),
+    path('token/refresh/', token.TokenRefreshView.as_view(), name='token_refresh'),
+    path('logout/', logout.LogoutView.as_view(), name='login'),
 
     # Token check
-    path('token/check/', CheckTokenView.as_view(), name='check_token'),
-    path('token/check/raw', CheckTokenRawView.as_view(), name='check_token_raw'),
+    path('token/check/', token.CheckTokenView.as_view(), name='check_token'),
+    path('token/check/raw', token.CheckTokenRawView.as_view(), name='check_token_raw'),
 
     # Verification
     # path('verify/email/', VerifyEmailView.as_view(), name='verify_email'),
