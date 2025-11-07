@@ -6,8 +6,8 @@ from core.permission import DenyAuthenticated
 from .serializers import RegisterSerializer
 
 class RegisterView(APIView):
-    permission_classes = [DenyAuthenticated]
-    throttle_classes = [RegisterThrottle]
+    #permission_classes = [DenyAuthenticated]
+    #throttle_classes = [RegisterThrottle]
 
     def post(self, request):
          serializer = RegisterSerializer(data=request.data)

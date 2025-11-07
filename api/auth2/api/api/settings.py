@@ -7,11 +7,16 @@ SECRET_KEY = 'django-insecure-w%=6$cia*3p&(*!fd(gcfj^n_^t%+r169hs2@ok6=vxodj2*u$
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 INSTALLED_APPS = [
+    # 'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    # 'django.contrib.messages',
+    # 'django.contrib.staticfiles',
+
 
     #Core API
     'rest_framework',
@@ -88,3 +93,13 @@ SIMPLE_JWT = {
 
 # CORS Config
 CORS_ALLOW_ALL_ORIGINS = True  # untuk dev, production ganti ke whitelist
+CORS_ALLOWED_ORIGINS = [
+    "https://example.com",
+    "https://sub.example.com",
+    "http://localhost:8080",
+    "http://localhost:5173"
+]
+
+# Email
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
