@@ -1,66 +1,53 @@
 from rest_framework import serializers
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, validate_email
+from django.core.exceptions import ValidationError
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-class RegisterSerializer(serializers.Serializer):
-    '''
-    Payload Backend, Frontend kirim:
-    {
-      "identifier_type": "email",
-      "identifier": "user@example.com",
-      "password": "12345678"
-    }
-    '''
-    identifier_type = serializers.ChoiceField(choices=["email", "phone", "username"])
-    identifier = serializers.CharField()
+
+class RegisterSerializer(serializers.ModelSerializer):
+    identifier = serializers.CharField(write_only=True)
     password = serializers.CharField(write_only=True, min_length=8)
 
-    phone_validator = RegexValidator(
-        regex=r'^[0-9]{8,15}$',
-        message="Phone number must be 8-15 digits"
-    )
+    class Meta:
+        model = User
+        fields = ["identifier", "password"]
 
-    def validate(self, data):
-        identifier_type = data["identifier_type"]
-        identifier = data["identifier"]
+    def validate_identifier(self, value):
+        # Deteksi email / phone / username
+        try:
+            validate_email(value)
+            self.context["register_type"] = "email"
+            return value
+        except ValidationError:
+            pass
 
-        # Validation by type
-        if identifier_type == "email":
-            if User.objects.filter(email=identifier).exists():
-                raise serializers.ValidationError("Email already registered")
+        phone_regex = RegexValidator(regex=r"^\+?\d{9,15}$")
+        try:
+            phone_regex(value)
+            self.context["register_type"] = "phone"
+            return value
+        except ValidationError:
+            pass
 
-        elif identifier_type == "phone":
-            self.phone_validator(identifier)
-            if User.objects.filter(phone=identifier).exists():
-                raise serializers.ValidationError("Phone already registered")
+        if not value.isalnum():
+            raise serializers.ValidationError("Username hanya boleh huruf dan angka.")
+        self.context["register_type"] = "username"
+        return value
 
-        elif identifier_type == "username":
-            if User.objects.filter(username=identifier).exists():
-                raise serializers.ValidationError("Username already registered")
+    def validate(self, attrs):
+        register_type = self.context.get("register_type")
+        identifier = attrs.get("identifier")
+        if register_type == "email" and User.objects.filter(email=identifier).exists():
+            raise serializers.ValidationError({"identifier": "Email sudah terdaftar."})
+        elif register_type == "phone" and User.objects.filter(phone=identifier).exists():
+            raise serializers.ValidationError({"identifier": "Nomor telepon sudah terdaftar."})
+        elif register_type == "username" and User.objects.filter(username=identifier).exists():
+            raise serializers.ValidationError({"identifier": "Username sudah terdaftar."})
+        return attrs
+    
 
-        return data
-
-    def create(self, validated_data):
-        identifier_type = validated_data["identifier_type"]
-        identifier = validated_data["identifier"]
-        password = validated_data["password"]
-
-        user = User()
-
-        if identifier_type == "email":
-            user.email = identifier
-            user.username = identifier.split("@")[0]
-
-        elif identifier_type == "phone":
-            user.phone = identifier
-            user.username = f"user_{identifier[-4:]}"  # auto username
-
-        elif identifier_type == "username":
-            user.username = identifier
-
-        user.set_password(password)
-        user.save()
-
-        return user
+class LoginSerializer(serializers.Serializer):
+    identifier = serializers.CharField()
+    password = serializers.CharField(write_only=True)

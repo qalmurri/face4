@@ -18,5 +18,4 @@ from django.urls import path, include
 
 urlpatterns = [
     path('authentications/', include('authentications.urls')),
-    path('tokens/', include('tokens.urls')),
 ]

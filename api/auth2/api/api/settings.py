@@ -25,7 +25,6 @@ INSTALLED_APPS = [
 
     # APP
     'authentications',
-    'tokens'
 ]
 
 MIDDLEWARE = [
@@ -68,8 +67,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # DRF Config
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication'),
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated'),
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
+    ],
 }
 
 REST_FRAMEWORK.update({
@@ -96,6 +100,11 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": True, # refresh token baru tiap refresh
     "BLACKLIST_AFTER_ROTATION": True, # refresh token lama diblacklist
     "AUTH_HEADER_TYPES": ("Bearer",),
+
+    # JWT yang bisa diverifikasi antar service tanpa memanggil auth server setiap kali
+    # "ALGORITHM": "RS256",
+    # "SIGNING_KEY": open("private.pem").read(),
+    # "VERIFYING_KEY": open("public.pem").read(),
 }
 
 # CORS Config
