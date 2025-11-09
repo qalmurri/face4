@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register, login, logout, token
+from .views import register, login, logout, token, password, verify
 
 urlpatterns = [
     # Core
@@ -13,14 +13,15 @@ urlpatterns = [
     path('token/check/raw', token.CheckTokenRawView.as_view(), name='check_token_raw'),
 
     # Verification
-    # path('verify/email/', VerifyEmailView.as_view(), name='verify_email'),
+    path('verify/email/request/', verify.RequestEmailVerificationView.as_view(), name='verify_email'),
+    path('verify/email/confirm/', verify.ConfirmEmailVerificationView.as_view(), name='verify_email_confirm'),
     # path('verify/phone/', VerifyPhoneView.as_view(), name='verify_phone'),
     # path('resend-verification/', ResendVerificationView.as_view(), name='resend_verification'),
 
     # Password management
-    # path('forgot-password/', ForgotPasswordView.as_view(), name='forgot_password'),
-    # path('reset-password/', ResetPasswordView.as_view(), name='reset_password'),
-    # path('change-password/', ChangePasswordView.as_view(), name='change_password'),
+    path('password/forgot/', password.ForgotPasswordView.as_view(), name='forgot_password'),
+    path('password/reset/', password.ResetPasswordView.as_view(), name='reset_password'),
+    path('password/change/', password.ChangePasswordView.as_view(), name='change_password'),
 
     # (Optional) device/session security
     # path('devices/', UserDeviceListView.as_view(), name='user_devices'),
