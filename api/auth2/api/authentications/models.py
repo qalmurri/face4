@@ -6,13 +6,14 @@ User = get_user_model()
 Bukan ini, karena ini salah untuk custom user
 from django.contrib.auth.models import User
 """
-
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from uuid import uuid4
-from django.utils import timezone
-from datetime import timedelta
 import time
+from uuid import uuid4
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
+
+def current_timestamp():
+    return int(time.time())
 
 class User(AbstractUser):
     # Default
@@ -23,11 +24,9 @@ class User(AbstractUser):
     is_staff = None
     is_superuser = None
     last_login = None
-
     # Custom model
     public_id = models.UUIDField(default=uuid4, unique=True, editable=False)
     phone = models.CharField(max_length=20, unique=True, null=True, blank=True)
-
 
 class UserVerification(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="verification")
@@ -35,10 +34,8 @@ class UserVerification(models.Model):
     phone_verified = models.BooleanField(default=False)
     email_verified_at = models.DateTimeField(null=True, blank=True)
     phone_verified_at = models.DateTimeField(null=True, blank=True)
-    
     class Meta:
         db_table = "authentications_user_verification"
-
 
 class UserDevice(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="devices")
@@ -47,53 +44,63 @@ class UserDevice(models.Model):
     browser = models.CharField(max_length=100, blank=True, null=True)
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     last_login = models.DateTimeField(default=timezone.now)
-    
     class Meta:
         db_table = "authentications_user_device"
 
-
-def current_timestamp():
-    return int(time.time())
+class VerificationPurpose(models.Model):
+    """
+    Daftar purpose untuk kode verifikasi (contoh: reset password, verifikasi email)
+    """
+    id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=50, unique=True)  # misalnya: "reset_password"
+    name = models.CharField(max_length=100)              # misalnya: "Reset Password"
+    class Meta:
+        db_table = "authentications_verification_purpose"
 
 class VerificationCode(models.Model):
     """
     Model untuk menyimpan kode verifikasi (OTP) multi-purpose.
     Digunakan untuk: verifikasi email/phone, reset password, 2FA, dll.
     Gunakan epoch timestamp agar lebih ringan dan efisien di DB besar.
-    """
-
+    """  
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="verification_codes")
-
     code = models.CharField(max_length=10)  # bisa numeric atau alphanumeric
-    purpose = models.IntegerField(max_length=1) # 0: reset_password 1: verify_email
-
+    purpose = models.ForeignKey(VerificationPurpose, on_delete=models.CASCADE, related_name="codes")
     created_at = models.BigIntegerField(default=current_timestamp)
     expires_at = models.BigIntegerField(null=False, blank=False)
     is_used = models.BooleanField(default=False)
-
-    # ---- Utility Methods ---- #
-
+    used_at = models.DateTimeField(null=True, blank=True)
+    def save(self, *args, **kwargs):
+        # Jika is_used diubah menjadi True dan belum ada used_at, isi otomatis
+        if self.is_used and self.used_at is None:
+            self.used_at = timezone.now()
+        super().save(*args, **kwargs)
     def is_valid(self) -> bool:
         """
         Cek apakah kode masih berlaku (belum kedaluwarsa dan belum dipakai)
         """
         now = int(time.time())
         return not self.is_used and now < self.expires_at
-
     @classmethod
-    def create_code(cls, user, code: str, purpose: int, ttl_minutes: int = 10):
+    def create_code(cls, user, code: str, purpose: str, ttl_minutes: int = 10):
         """
         Buat kode baru dan hapus kode lama yang sudah expired untuk efisiensi.
         """
         # Bersihkan kode lama user dengan purpose yang sama
-        cls.objects.filter(user=user, purpose=purpose, is_used=False).delete()
-
+        purpose_obj = VerificationPurpose.objects.get(code=purpose)
+        cls.objects.filter(user=user, purpose=purpose_obj, is_used=False).delete()
         now = int(time.time())
         expires_at = now + (ttl_minutes * 60)
         return cls.objects.create(
             user=user,
             code=code,
-            purpose=purpose,
+            purpose=purpose_obj,
             expires_at=expires_at
         )
+    class Meta:
+        db_table = "authentications_verification_code"
+        indexes = [
+            models.Index(fields=["user", "purpose", "code"]),
+            models.Index(fields=["expires_at"]),
+        ]

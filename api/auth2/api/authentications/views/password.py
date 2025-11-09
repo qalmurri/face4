@@ -32,7 +32,10 @@ class ForgotPasswordView(APIView):
         try:
             user = User.objects.get(**{lookup_field: identifier})
         except User.DoesNotExist:
-            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "User not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
         # Generate kode OTP
         code = generate_verification_code()
         # Kirim via email atau SMS
@@ -43,9 +46,11 @@ class ForgotPasswordView(APIView):
             send_phone_verification(user.phone, code)
             destination = "phone"
         # Simpan kode verifikasi ke database
-        VerificationCode.create_code(user, code, purpose=0)
+        VerificationCode.create_code(user, code, "reset_password")
         return Response(
-            {"message": f"Verification code sent to {destination}"},
+            {
+                "message": f"Verification code sent to {destination}"
+            },
             status=status.HTTP_200_OK
         )
 
@@ -77,7 +82,7 @@ class ResetPasswordView(APIView):
 
         # Cari kode verifikasi yang cocok
         try:
-            verif = VerificationCode.objects.filter(user=user, code=code, purpose=0).latest("created_at")
+            verif = VerificationCode.objects.filter(user=user, code=code, purpose__code="reset_password").latest("created_at")
         except VerificationCode.DoesNotExist:
             return Response({"error": "Invalid code"}, status=status.HTTP_400_BAD_REQUEST)
 
