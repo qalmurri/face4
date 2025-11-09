@@ -52,30 +52,22 @@ def handle_login(validated_data, request):
     identifier = validated_data["identifier"]
     password = validated_data["password"]
 
-    user = (
-        User.objects.filter(email=identifier).first()
-        or User.objects.filter(username=identifier).first()
-        or User.objects.filter(phone=identifier).first()
-    )
+    # ✅ Panggil authenticate() langsung — backend akan otomatis menangani email/phone/username
+    user = authenticate(request, username=identifier, password=password)
 
-    if not user:
-        raise exceptions.NotFound("User not found.")
+    if user is None:
+        raise exceptions.AuthenticationFailed("Invalid credentials.")
 
     if not user.is_active:
         raise exceptions.PermissionDenied("Account not active. Please verify your account.")
 
-    # Autentikasi via Django
-    user_auth = authenticate(request, username=user.username, password=password)
-    if not user_auth:
-        raise exceptions.AuthenticationFailed("Invalid credentials.")
-
     # Generate JWT tokens
-    tokens = generate_tokens(user_auth)
+    tokens = generate_tokens(user)
 
-    # otomatis log aktivitas login
+    # Logging device
     log_device_login(request, user)
 
     return {
-        "user": user_auth,
+        "user": user,
         "tokens": tokens
     }

@@ -6,6 +6,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from core.services.communication import send_email_verification, send_phone_verification, generate_verification_code
 from authentications.models import VerificationCode
+from core.permission import DenyAuthenticated
+from core.throttles import LoginThrottle
 
 User = get_user_model()
 
@@ -14,6 +16,10 @@ class ForgotPasswordView(APIView):
     """
     Step 1: Kirim kode verifikasi (OTP) ke email ATAU phone user.
     """
+    throttle_classes = [LoginThrottle]
+    authentication_classes = []
+    permission_classes = [DenyAuthenticated]
+
     def post(self, request):
         identifier = request.data.get("identifier")  # bisa email / phone
         if not identifier:
@@ -37,7 +43,7 @@ class ForgotPasswordView(APIView):
             send_phone_verification(user.phone, code)
             destination = "phone"
         # Simpan kode verifikasi ke database
-        VerificationCode.create_code(user, code, "reset_password")
+        VerificationCode.create_code(user, code, purpose=0)
         return Response(
             {"message": f"Verification code sent to {destination}"},
             status=status.HTTP_200_OK
@@ -49,6 +55,10 @@ class ResetPasswordView(APIView):
     Step 2: Verifikasi kode (OTP) dan setel ulang password.
     Dukung email ATAU phone.
     """
+    throttle_classes = [LoginThrottle]
+    authentication_classes = []
+    permission_classes = [DenyAuthenticated]
+
     def post(self, request):
         identifier = request.data.get("identifier")  # bisa email atau phone
         code = request.data.get("code")
@@ -67,7 +77,7 @@ class ResetPasswordView(APIView):
 
         # Cari kode verifikasi yang cocok
         try:
-            verif = VerificationCode.objects.filter(user=user, code=code, purpose="reset_password").latest("created_at")
+            verif = VerificationCode.objects.filter(user=user, code=code, purpose=0).latest("created_at")
         except VerificationCode.DoesNotExist:
             return Response({"error": "Invalid code"}, status=status.HTTP_400_BAD_REQUEST)
 

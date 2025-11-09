@@ -20,7 +20,7 @@ class RegisterView(APIView):
         if serializer.is_valid():
             handle_register(serializer.validated_data, serializer.context)
             return Response(
-                {"message": "Register success. Please verify your account"},
+                {"message": "Register success."},
                 status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

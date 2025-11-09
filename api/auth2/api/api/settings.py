@@ -119,3 +119,8 @@ CORS_ALLOWED_ORIGINS = [
 # Email
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+
+AUTHENTICATION_BACKENDS = [
+    "core.services.backends.MultiFieldModelBackend",  # Custom backend
+    "django.contrib.auth.backends.ModelBackend",  # Default fallback
+]

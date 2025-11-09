@@ -31,7 +31,7 @@ class RequestEmailVerificationView(generics.GenericAPIView):
 
         # Generate OTP
         code = generate_code()
-        VerificationCode.create_code(user, code, "verify_email", ttl_minutes=10)
+        VerificationCode.create_code(user, code, purpose=1, ttl_minutes=10)
 
         # Kirim ke email
         send_email_verification(user.email, code)
@@ -59,7 +59,7 @@ class ConfirmEmailVerificationView(generics.GenericAPIView):
 
         verif = (
             VerificationCode.objects
-            .filter(user=user, code=code, purpose="verify_email")
+            .filter(user=user, code=code, purpose=1)
             .order_by("-created_at")
             .first()
         )

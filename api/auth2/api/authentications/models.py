@@ -12,6 +12,7 @@ from django.contrib.auth.models import AbstractUser
 from uuid import uuid4
 from django.utils import timezone
 from datetime import timedelta
+import time
 
 class User(AbstractUser):
     # Default
@@ -51,38 +52,25 @@ class UserDevice(models.Model):
         db_table = "authentications_user_device"
 
 
+def current_timestamp():
+    return int(time.time())
+
 class VerificationCode(models.Model):
     """
     Model untuk menyimpan kode verifikasi (OTP) multi-purpose.
     Digunakan untuk: verifikasi email/phone, reset password, 2FA, dll.
+    Gunakan epoch timestamp agar lebih ringan dan efisien di DB besar.
     """
-
-    PURPOSE_CHOICES = [
-        ("verify_email", "Verify Email"),
-        ("verify_phone", "Verify Phone"),
-        ("reset_password", "Reset Password"),
-        ("two_factor", "Two-Factor Auth"),
-    ]
 
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="verification_codes")
 
     code = models.CharField(max_length=10)  # bisa numeric atau alphanumeric
-    purpose = models.CharField(max_length=32, choices=PURPOSE_CHOICES)
+    purpose = models.IntegerField(max_length=1) # 0: reset_password 1: verify_email
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField()
+    created_at = models.BigIntegerField(default=current_timestamp)
+    expires_at = models.BigIntegerField(null=False, blank=False)
     is_used = models.BooleanField(default=False)
-
-    class Meta:
-        indexes = [
-            models.Index(fields=["user", "purpose"]),
-            models.Index(fields=["code"]),
-        ]
-        ordering = ["-created_at"]
-
-    def __str__(self):
-        return f"{self.user} - {self.purpose} - {self.code}"
 
     # ---- Utility Methods ---- #
 
@@ -90,17 +78,19 @@ class VerificationCode(models.Model):
         """
         Cek apakah kode masih berlaku (belum kedaluwarsa dan belum dipakai)
         """
-        return not self.is_used and timezone.now() < self.expires_at
+        now = int(time.time())
+        return not self.is_used and now < self.expires_at
 
     @classmethod
-    def create_code(cls, user, code: str, purpose: str, ttl_minutes: int = 10):
+    def create_code(cls, user, code: str, purpose: int, ttl_minutes: int = 10):
         """
         Buat kode baru dan hapus kode lama yang sudah expired untuk efisiensi.
         """
         # Bersihkan kode lama user dengan purpose yang sama
         cls.objects.filter(user=user, purpose=purpose, is_used=False).delete()
 
-        expires_at = timezone.now() + timedelta(minutes=ttl_minutes)
+        now = int(time.time())
+        expires_at = now + (ttl_minutes * 60)
         return cls.objects.create(
             user=user,
             code=code,
