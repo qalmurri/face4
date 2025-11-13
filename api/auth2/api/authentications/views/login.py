@@ -24,12 +24,7 @@ class LoginView(APIView):
         tokens = data["tokens"]
 
         return Response({
-            "message": "Login successful.",
             "access": tokens["access"],
             "refresh": tokens["refresh"],
-            "user": {
-                "id": user.id,
-                "username": user.username,
-                "email": user.email,
-            }
+            "id": user.public_id,
         }, status=status.HTTP_200_OK)
