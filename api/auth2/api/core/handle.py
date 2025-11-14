@@ -3,8 +3,8 @@ from django.db import transaction
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import exceptions
 from .communication import send_verification
-from core.devices import log_device_login
-from core.services.tokens import generate_tokens
+from .devices import log_device_login
+from .tokens import generate_tokens
 import logging
 
 User = get_user_model()

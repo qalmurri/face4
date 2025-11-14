@@ -1,1 +1,1 @@
-django-environ
+pip install celery redis

@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from core.throttles import RegisterThrottle
 from core.permission import DenyAuthenticated
-from core.services.handle import handle_register
+from core.handle import handle_register
 from authentications.serializers import RegisterSerializer
 
 

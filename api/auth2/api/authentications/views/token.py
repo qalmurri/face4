@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework_simplejwt.tokens import AccessToken, TokenError
-from core.services.refresh_token import refresh_access_token
+from core.refresh_token import refresh_access_token
 
 
 class TokenRefreshView(APIView):

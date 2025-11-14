@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
 
 from authentications.models import VerificationCode
-from core.services.communication import send_email_verification
+from core.communication import send_email_verification
 
 User = get_user_model()
 

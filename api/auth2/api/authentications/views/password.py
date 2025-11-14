@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from core.services.communication import send_email_verification, send_phone_verification, generate_verification_code
+from core.communication import send_email_verification, send_phone_verification, generate_verification_code
 from authentications.models import VerificationCode
 from core.permission import DenyAuthenticated
 from core.throttles import LoginThrottle

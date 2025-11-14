@@ -47,7 +47,7 @@ class UserDevice(models.Model):
     class Meta:
         db_table = "authentications_user_device"
 
-class VerificationPurpose(models.Model):
+class Purpose(models.Model):
     """
     Daftar purpose untuk kode verifikasi (contoh: reset password, verifikasi email)
     """
@@ -55,7 +55,14 @@ class VerificationPurpose(models.Model):
     code = models.CharField(max_length=50, unique=True)  # misalnya: "reset_password"
     name = models.CharField(max_length=100)              # misalnya: "Reset Password"
     class Meta:
-        db_table = "authentications_verification_purpose"
+        db_table = "authentications_purpose"
+
+class Destination(models.Model):
+    id = models.AutoField(primary_key=True)
+    code = models.CharField(max_length=50, unique=True)  # misalnya: "reset_password"
+    name = models.CharField(max_length=100)              # misalnya: "Reset Password"
+    class Meta:
+        db_table = "authentications_destination"
 
 class VerificationCode(models.Model):
     """
@@ -66,7 +73,7 @@ class VerificationCode(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="verification_codes")
     code = models.CharField(max_length=10)  # bisa numeric atau alphanumeric
-    purpose = models.ForeignKey(VerificationPurpose, on_delete=models.CASCADE, related_name="codes")
+    purpose = models.ForeignKey(Purpose, on_delete=models.CASCADE, related_name="codes")
     created_at = models.BigIntegerField(default=current_timestamp)
     expires_at = models.BigIntegerField(null=False, blank=False)
     is_used = models.BooleanField(default=False)
@@ -88,7 +95,7 @@ class VerificationCode(models.Model):
         Buat kode baru dan hapus kode lama yang sudah expired untuk efisiensi.
         """
         # Bersihkan kode lama user dengan purpose yang sama
-        purpose_obj = VerificationPurpose.objects.get(code=purpose)
+        purpose_obj = Purpose.objects.get(code=purpose)
         cls.objects.filter(user=user, purpose=purpose_obj, is_used=False).delete()
         now = int(time.time())
         expires_at = now + (ttl_minutes * 60)
@@ -104,3 +111,11 @@ class VerificationCode(models.Model):
             models.Index(fields=["user", "purpose", "code"]),
             models.Index(fields=["expires_at"]),
         ]
+
+class AccountMicroservice(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="AccountMicroservice")
+    purpose = models.ForeignKey(Purpose, on_delete=models.CASCADE, related_name="codes2")
+    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name="destination")
+    status = models.BooleanField(default=False)
+    created_at = models.BigIntegerField(null=False, blank=False)
+    update_created_at = models.BigIntegerField(default=current_timestamp)

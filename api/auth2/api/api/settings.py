@@ -122,3 +122,4 @@ AUTHENTICATION_BACKENDS = [
     "core.services.backends.MultiFieldModelBackend",  # Custom backend
     "django.contrib.auth.backends.ModelBackend",  # Default fallback
 ]
+
