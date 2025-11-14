@@ -34,6 +34,8 @@ def handle_register(validated_data, context):
     user.date_joined = timezone.now()
     user.save()
 
+    print(user.public_id)  # ← sudah otomatis ada
+
     # Kirim email verifikasi kalau register pakai email
     # try:
     #     if register_type == "email":
