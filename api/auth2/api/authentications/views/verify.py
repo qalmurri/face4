@@ -1,18 +1,13 @@
-import random
 from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import get_user_model
 
 from authentications.models import VerificationCode
-from core.communication import send_email_verification
+from core.communications.verification import send_email_verification
+from core.uuid.generate import generate_uuid4_6int
 
 User = get_user_model()
-
-
-def generate_code():
-    """Generate 6-digit numeric OTP."""
-    return str(random.randint(100000, 999999))
 
 
 class RequestEmailVerificationView(generics.GenericAPIView):
@@ -30,7 +25,7 @@ class RequestEmailVerificationView(generics.GenericAPIView):
             return Response({"error": "User not found."}, status=404)
 
         # Generate OTP
-        code = generate_code()
+        code = generate_uuid4_6int()
         VerificationCode.create_code(user, code, "verify_email", ttl_minutes=10)
 
         # Kirim ke email

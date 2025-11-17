@@ -6,4 +6,4 @@ class AuthenticationsConfig(AppConfig):
     name = 'authentications'
 
     def ready(self):
-        import core.signals
+        import core.signals.table

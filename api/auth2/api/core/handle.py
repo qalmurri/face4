@@ -2,7 +2,6 @@ from django.utils import timezone
 from django.db import transaction
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import exceptions
-from .communication import send_verification
 from .devices import log_device_login
 from .tokens import generate_tokens
 import logging
@@ -21,7 +20,6 @@ def handle_register(validated_data, context):
     password = validated_data["password"]
 
     user = User()
-    # user.is_active = False  # akun belum aktif sebelum verifikasi
 
     if register_type == "email":
         user.email = identifier

@@ -4,10 +4,11 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from core.communication import send_email_verification, send_phone_verification, generate_verification_code
+from core.communications.verification import send_email_verification, send_phone_verification
 from authentications.models import VerificationCode
 from core.permission import DenyAuthenticated
 from core.throttles import LoginThrottle
+from core.uuid.generate import generate_uuid4_6int
 
 User = get_user_model()
 
@@ -37,7 +38,7 @@ class ForgotPasswordView(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         # Generate kode OTP
-        code = generate_verification_code()
+        code = generate_uuid4_6int()
         # Kirim via email atau SMS
         if lookup_field == "email":
             send_email_verification(user.email, code)
