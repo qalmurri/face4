@@ -1,6 +1,5 @@
 from authentications.models.verification import VerificationCode
 
-
 class VerificationRepository:
     
     @staticmethod
@@ -10,3 +9,12 @@ class VerificationRepository:
             purpose=purpose,
             is_used=False
         ).delete()
+    
+    @staticmethod
+    def create(user, code, purpose, expires_at):
+        return VerificationCode.objects.create(
+            user=user,
+            code=code,
+            purpose=purpose,
+            expires_at=expires_at
+        )

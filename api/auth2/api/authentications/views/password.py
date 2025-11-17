@@ -10,6 +10,7 @@ from core.permission import DenyAuthenticated
 from core.throttles import LoginThrottle
 from core.uuid.generate import generate_uuid4_6int
 from core.verification.services import VerificationService
+from core.utils.user_identifier import detect_identifier_type
 
 User = get_user_model()
 
@@ -27,10 +28,7 @@ class ForgotPasswordView(APIView):
         if not identifier:
             return Response({"error": "Email or phone is required"}, status=status.HTTP_400_BAD_REQUEST)
         # Deteksi apakah email atau phone
-        if "@" in identifier:
-            lookup_field = "email"
-        else:
-            lookup_field = "phone"
+        lookup_field = detect_identifier_type(identifier)
         try:
             user = User.objects.get(**{lookup_field: identifier})
         except User.DoesNotExist:
