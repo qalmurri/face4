@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from authentications.models import VerificationCode
 from core.communications.verification import send_email_verification
 from core.uuid.generate import generate_uuid4_6int
+from core.verification.services import VerificationService
 
 User = get_user_model()
 
@@ -26,7 +27,7 @@ class RequestEmailVerificationView(generics.GenericAPIView):
 
         # Generate OTP
         code = generate_uuid4_6int()
-        VerificationCode.create_code(user, code, "verify_email", ttl_minutes=10)
+        VerificationService.create_code(user, code, "verify_email", ttl_minutes=10)
 
         # Kirim ke email
         send_email_verification(user.email, code)

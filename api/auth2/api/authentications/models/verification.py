@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-User = get_user_model()
 from .purpose import Purpose
 from core.uuid.generate import generate_uuid4
 from core.time.timestamps import current_timestamp
 from core.verification.otp_validator import is_code_valid
+
+User = get_user_model()
 
 class VerificationCode(models.Model):
     expires_at = models.BigIntegerField()
@@ -51,15 +52,3 @@ class VerificationCode(models.Model):
 
     def is_valid(self) -> bool:
         return is_code_valid(self.is_used, self.expires_at)
-    
-    @classmethod
-    def create_code(cls, user, code: str, purpose: str, ttl_minutes: int = 10):
-        purpose_obj = Purpose.objects.get(code=purpose)
-        cls.objects.filter(user=user, purpose=purpose_obj, is_used=False).delete()
-        expires_at = current_timestamp() + (ttl_minutes * 60)
-        return cls.objects.create(
-            user=user,
-            code=code,
-            purpose=purpose_obj,
-            expires_at=expires_at
-        )

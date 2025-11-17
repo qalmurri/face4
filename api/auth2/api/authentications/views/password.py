@@ -9,6 +9,7 @@ from authentications.models import VerificationCode
 from core.permission import DenyAuthenticated
 from core.throttles import LoginThrottle
 from core.uuid.generate import generate_uuid4_6int
+from core.verification.services import VerificationService
 
 User = get_user_model()
 
@@ -47,7 +48,7 @@ class ForgotPasswordView(APIView):
             send_phone_verification(user.phone, code)
             destination = "phone"
         # Simpan kode verifikasi ke database
-        VerificationCode.create_code(user, code, "reset_password")
+        VerificationService.create_code(user, code, "reset_password")
         return Response(
             {
                 "message": f"Verification code sent to {destination}"
