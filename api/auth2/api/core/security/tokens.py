@@ -1,4 +1,5 @@
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 
 def generate_tokens(user):
     refresh = RefreshToken.for_user(user)
@@ -19,3 +20,23 @@ def generate_tokens(user):
         "access": str(refresh.access_token),
         "refresh": str(refresh),
     }
+
+def refresh_access_token(refresh_token: str):
+    """
+    Fungsi untuk membuat access token baru dari refresh token.
+    """
+    try:
+        # Coba decode refresh token
+        refresh = RefreshToken(refresh_token)
+        
+        # Ambil access token baru dari refresh token
+        new_access = refresh.access_token
+
+        return {
+            "access": str(new_access),
+            "refresh": str(refresh_token),
+        }
+
+    except TokenError:
+        raise InvalidToken("Refresh token tidak valid atau sudah kedaluwarsa.")
+    

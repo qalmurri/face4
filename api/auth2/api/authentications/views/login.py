@@ -8,7 +8,6 @@ from core.permission import DenyAuthenticated
 from core.handle import handle_login
 from authentications.serializers.serializers import LoginSerializer
 
-
 @method_decorator(never_cache, name="dispatch")
 class LoginView(APIView):
     throttle_classes = [LoginThrottle]

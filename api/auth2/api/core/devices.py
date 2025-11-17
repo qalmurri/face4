@@ -3,9 +3,6 @@ from django.utils import timezone
 from authentications.models import UserDevice
 
 def get_client_ip(request):
-    """
-    Ambil IP client asli, memperhitungkan proxy atau load balancer.
-    """
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0].strip()
@@ -14,9 +11,6 @@ def get_client_ip(request):
     return ip
 
 def log_device_login(request, user):
-    """
-    Menyimpan log login user (IP, OS, device, browser).
-    """
     ip = get_client_ip(request)
     user_agent = parse(request.META.get("HTTP_USER_AGENT", ""))
 
@@ -29,7 +23,6 @@ def log_device_login(request, user):
     os = user_agent.os.family
     browser = user_agent.browser.family
 
-    # Simpan atau update log
     UserDevice.objects.update_or_create(
         user=user,
         ip_address=ip,

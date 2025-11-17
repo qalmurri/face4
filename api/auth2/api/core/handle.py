@@ -3,7 +3,7 @@ from django.db import transaction
 from django.contrib.auth import get_user_model, authenticate
 from rest_framework import exceptions
 from .devices import log_device_login
-from .tokens import generate_tokens
+from .security.tokens import generate_tokens
 import logging
 
 User = get_user_model()
