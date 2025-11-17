@@ -4,13 +4,13 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from core.communications.verification import send_email_verification, send_phone_verification
 from authentications.models import VerificationCode
 from core.permission import DenyAuthenticated
 from core.throttles import LoginThrottle
-from core.uuid.generate import generate_uuid4_6int
 from core.verification.services import VerificationService
-from core.utils.user_identifier import detect_identifier_type
+from core.repositories.user import UserRepository
+from core.repositories.verification import VerificationRepository
+
 
 User = get_user_model()
 
@@ -24,29 +24,20 @@ class ForgotPasswordView(APIView):
     permission_classes = [DenyAuthenticated]
 
     def post(self, request):
-        identifier = request.data.get("identifier")  # bisa email / phone
+        identifier = request.data.get("identifier")
         if not identifier:
-            return Response({"error": "Email or phone is required"}, status=status.HTTP_400_BAD_REQUEST)
-        # Deteksi apakah email atau phone
-        lookup_field = detect_identifier_type(identifier)
-        try:
-            user = User.objects.get(**{lookup_field: identifier})
-        except User.DoesNotExist:
+            return Response(
+                {"error": "Email or phone is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        user = UserRepository.get_by_identifier(identifier)
+        if not user:
             return Response(
                 {"error": "User not found"},
                 status=status.HTTP_404_NOT_FOUND
             )
-        # Generate kode OTP
-        code = generate_uuid4_6int()
-        # Kirim via email atau SMS
-        if lookup_field == "email":
-            send_email_verification(user.email, code)
-            destination = "email"
-        else:
-            send_phone_verification(user.phone, code)
-            destination = "phone"
-        # Simpan kode verifikasi ke database
-        VerificationService.create_code(user, code, "reset_password")
+        destination = VerificationService.send_reset_password_code(user)
+        print(destination)
         return Response(
             {
                 "message": f"Verification code sent to {destination}"
@@ -56,10 +47,6 @@ class ForgotPasswordView(APIView):
 
 
 class ResetPasswordView(APIView):
-    """
-    Step 2: Verifikasi kode (OTP) dan setel ulang password.
-    Dukung email ATAU phone.
-    """
     throttle_classes = [LoginThrottle]
     authentication_classes = []
     permission_classes = [DenyAuthenticated]
@@ -70,34 +57,35 @@ class ResetPasswordView(APIView):
         new_password = request.data.get("new_password")
 
         if not all([identifier, code, new_password]):
-            return Response({"error": "Missing fields"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Deteksi apakah email atau phone
-        lookup_field = "email" if "@" in identifier else "phone"
-
-        try:
-            user = User.objects.get(**{lookup_field: identifier})
-        except User.DoesNotExist:
-            return Response({"error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
-
-        # Cari kode verifikasi yang cocok
-        try:
-            verif = VerificationCode.objects.filter(user=user, code=code, purpose__code="reset_password").latest("created_at")
-        except VerificationCode.DoesNotExist:
-            return Response({"error": "Invalid code"}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Cek validitas kode (expired / sudah dipakai)
+            return Response(
+                {"error": "Missing fields"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        user = UserRepository.get_by_identifier(identifier)
+        if not user:
+            return Response(
+                {"error": "User not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        verif = VerificationRepository.get_latest_reset_password_code(user, code)
+        if not verif:        
+            return Response(
+                {"error": "Invalid code"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         if not verif.is_valid():
-            raise ValidationError("Code expired or already used")
-
-        # Tandai kode sudah dipakai
+            raise ValidationError(
+                "Code expired or already used"
+            )
+        
         verif.is_used = True
         verif.save()
-
-        # Ubah password user
         user.set_password(new_password)
         user.save()
-
+        
         return Response({"message": "Password successfully reset"}, status=status.HTTP_200_OK)
     
 
