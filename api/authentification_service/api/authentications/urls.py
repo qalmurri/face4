@@ -24,6 +24,7 @@ urlpatterns = [
     path('password/change/', password.ChangePasswordView.as_view(), name='change_password'),
 
     path("check-user/", verify.CheckPublicIDView.as_view(), name="check-user"),
+    path("check-identifier/", verify.GetUserByIdentifierView.as_view(), name="check-identifier"),
 
     # (Optional) device/session security
     # path('devices/', UserDeviceListView.as_view(), name='user_devices'),

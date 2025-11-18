@@ -102,5 +102,3 @@ AUTHENTICATION_BACKENDS = [
     "core.backends.MultiFieldModelBackend",  # Custom backend
     "django.contrib.auth.backends.ModelBackend",  # Default fallback
 ]
-
-VERIFICATION_SERVICE_URL = "http://127.0.0.1:9000"

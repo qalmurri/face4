@@ -103,3 +103,36 @@ class CheckPublicIDView(generics.GenericAPIView):
             },
             status=status.HTTP_200_OK
         )
+    
+
+class GetUserByIdentifierView(generics.GenericAPIView):
+    authentication_classes = []
+    permission_classes = [DenyAuthenticated]
+
+    def post(self, request):
+        identifier = request.data.get("identifier")
+        lookup_field = request.data.get("lookup_field")
+
+        if not identifier or not lookup_field:
+            return Response(
+                {"error": "identifier and lookup_field required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            user = User.objects.get(**{lookup_field: identifier})
+        except User.DoesNotExist:
+            user = None
+
+        if not user:
+            return Response(
+                {"exists": False},
+                status=status.HTTP_200_OK
+            )
+
+        return Response(
+            {
+                "exists": True,
+            },
+            status=status.HTTP_200_OK
+        )
