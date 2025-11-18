@@ -46,8 +46,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         elif register_type == "username" and User.objects.filter(username=identifier).exists():
             raise serializers.ValidationError({"identifier": "Username sudah terdaftar."})
         return attrs
-    
-
-class LoginSerializer(serializers.Serializer):
-    identifier = serializers.CharField()
-    password = serializers.CharField(write_only=True)

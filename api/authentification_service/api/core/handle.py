@@ -32,15 +32,6 @@ def handle_register(validated_data, context):
     user.date_joined = timezone.now()
     user.save()
 
-    print(user.public_id)  # ← sudah otomatis ada
-
-    # Kirim email verifikasi kalau register pakai email
-    # try:
-    #     if register_type == "email":
-    #         send_verification("email", user.email)
-    # except Exception as e:
-    #     logger.error(f"Failed to send verification for {identifier}: {e}")
-
     return user
 
 

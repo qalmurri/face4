@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from core.throttles import RegisterThrottle
 from core.permission import DenyAuthenticated
 from core.handle import handle_register
-from authentications.serializers.serializers import RegisterSerializer
+from authentications.serializers.register import RegisterSerializer
 
 
 @method_decorator(never_cache, name="dispatch") # mencegah browser atau proxy menyimpan response API (aman untuk endpoint sensitif seperti register/login).

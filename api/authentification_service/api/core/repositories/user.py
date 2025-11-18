@@ -3,7 +3,6 @@ from core.utils.user_identifier import detect_identifier_type
 User = get_user_model()
 
 class UserRepository:
-
     @staticmethod
     def get_by_identifier(identifier: str):
         lookup_field = detect_identifier_type(identifier)

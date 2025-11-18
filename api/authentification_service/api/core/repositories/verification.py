@@ -1,7 +1,6 @@
 from authentications.models.verification import VerificationCode
 
 class VerificationRepository:
-    
     @staticmethod
     def delete_old_codes(user, purpose):
         return VerificationCode.objects.filter(
@@ -9,7 +8,6 @@ class VerificationRepository:
             purpose=purpose,
             is_used=False
         ).delete()
-    
     @staticmethod
     def create(user, code, purpose, expires_at):
         return VerificationCode.objects.create(
@@ -18,7 +16,6 @@ class VerificationRepository:
             purpose=purpose,
             expires_at=expires_at
         )
-    
     @staticmethod
     def get_latest_reset_password_code(user, code):
         try:

@@ -4,24 +4,21 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from authentications.models import VerificationCode
 from core.permission import DenyAuthenticated
 from core.throttles import LoginThrottle
 from core.verification.services import VerificationService
 from core.repositories.user import UserRepository
 from core.repositories.verification import VerificationRepository
-
-
 User = get_user_model()
 
-
 class ForgotPasswordView(APIView):
-    """
-    Step 1: Kirim kode verifikasi (OTP) ke email ATAU phone user.
-    """
-    throttle_classes = [LoginThrottle]
+    throttle_classes = [
+        LoginThrottle
+    ]
     authentication_classes = []
-    permission_classes = [DenyAuthenticated]
+    permission_classes = [
+        DenyAuthenticated
+    ]
 
     def post(self, request):
         identifier = request.data.get("identifier")
@@ -44,7 +41,6 @@ class ForgotPasswordView(APIView):
             },
             status=status.HTTP_200_OK
         )
-
 
 class ResetPasswordView(APIView):
     throttle_classes = [LoginThrottle]
@@ -90,9 +86,6 @@ class ResetPasswordView(APIView):
     
 
 class ChangePasswordView(APIView):
-    """
-    Step 3: Ubah password saat login.
-    """
     permission_classes = [IsAuthenticated]
     
     def post(self, request):

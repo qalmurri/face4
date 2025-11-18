@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from core.throttles import LoginThrottle
 from core.permission import DenyAuthenticated
 from core.handle import handle_login
-from authentications.serializers.serializers import LoginSerializer
+from authentications.serializers.login import LoginSerializer
 
 @method_decorator(never_cache, name="dispatch")
 class LoginView(APIView):
