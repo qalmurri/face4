@@ -23,6 +23,8 @@ urlpatterns = [
     path('password/reset/', password.ResetPasswordView.as_view(), name='reset_password'),
     path('password/change/', password.ChangePasswordView.as_view(), name='change_password'),
 
+    path("check-user/", verify.CheckPublicIDView.as_view(), name="check-user"),
+
     # (Optional) device/session security
     # path('devices/', UserDeviceListView.as_view(), name='user_devices'),
     # path('devices/<uuid:id>/logout/', UserDeviceLogoutView.as_view(), name='device_logout'),

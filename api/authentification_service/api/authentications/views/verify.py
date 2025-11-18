@@ -7,6 +7,8 @@ from authentications.models import VerificationCode
 from core.communications.verification import send_email_verification
 from core.uuid.generate import generate_uuid4_6int
 from core.verification.services import VerificationService
+from core.repositories.user import UserRepository
+from core.permission import DenyAuthenticated
 
 User = get_user_model()
 
@@ -73,5 +75,31 @@ class ConfirmEmailVerificationView(generics.GenericAPIView):
 
         return Response(
             {"message": "Email verified successfully."},
+            status=status.HTTP_200_OK
+        )
+
+
+class CheckPublicIDView(generics.GenericAPIView):
+    authentication_classes = []
+    permission_classes = [DenyAuthenticated]
+
+
+    def post(self, request):
+        identifier = request.data.get("identifier")
+        if not identifier:
+            return Response(
+                {"error": "Email or phone is required"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        user = UserRepository.get_by_identifier(identifier)
+        if not user:
+            return Response(
+                {"error": "User not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        return Response(
+            {
+                "message": "ada"
+            },
             status=status.HTTP_200_OK
         )
