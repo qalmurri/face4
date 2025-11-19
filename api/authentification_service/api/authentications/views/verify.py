@@ -129,10 +129,12 @@ class GetUserByIdentifierView(generics.GenericAPIView):
                 {"exists": False},
                 status=status.HTTP_200_OK
             )
-
+        
+        #Jika permintaan verifikasi cocok, maka server auth akan mengirimkan di bawah ini ke server verifikasi
         return Response(
             {
                 "exists": True,
+                "public_id": str(user.public_id),
             },
             status=status.HTTP_200_OK
         )

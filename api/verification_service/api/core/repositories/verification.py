@@ -2,27 +2,17 @@ from otp.models import VerificationCode
 
 class VerificationRepository:
     @staticmethod
-    def delete_old_codes(user, purpose):
+    def delete_old_codes(public_id, purpose):
         return VerificationCode.objects.filter(
-            user=user,
+            public_id=public_id,
             purpose=purpose,
             is_used=False
         ).delete()
     @staticmethod
-    def create(user, code, purpose, expires_at):
+    def create(public_id, code, purpose, expires_at):
         return VerificationCode.objects.create(
-            user=user,
+            public_id=public_id,
             code=code,
             purpose=purpose,
             expires_at=expires_at
         )
-    @staticmethod
-    def get_latest_reset_password_code(user, code):
-        try:
-            return VerificationCode.objects.filter(
-                user=user,
-                code=code,
-                purpose__code="reset_password"
-            ).latest("created_at")
-        except VerificationCode.DoesNotExist:
-            return None
